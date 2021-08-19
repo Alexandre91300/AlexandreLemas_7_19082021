@@ -1,0 +1,29 @@
+@import '../Utils//variables.scss';
+
+.header{
+    background-color: $primary;
+    height: 100px;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: $secondary;
+
+    &__img{
+        height: 50px;
+    }
+
+    &__btn{
+        background-color: $secondary;
+        border: none;
+        padding: 10px;
+        color: $primary;
+        font-weight: bold;
+        font-size: 20px;
+        cursor: pointer;
+
+        &:hover{
+            transform: scale(1.1);
+        }
+    }
+}
