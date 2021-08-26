@@ -2,6 +2,8 @@ import React, {useState} from 'react'
 import Header from '../components/Header';
 import { Link } from 'react-router-dom';
 import PasswordValidator from 'password-validator';
+import Axios from 'axios';
+
 
 
 const SignUp = () => {
@@ -14,7 +16,7 @@ const SignUp = () => {
     .has().lowercase()                              // Must have lowercase letters
     .has().digits(1)                                // Must have at least 2 digits
     .has().not().spaces()                           // Should not have spaces
-    .is().not().oneOf(['Passw0rd', 'Password123','azerty']); // Blacklist these values
+    .is().not().oneOf(['Passw0rd', 'Password123']); // Blacklist these values
 
     const [pseudo, setPseudo] = useState ('');
     const [email, setEmail] = useState ('');
@@ -33,6 +35,13 @@ const SignUp = () => {
     const submit = () => {
         console.log('Submit');
         // ACTION
+        Axios.post('http://localhost:3000/api/auth/signup', {username: pseudo, email: email, password: password})
+        .then(res => {
+        console.log(res);
+        })
+        .catch(err => {
+            console.log(err);
+        })
     }
 
     const displayVerif = (e) => {
@@ -80,7 +89,7 @@ const SignUp = () => {
                 }
                 
 
-                <Link to="/signup" className="signup__form__link">
+                <Link to="/login" className="signup__form__link">
                     <p>Déjà inscrit ? Connectez-vous ICI !</p>
                 </Link>
 
