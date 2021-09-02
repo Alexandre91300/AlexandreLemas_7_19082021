@@ -17,6 +17,12 @@
         justify-content: space-between;
         margin-top: 0px;
 
+        &__error{
+            color: $red;
+            margin-bottom: 10px;
+            max-width: 350px;
+        }
+
         &__inp{
             border: 2px solid $primary;
             border-radius: 50px;

@@ -1,12 +1,15 @@
 import React, {useState} from 'react'
 import Header from '../components/Header';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import PasswordValidator from 'password-validator';
 import Axios from 'axios';
 
 
 
 const SignUp = () => {
+
+    const history = useHistory();
+
     var schema = new PasswordValidator();
 
     schema
@@ -22,6 +25,8 @@ const SignUp = () => {
     const [email, setEmail] = useState ('');
     const [password, setPassword] = useState ('');
 
+    const [errorMessage, setErrorMessage] = useState("");
+
     const [inputFocus, setInputFocus] = useState(false)
 
     const [button, setButton] = useState(false);
@@ -33,14 +38,20 @@ const SignUp = () => {
     }
 
     const submit = () => {
-        console.log('Submit');
-        // ACTION
+        // Send request
         Axios.post('http://localhost:3000/api/auth/signup', {username: pseudo, email: email, password: password})
         .then(res => {
-        console.log(res);
+        console.log(res.data.message);
+        // ACTION
+
+        history.push('/login')
+ 
+
         })
         .catch(err => {
-            console.log(err);
+            console.error(err.response.data.message);
+            setErrorMessage(err.response.data.message)
+
         })
     }
 
@@ -73,9 +84,13 @@ const SignUp = () => {
                 e.preventDefault();
                 submit()
             }}>
-                <input placeholder="Pseudo" className='signup__form__inp' type='text' onChange={e => setPseudo(e.target.value)}/>
-                <input placeholder="E-mail" className='signup__form__inp' type='email' onChange={e => setEmail(e.target.value)}/>
-                <input placeholder="Mot de passe" className='signup__form__inp' type='password' onFocus={() => {displayVerif('focus')}} onBlur={() => {displayVerif('unFocus')}} onChange={e => setPassword(e.target.value)}/>
+                { errorMessage.length !== 0 ?
+                    <span className='signup__form__error'>{errorMessage}</span>
+                : null
+                }
+                <input placeholder="Pseudo" value={pseudo} className='signup__form__inp' type='text' onChange={e => setPseudo(e.target.value)}/>
+                <input placeholder="E-mail" value={email} className='signup__form__inp' type='email' onChange={e => setEmail(e.target.value)}/>
+                <input placeholder="Mot de passe" value={password} className='signup__form__inp' type='password' onFocus={() => {displayVerif('focus')}} onBlur={() => {displayVerif('unFocus')}} onChange={e => setPassword(e.target.value)}/>
 
                 { inputFocus ?
                     <div className="signup__form__verif">

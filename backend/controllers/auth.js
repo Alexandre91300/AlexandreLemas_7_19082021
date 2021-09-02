@@ -7,9 +7,6 @@ const passwordValidator = require('password-validator');
 const CryptoJS = require("crypto-js");
 const sql = require('../sql');
 
-
-
-
 // Password Validator
 var schema = new passwordValidator();
 
@@ -44,31 +41,46 @@ exports.signUp = (req,res,next) => {
             })
             .catch(error => res.status(500).json({error}))
     } else {
-        console.log('auth controllers');
         res.status(400).json({message: "Invalid password: Min length = 6 / Max length = 100 / Uppercase letters / Lowercase letters / have at least 2 digits"})
     }
+
 };
 
 exports.login = (req,res,next) => {
-    // User.findOne({email: encrypt(req.body.email)})
-    //     .then(user => {
-    //         if(!user){
-    //             return res.status(401).json({error: "User not found"})
-    //         }
-    //         bcrypt.compare(req.body.password, user.password)
-    //             .then(valid => {
-    //                 if(!valid){
-    //                     return res.status(401).json({error: "Incorrect password"})
-    //                 }
-    //                 res.status(200).json({
-    //                     userId: user._id,
-    //                     token: jwt.sign({ userId: user._id },
-    //                         `${process.env.TOKEN}`,
-    //                     {expiresIn: '24h'}
-    //                     )
-    //                 });
-    //             })
-    //             .catch(error => res.status(500).json({error}));
-    //     })
-    //     .catch(error => res.status(500).json({error}));
+    sql.getUserByEmail(encrypt(req.body.email),res)
+    .then(user => {
+        console.log(user.id);
+        bcrypt.compare(req.body.password, user.password)
+                .then(valid => {
+                    if(!valid){
+                        return res.status(401).json({error: "Mot de passe incorrect"})
+                    } else {
+
+                        res.status(200).json({
+                            id: user.id,
+                            token: jwt.sign({ userId: user.id },
+                                `${process.env.TOKEN}`,
+                            {expiresIn: 60}
+                            )
+                        });
+                    }
+                })
+                .catch(error => res.status(500).json({error}));
+
+
+        
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(400).json({message: err})
+    })
+
+};
+
+exports.isUserAuth = (req,res,next) => {
+    console.log('uid => ' + req.body.uid);
+    console.log('token => ' + req.body.token);
+
+    res.status(201).json({isAuth : true})
+
 };

@@ -1,16 +1,17 @@
 import React, {useState} from 'react';
 import Header from '../components/Header';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import Axios from 'axios';
+
 
 const Login = () => {
 
-    const [email, setEmail] = useState ('');
-    const [password, setPassword] = useState ('');
+    const history = useHistory()
+
+    const [email, setEmail] = useState ('sandy91300@gmail.com');
+    const [password, setPassword] = useState ('Binksbinks91');
 
     const [button, setButton] = useState(false);
-
-    console.log(email);
-    console.log(password);
 
     if (!button && email.length > 0 && password.length > 0) {
         setButton(true)
@@ -19,8 +20,24 @@ const Login = () => {
     }
 
     const submit = () => {
-        console.log('Submit');
-        // ACTION
+        // Send request
+        Axios.post('http://localhost:3000/api/auth/login', {email: email, password: password})
+        .then(res => {
+        console.log(res.data.id);
+        console.log(res.data.token);
+
+        // Enregistrer TOKEN dans localstorage
+        localStorage.setItem('id', res.data.id);
+        localStorage.setItem('token', res.data.token);
+        history.push('/')
+ 
+
+        })
+        .catch(err => {
+            console.error(err.response.data.message);
+            // setErrorMessage(err.response.data.message)
+
+        })
     }
 
     return ( 
@@ -33,8 +50,8 @@ const Login = () => {
                 e.preventDefault();
                 submit()
             }}>
-                <input placeholder="E-mail" className='login__form__inp' type='email' onChange={e => setEmail(e.target.value)}/>
-                <input placeholder="Mot de passe" className='login__form__inp' type='password' onChange={e => setPassword(e.target.value)}/>
+                <input placeholder="E-mail" value={email} className='login__form__inp' type='email' onChange={e => setEmail(e.target.value)}/>
+                <input placeholder="Mot de passe" value={password} className='login__form__inp' type='password' onChange={e => setPassword(e.target.value)}/>
 
                 <Link to="/signup" className="login__form__link">
                     <p>Pas encore inscrit ? Créez un compte ICI !</p>
