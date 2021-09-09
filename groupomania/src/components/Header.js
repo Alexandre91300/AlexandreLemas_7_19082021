@@ -31,7 +31,9 @@ const Header = ({type}) => {
             default:
                 return(
                     <header className='header'>
+                    <a href='/'>
                      <img src={logo_white} className="header__img" alt='Logo Groupomania'/>
+                    </a>
                      <div className='header__imgCtn'>
                      <button onClick={() => {
                          localStorage.clear();
