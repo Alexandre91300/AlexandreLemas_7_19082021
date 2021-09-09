@@ -1,24 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import ProtectedRoute from './auth/ProtectedRoute';
+import './sass/main.scss';
+
+import Login from './screens/Login';
+import SignUp from './screens/SignUp';
 
 function App() {
+  
+  // Recharge le site toute les 24h
+  setInterval(function(){
+    document.location.reload();
+  }, 86400 * 1000);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+    <Router>
+      <Switch>
+        <ProtectedRoute path="/" exact component={() => {return(<h1>Accueil</h1>)}} />
+        <Route path="/login" component={Login}/>
+        <Route path="/signup" component={SignUp}/>
+        <Route path="/" component={() => {return(<h1>ERREUR 404</h1>)}}/>
+      </Switch>
+    </Router>
+    </>
   );
 }
 
