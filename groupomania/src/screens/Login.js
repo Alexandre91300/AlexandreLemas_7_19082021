@@ -10,6 +10,8 @@ const Login = () => {
 
     const [email, setEmail] = useState ('sandy91300@gmail.com');
     const [password, setPassword] = useState ('Binksbinks91');
+    const [errorMessage, setErrorMessage] = useState("");
+
 
     const [button, setButton] = useState(false);
 
@@ -34,9 +36,7 @@ const Login = () => {
 
         })
         .catch(err => {
-            console.error(err.response.data.message);
-            // setErrorMessage(err.response.data.message)
-
+            setErrorMessage(err.response.data.message)
         })
     }
 
@@ -50,6 +50,10 @@ const Login = () => {
                 e.preventDefault();
                 submit()
             }}>
+                { errorMessage.length !== 0 ?
+                    <span className='signup__form__error'>{errorMessage}</span>
+                : null
+                }
                 <input placeholder="E-mail" value={email} className='login__form__inp' type='email' onChange={e => setEmail(e.target.value)}/>
                 <input placeholder="Mot de passe" value={password} className='login__form__inp' type='password' onChange={e => setPassword(e.target.value)}/>
 
