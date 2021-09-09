@@ -25,5 +25,22 @@
         &:hover{
             transform: scale(1.1);
         }
+
+        &--logout{
+            background-color: transparent;
+            color: $secondary;
+            margin-right: 10px;
+        }
+    }
+
+    &__imgCtn{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &>img:hover{
+            transform: scale(1.1);
+            cursor: pointer;
+        }
     }
 }

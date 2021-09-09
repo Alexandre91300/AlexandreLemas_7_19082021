@@ -4,6 +4,7 @@ import './sass/main.scss';
 
 import Login from './screens/Login';
 import SignUp from './screens/SignUp';
+import Accueil from './screens/Accueil';
 
 function App() {
   
@@ -16,7 +17,7 @@ function App() {
     <>
     <Router>
       <Switch>
-        <ProtectedRoute path="/" exact component={() => {return(<h1>Accueil</h1>)}} />
+        <ProtectedRoute path="/" exact component={Accueil} />
         <Route path="/login" component={Login}/>
         <Route path="/signup" component={SignUp}/>
         <Route path="/" component={() => {return(<h1>ERREUR 404</h1>)}}/>
