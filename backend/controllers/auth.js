@@ -60,7 +60,7 @@ exports.login = (req,res,next) => {
                             id: user.id,
                             token: jwt.sign({ userId: user.id },
                                 `${process.env.TOKEN}`,
-                            {expiresIn: 60}
+                            {expiresIn: 86400}
                             )
                         });
                     }
@@ -78,9 +78,7 @@ exports.login = (req,res,next) => {
 };
 
 exports.isUserAuth = (req,res,next) => {
-    console.log('uid => ' + req.body.uid);
-    console.log('token => ' + req.body.token);
-
+    console.log('isAuth');
     res.status(201).json({isAuth : true})
 
 };
