@@ -19,9 +19,22 @@ const NewPost = () => {
 
         if (token && uid){
 
+            let post =  {
+                title: title, 
+                description: description
+            }
+
+            const formData = new FormData()
+
+            formData.append('post', JSON.stringify(post));
+            formData.append('image', image);
+
             // Send request
-            Axios.post('http://localhost:3000/api/posts/new', {token: token, uid: uid, title: title, description: description})
-            .then(res => {
+            Axios.post('http://localhost:3000/api/posts/new', formData, {
+                headers: {
+                  authorization: uid + ' ' + token
+                }
+              }) .then(res => {
             console.log(res.data);
             })
             .catch(err => {
@@ -53,7 +66,8 @@ const NewPost = () => {
             <textarea className='newPost__form__inp' type='text' placeholder='Description (facultative)' value={description} onChange={e => setDescription(e.target.value)}/>
             <input 
             required
-            accept='image/*' 
+            accept='image/*'
+            multiple={false} 
             className='newPost__form__inp' 
             type='file' 
             onChange={e => {

@@ -15,8 +15,11 @@ const ProtectedRoute = ({ component: Component, ...restOfProps }) => {
 
         console.log('send request');
         // Send request
-        Axios.post('http://localhost:3000/api/auth/isUserAuth', {token: token, uid: uid})
-        .then(res => {
+        Axios.post('http://localhost:3000/api/auth/isUserAuth', {token: token, uid: uid}, {
+          headers: {
+            authorization: uid + ' ' + token
+          }
+        }).then(res => {
 
         if (res.data.isAuth) {
             console.log('User connected');
