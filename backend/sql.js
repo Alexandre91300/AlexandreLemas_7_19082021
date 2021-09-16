@@ -44,7 +44,7 @@ const getUserByEmail = async (email) => {
                 if(result.length !== 0) {
                     resolve(result[0])
                 } else {
-                    reject("Utilisateur non trouvé")
+                    reject("E-mail invalide")
                 }
             })
         })

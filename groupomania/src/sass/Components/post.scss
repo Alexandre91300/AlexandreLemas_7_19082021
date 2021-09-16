@@ -1,0 +1,54 @@
+.post{
+    margin-bottom: 30px;
+
+    &__title{
+        font-size: 30px;
+        margin-bottom: 10px;
+    }
+
+    &__description{
+        margin-bottom: 10px;
+        width: 400px;
+    }
+
+    &__image{
+        width: 400px;
+        height: 400px;
+        margin-bottom: 10px;
+
+        &>img{
+            object-fit: cover;
+            width: 400px;
+            height: 400px;
+        }
+    }
+
+    &__txt{
+        font-weight: bold;
+
+        &--grey{
+            color: $grey;
+        }
+    }
+
+    &__ctn{
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        margin-top: 10px;
+
+        &__icon{
+            margin-right: 10px;
+            width: 20px;
+        }
+
+        &__txtLike{
+            font-weight: bold;
+        }
+
+        &__txtComment{
+            color: $grey;
+            font-weight: bold;
+        }
+    }
+}
