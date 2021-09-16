@@ -40,6 +40,7 @@ const Accueil = () => {
         <button className='accueil__btn' onClick={() => {
             history.push('/newPost')
         }}>Nouveau Post</button>
+        <img src='http://localhost:3000/images/Fichier_009.jpeg1631799113065.jpg'/>
         <section className='accueil__allPost'>
             {
                 allPosts.map(e => {
