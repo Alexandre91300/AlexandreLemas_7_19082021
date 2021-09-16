@@ -21,7 +21,9 @@ const NewPost = () => {
 
             let post =  {
                 title: title, 
-                description: description
+                description: description,
+                date: Math.floor(Date.now() / 1000),
+                uid: uid
             }
 
             const formData = new FormData()

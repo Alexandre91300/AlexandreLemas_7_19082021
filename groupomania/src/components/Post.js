@@ -7,7 +7,7 @@ const Post = ({post}) => {
         <div className='post'>
             <h2 className='post__title'>{post.title}</h2>
             <p className='post__description'>{post.description}</p>
-            <img className='post__image' src={`/posts/${post.image}`} alt='Comment'/>
+            <img className='post__image' src={post.image} alt='Comment'/>
             <p className='post__txt'>{post.user} <span className='post__txt--grey'>le {post.date}</span></p>
             <div className='post__ctn'>
                 <img className='post__ctn__icon' src={like} alt='Like'/>

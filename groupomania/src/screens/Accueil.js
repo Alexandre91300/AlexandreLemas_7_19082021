@@ -11,7 +11,7 @@ const Accueil = () => {
             date : 1627473139,
             title : 'Titre 1',
             description : 'Eiusmod qui dolore enim ea labore velit proident cupidatat et non amet id ipsum ipsum.',
-            image : 'ron.jpeg',
+            image : 'http://localhost:3000/images/Fichier_009.jpeg1631799113065.jpg',
             like : 50,
             comment : 3
         },
@@ -20,7 +20,7 @@ const Accueil = () => {
             date : 1627473139,
             title : 'Titre 2',
             description : 'Eiusmod qui dolore enim ea labore velit proident cupidatat et non amet id ipsum ipsum.',
-            image : 'adame.jpeg',
+            image : 'http://localhost:3000/images/Fichier_009.jpeg1631799113065.jpg',
             like : 70,
             comment : 50
         },
@@ -29,7 +29,7 @@ const Accueil = () => {
             date : 1627473139,
             title : 'Titre 3',
             description : 'Eiusmod qui dolore enim ea labore velit proident cupidatat et non amet id ipsum ipsum.',
-            image : 'ron2.jpeg',
+            image : 'http://localhost:3000/images/Fichier_009.jpeg1631799113065.jpg',
             like : 5630,
             comment : 800
         }
@@ -40,7 +40,6 @@ const Accueil = () => {
         <button className='accueil__btn' onClick={() => {
             history.push('/newPost')
         }}>Nouveau Post</button>
-        <img src='http://localhost:3000/images/Fichier_009.jpeg1631799113065.jpg'/>
         <section className='accueil__allPost'>
             {
                 allPosts.map(e => {

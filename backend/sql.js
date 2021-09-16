@@ -56,3 +56,13 @@ const getUserByEmail = async (email) => {
 }
 
 exports.getUserByEmail = getUserByEmail;
+
+
+
+const createPost = async (post, res) => {
+    db.query("INSERT INTO posts (title,description,image,date,uid,likes,commentaires) VALUES (?,?,?,?,?,?,?);",[post.title, post.description, post.image ,post.date, post.uid, post.likes, post.commentaires], (err,result) => {
+        res.status(201).json({message: "Post created !"})
+    })
+}
+
+exports.createPost = createPost;
