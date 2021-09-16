@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import Axios from 'axios';
 
 import Header from '../components/Header'
 
@@ -10,14 +11,23 @@ const NewPost = () => {
 
     const [preview, setPreview] = useState('')
 
-    console.log(preview);
-
-    console.log(image);
-
     const submit = () => {
+
+        let token = localStorage.getItem('token');
+        let uid = localStorage.getItem('id');
         console.log('Submit');
 
-        // Requête POST
+        if (token && uid){
+
+            // Send request
+            Axios.post('http://localhost:3000/api/posts/new', {token: token, uid: uid, title: title, description: description})
+            .then(res => {
+            console.log(res.data);
+            })
+            .catch(err => {
+                alert(err.response.data.message)
+            })
+        }
     }
 
     useEffect(() => {
@@ -42,6 +52,7 @@ const NewPost = () => {
             <input className='newPost__form__inp' type='text' placeholder='Titre (obligatoire)' value={title} onChange={e => setTitle(e.target.value)} required/>
             <textarea className='newPost__form__inp' type='text' placeholder='Description (facultative)' value={description} onChange={e => setDescription(e.target.value)}/>
             <input 
+            required
             accept='image/*' 
             className='newPost__form__inp' 
             type='file' 
