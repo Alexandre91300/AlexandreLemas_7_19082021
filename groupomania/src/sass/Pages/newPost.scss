@@ -1,0 +1,15 @@
+.newPost{
+
+    &__form{
+        padding: 50px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        &__inp{
+            margin: 20px;
+            padding: 10px
+        }
+    }
+}
