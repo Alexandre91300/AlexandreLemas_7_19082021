@@ -1,8 +1,10 @@
 import Header from "../components/Header"
 import Post from "../components/Post"
+import { useHistory } from 'react-router-dom';
 
 const Accueil = () => {
-
+    let history = useHistory();
+    
     let allPosts = [
         {
             user : 'Ilan',
@@ -35,7 +37,10 @@ const Accueil = () => {
     return(
         <>
         <Header/>
-        <section className='allPost'>
+        <button className='accueil__btn' onClick={() => {
+            history.push('/newPost')
+        }}>Nouveau Post</button>
+        <section className='accueil__allPost'>
             {
                 allPosts.map(e => {
                     return <Post post={e} key={e.user} />
