@@ -19,3 +19,14 @@ exports.new = (req,res,next) => {
     // SQL
     sql.createPost(post, res)
 };
+
+exports.get = (req,res,next) => {
+    console.log('Requête reçu');
+    
+    sql.getPosts().then(posts => {
+        console.log(posts);
+        res.status(200).json({posts})
+    }).catch(err => {
+        res.status(201).json({message: err})
+    })
+};

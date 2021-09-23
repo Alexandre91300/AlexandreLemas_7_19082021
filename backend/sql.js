@@ -66,3 +66,25 @@ const createPost = async (post, res) => {
 }
 
 exports.createPost = createPost;
+
+const getPosts = async (post, res) => {
+    let myPromise = () => {
+        return new Promise ((resolve, reject) => {
+            db.query("SELECT * FROM posts", (err,result) => {
+
+                console.log(result.length);
+                if(result.length !== 0) {
+                    resolve(result)
+                } else {
+                    reject("Aucun post")
+                }
+            })
+        })
+    }
+
+    let result = await (myPromise());
+
+    return result
+}
+
+exports.getPosts = getPosts;

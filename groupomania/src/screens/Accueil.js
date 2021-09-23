@@ -1,39 +1,40 @@
 import Header from "../components/Header"
 import Post from "../components/Post"
 import { useHistory } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import Axios from 'axios';
+
 
 const Accueil = () => {
     let history = useHistory();
+    const [allPosts, setAllPosts] = useState([]);
+
+    useEffect(() => {
+
+        const token = localStorage.getItem('token');
+        const uid = localStorage.getItem('id');
+
+        // Get posts
+        if (token && uid) {
+
+            console.log('send request');
+            // Send request
+            Axios.get('http://localhost:3000/api/posts/get', {
+              headers: {
+                authorization: uid + ' ' + token
+              }
+            }).then(res => {
     
-    let allPosts = [
-        {
-            user : 'Ilan',
-            date : 1627473139,
-            title : 'Titre 1',
-            description : 'Eiusmod qui dolore enim ea labore velit proident cupidatat et non amet id ipsum ipsum.',
-            image : 'http://localhost:3000/images/Fichier_009.jpeg1631799113065.jpg',
-            like : 50,
-            comment : 3
-        },
-        {
-            user : 'Celine',
-            date : 1627473139,
-            title : 'Titre 2',
-            description : 'Eiusmod qui dolore enim ea labore velit proident cupidatat et non amet id ipsum ipsum.',
-            image : 'http://localhost:3000/images/Fichier_009.jpeg1631799113065.jpg',
-            like : 70,
-            comment : 50
-        },
-        {
-            user : 'Elliott',
-            date : 1627473139,
-            title : 'Titre 3',
-            description : 'Eiusmod qui dolore enim ea labore velit proident cupidatat et non amet id ipsum ipsum.',
-            image : 'http://localhost:3000/images/Fichier_009.jpeg1631799113065.jpg',
-            like : 5630,
-            comment : 800
+            console.log(res.data.posts);
+            setAllPosts(res.data.posts)
+            })
+            .catch(err => {
+                console.log(err);
+            })
         }
-    ]
+
+    },[])
+
     return(
         <>
         <Header/>
