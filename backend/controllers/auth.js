@@ -79,6 +79,11 @@ exports.login = (req,res,next) => {
 
 exports.isUserAuth = (req,res,next) => {
     console.log('isAuth');
-    res.status(201).json({isAuth : true})
-
+    
+    sql.getUserById(req.headers.authorization.split(' ')[0])
+    .then(user =>{ 
+        res.status(201).json({isAuth : true, username: user.username})
+    })
+    .catch(err => console.log(err))
+    
 };

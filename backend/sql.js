@@ -56,3 +56,54 @@ const getUserByEmail = async (email) => {
 }
 
 exports.getUserByEmail = getUserByEmail;
+
+const getUserById = async (id) => {
+    let myPromise = () => {
+        return new Promise ((resolve, reject) => {
+            db.query("SELECT * FROM users WHERE id = ?",[id], (err,result) => {
+                if(result.length !== 0) {
+                    resolve(result[0])
+                } else {
+                    reject("Utilisateur introuvable")
+                }
+            })
+        })
+    }
+
+    let result = await (myPromise());
+
+    return result
+}
+
+exports.getUserById = getUserById;
+
+
+
+const createPost = async (post, res) => {
+    db.query("INSERT INTO posts (username,title,description,image,date,uid,likes,commentaires) VALUES (?,?,?,?,?,?,?,?);",[post.username,post.title, post.description, post.image ,post.date, post.uid, post.likes, post.commentaires], (err,result) => {
+        res.status(201).json({message: "Post created !"})
+    })
+}
+
+exports.createPost = createPost;
+
+const getPosts = async (post, res) => {
+    let myPromise = () => {
+        return new Promise ((resolve, reject) => {
+            db.query("SELECT * FROM posts", (err,result) => {
+
+                if(result.length !== 0) {
+                    resolve(result)
+                } else {
+                    reject("Aucun post")
+                }
+            })
+        })
+    }
+
+    let result = await (myPromise());
+
+    return result
+}
+
+exports.getPosts = getPosts;

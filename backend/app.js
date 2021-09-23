@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const app = express();
 const authRoutes = require('./routes/auth');
+const postsRoutes = require('./routes/posts');
 require('dotenv').config();
 const helmet = require('helmet');
 const rateLimit = require("express-rate-limit");
@@ -27,9 +28,12 @@ app.use((req, res, next) => {
 
 app.use(bodyParser.json());
 
+app.use("/images", express.static(path.join(__dirname, "images")));
+
 /* ROUTES */
 // app.use('/images', express.static(path.join(__dirname, 'images')))
 app.use('/api/auth', authRoutes);
+app.use('/api/posts', postsRoutes);
 // app.use('/api/sauces', saucesRoutes);
 
 module.exports = app;
