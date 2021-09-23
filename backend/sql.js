@@ -87,7 +87,7 @@ const createPost = async (post, res) => {
 
 exports.createPost = createPost;
 
-const getPosts = async (post, res) => {
+const getPosts = async () => {
     let myPromise = () => {
         return new Promise ((resolve, reject) => {
             db.query("SELECT * FROM posts", (err,result) => {
@@ -107,3 +107,31 @@ const getPosts = async (post, res) => {
 }
 
 exports.getPosts = getPosts;
+
+const getPostsByUid = async (uid) => {
+
+    console.log('sql');
+    console.log(uid);
+    let myPromise = () => {
+        return new Promise ((resolve, reject) => {
+            db.query("SELECT * FROM posts WHERE uid = ?",[uid], (err,result) => {
+
+                console.log(result);
+
+                if(result.length !== 0) {
+                    resolve(result)
+                } else {
+                    reject("Aucun post")
+                }
+            })
+        })
+    }
+
+    let result = await (myPromise());
+
+    return result
+}
+
+exports.getPostsByUid = getPostsByUid;
+
+

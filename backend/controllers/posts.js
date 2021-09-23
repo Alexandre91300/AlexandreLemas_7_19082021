@@ -30,3 +30,17 @@ exports.get = (req,res,next) => {
         res.status(201).json({message: err})
     })
 };
+
+
+exports.getByUid = (req,res,next) => {
+    console.log('Requête reçu');
+
+    console.log(req.body)
+    
+    sql.getPostsByUid(req.body.uid).then(posts => {
+        res.status(200).json({posts})
+    }).catch(err => {
+        res.status(201).json({message: err})
+    })
+
+};

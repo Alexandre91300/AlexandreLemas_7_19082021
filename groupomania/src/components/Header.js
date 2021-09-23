@@ -40,8 +40,8 @@ const Header = ({type}) => {
                          document.location.reload();
                      }} className='header__btn header__btn--logout'>Déconnexion</button>
                      <img onClick={() => {
-                         history.push('/login')
-                     }} src={user_white} className="header__img" alt='Logo Groupomania'/>
+                         history.push('/profil')
+                     }} src={user_white} className="header__img" alt='Icon utilisateur'/>
                      </div>
                     </header>
                 )

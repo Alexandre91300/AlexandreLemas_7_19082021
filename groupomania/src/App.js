@@ -6,6 +6,7 @@ import Login from './screens/Login';
 import SignUp from './screens/SignUp';
 import Accueil from './screens/Accueil';
 import NewPost from './screens/NewPost';
+import Profil from './screens/Profil';
 
 function App() {
   
@@ -22,6 +23,7 @@ function App() {
         {/* Routes PROTEGE */}
         <ProtectedRoute path="/" exact component={Accueil}/>
         <ProtectedRoute path="/newPost" exact component={NewPost}/>
+        <ProtectedRoute path="/profil" exact component={Profil}/>
 
         {/* Routes LIBRE */}
         <Route path="/login" component={Login}/>
