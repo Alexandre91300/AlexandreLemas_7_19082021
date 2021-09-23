@@ -26,7 +26,11 @@ const Accueil = () => {
             }).then(res => {
     
             console.log(res.data.posts);
-            setAllPosts(res.data.posts)
+
+            if(res.data.posts !== undefined){
+
+                setAllPosts(res.data.posts)
+            }
             })
             .catch(err => {
                 console.log(err);
@@ -44,7 +48,7 @@ const Accueil = () => {
         <section className='accueil__allPost'>
             {
                 allPosts.map(e => {
-                    return <Post post={e} key={e.user} />
+                    return <Post post={e} key={e.id} />
                 })
             }
         </section>

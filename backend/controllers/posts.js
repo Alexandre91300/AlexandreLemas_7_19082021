@@ -6,6 +6,7 @@ exports.new = (req,res,next) => {
     console.log('Requête reçu !');
 
     let post = {
+        username : request.username,
         title : request.title,
         description : request.description,
         image : `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
@@ -24,7 +25,6 @@ exports.get = (req,res,next) => {
     console.log('Requête reçu');
     
     sql.getPosts().then(posts => {
-        console.log(posts);
         res.status(200).json({posts})
     }).catch(err => {
         res.status(201).json({message: err})

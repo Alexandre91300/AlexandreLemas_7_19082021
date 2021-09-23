@@ -18,15 +18,17 @@ const NewPost = () => {
 
         let token = localStorage.getItem('token');
         let uid = localStorage.getItem('id');
+        let username = localStorage.getItem('username');
         console.log('Submit');
 
-        if (token && uid){
+        if (token && uid && username){
 
             let post =  {
                 title: title, 
                 description: description,
                 date: Math.floor(Date.now() / 1000),
-                uid: uid
+                uid: uid,
+                username: username
             }
 
             const formData = new FormData()

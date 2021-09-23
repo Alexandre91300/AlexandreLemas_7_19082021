@@ -21,6 +21,8 @@ const ProtectedRoute = ({ component: Component, ...restOfProps }) => {
           }
         }).then(res => {
 
+          localStorage.setItem('username',res.data.username)
+
         if (res.data.isAuth) {
             console.log('User connected');
             setIsAuthenticated(true)
