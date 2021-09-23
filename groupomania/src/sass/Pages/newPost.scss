@@ -1,15 +1,82 @@
 .newPost{
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 100px;
+    
+    &__title{
+        text-align: center;
+        margin-top: 50px;
+        font-size: 30px;
+    }
+    
     &__form{
-        padding: 50px;
+        width: 400px;
+        margin-top: 50px;
         display: flex;
         flex-direction: column;
-        align-items: center;
-        justify-content: center;
 
-        &__inp{
-            margin: 20px;
-            padding: 10px
+        &__title{
+            font-weight: bold;
+            font-size: 30px;
+            margin-bottom: 10px;
+            border: none;
+            width: 100%;
+
+
+            &:focus{
+            padding: 10px;
+            background-color: $primary;
+            color: $secondary;
+            &::placeholder{
+                color: $primary;
+            }
+            }
+
+
+
+        }
+        
+        &__description{
+            border: none;
+            margin-bottom: 10px;
+            width: 100%;
+            font-size: 16px;
+            color: $primary;
+
+            &:focus{
+                padding: 10px;
+                background-color: $primary;
+                color: $secondary;
+                &::placeholder{
+                    color: $primary;
+                }
+                }
+        }
+
+        &__fakeImg{
+            background-color: $grey;
+            width: 400px;
+            height: 400px;
+        }
+
+        &__submit{
+            margin-top: 20px;
+            background-color: $primary;
+            color: $secondary;
+            border: 1px solid $primary;
+            width: 200px;
+            height: 50px;
+            align-self: center;
+            cursor: pointer;
+
+            &:hover{
+                transform: scale(1.1);
+                background-color: $secondary;
+                color: $primary;
+            }
         }
     }
 }
