@@ -1,4 +1,6 @@
 const sql = require('../sql');
+const fs = require('fs');
+
 
 exports.new = (req,res,next) => {
     let request = JSON.parse(req.body.post);
@@ -28,5 +30,47 @@ exports.get = (req,res,next) => {
         res.status(200).json({posts})
     }).catch(err => {
         res.status(201).json({message: err})
+    })
+};
+
+
+exports.getByUid = (req,res,next) => {
+    console.log('Requête reçu');
+
+    console.log(req.body)
+    
+    sql.getPostsByUid(req.body.uid).then(posts => {
+        res.status(200).json({posts})
+    }).catch(err => {
+        res.status(201).json({message: err})
+    })
+
+};
+
+exports.update = (req,res,next) => {
+    console.log('Request update');
+    
+    console.log(req.body);  
+    
+    sql.updatePostById(req.body.postId, req.body.title, req.body.description)
+    .then(() => {
+        res.status(200).json({message: 'Modifié avec succès !'})
+    }).catch(() => {
+        res.status(200).json({message: 'Erreur de modification :/'})  
+    })
+
+};
+
+exports.delete = (req,res,next) => {
+    const filename = req.body.imageUrl.split('/images/')[1];
+    
+    fs.unlink(`images/${filename}`, () => {
+
+        sql.deletePostById(req.body.postId).then(response => {
+            res.status(200).json({message: 'Supprimé avec succès !'})
+        }).catch(err => {
+            res.status(201).json({message: err})
+        })
+
     })
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import logo_white from '../assets/logo_white.svg';
 import user_white from '../assets/user_white.svg';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 
 const Header = ({type}) => {
@@ -40,8 +40,8 @@ const Header = ({type}) => {
                          document.location.reload();
                      }} className='header__btn header__btn--logout'>Déconnexion</button>
                      <img onClick={() => {
-                         history.push('/login')
-                     }} src={user_white} className="header__img" alt='Logo Groupomania'/>
+                         history.push('/profil')
+                     }} src={user_white} className="header__img" alt='Icon utilisateur'/>
                      </div>
                     </header>
                 )

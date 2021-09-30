@@ -11,6 +11,41 @@
         width: 400px;
     }
 
+    &__deleteBtn{
+        border: 1px solid $red;
+        background-color: $secondary;
+        width: 100px;
+        height: 30px;
+        margin-bottom: 20px;
+        font-weight: bold;
+        color: $red;
+        cursor: pointer;
+
+        &:hover{
+            transform: scale(1.1);
+            color: $secondary;
+            background-color: $red;
+        }
+    }
+
+    &__modifyBtn{
+        border: 1px solid $blue;
+        background-color: $secondary;
+        width: 100px;
+        height: 30px;
+        margin-bottom: 20px;
+        margin-left: 10px;
+        font-weight: bold;
+        color: $blue;
+        cursor: pointer;
+
+        &:hover{
+            transform: scale(1.1);
+            color: $secondary;
+            background-color: $blue
+        }
+    }
+
     &__image{
         width: 400px;
         height: 400px;

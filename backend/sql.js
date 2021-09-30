@@ -87,7 +87,7 @@ const createPost = async (post, res) => {
 
 exports.createPost = createPost;
 
-const getPosts = async (post, res) => {
+const getPosts = async () => {
     let myPromise = () => {
         return new Promise ((resolve, reject) => {
             db.query("SELECT * FROM posts", (err,result) => {
@@ -107,3 +107,74 @@ const getPosts = async (post, res) => {
 }
 
 exports.getPosts = getPosts;
+
+const getPostsByUid = async (uid) => {
+
+    let myPromise = () => {
+        return new Promise ((resolve, reject) => {
+            db.query("SELECT * FROM posts WHERE uid = ?",[uid], (err,result) => {
+
+                console.log(result);
+
+                if(result.length !== 0) {
+                    resolve(result)
+                } else {
+                    reject("Aucun post")
+                }
+            })
+        })
+    }
+
+    let result = await (myPromise());
+
+    return result
+}
+
+exports.getPostsByUid = getPostsByUid;
+
+const deletePostById = async (id) => {
+
+    let myPromise = () => {
+        return new Promise ((resolve, reject) => {
+            db.query("DELETE FROM posts WHERE id = ?",[id], (err,result) => {
+
+                if(result.length !== 0) {
+                    resolve(result)
+                } else {
+                    reject("Post non trouvé")
+                }
+            })
+        })
+    }
+
+    let result = await (myPromise());
+
+    return result
+}
+
+exports.deletePostById = deletePostById;
+
+const updatePostById = async (id, title, description) => {
+
+    let myPromise = () => {
+        return new Promise ((resolve, reject) => {
+            db.query("UPDATE posts SET title=?, description=? WHERE id=?",[title, description, id], (err,result) => {
+
+                console.log(result.changedRows);
+                if(result.changedRows !== 0) {
+                    resolve(result)
+                } else {
+                    reject("Post non trouvé")
+                }
+            })
+        })
+    }
+
+    let result = await (myPromise());
+
+    return result
+}
+
+exports.updatePostById = updatePostById;
+
+
