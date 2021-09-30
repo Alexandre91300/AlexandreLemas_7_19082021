@@ -16,17 +16,14 @@ const ModifyPost = () => {
         history.push('/profil')
     }
 
-    console.log(location.state.postId);
-
     const submit = () => {
 
         let token = localStorage.getItem('token');
         let uid = localStorage.getItem('id');
-        let username = localStorage.getItem('username');
-        console.log('Submit');
-
-        if (token && uid){
-
+        
+        if (token && uid && location.state.title !== title && location.state.description !== description){
+            
+            console.log('Submit');
             let post =  {
                 title: title, 
                 description: description,
@@ -45,6 +42,8 @@ const ModifyPost = () => {
             .catch(err => {
                 alert(err.response.data.message)
             })
+        } else {
+            history.push('/profil')
         }
     }
 
