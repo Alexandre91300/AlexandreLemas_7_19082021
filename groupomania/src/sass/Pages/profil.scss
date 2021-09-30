@@ -1,0 +1,35 @@
+.profil{
+
+    &__header{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        margin: 50px 0;
+
+        &__img{
+            height: 100px;
+        }
+
+        &__title{
+            margin-top: 20px;
+        }
+
+        &__line{
+            display: block;
+            width: 90%;
+            height: 2px;
+            background-color: $primary;
+            margin-top: 50px;
+        }
+    }
+
+    &__allPost{
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+}

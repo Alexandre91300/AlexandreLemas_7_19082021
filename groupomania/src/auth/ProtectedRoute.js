@@ -37,7 +37,7 @@ const ProtectedRoute = ({ component: Component, ...restOfProps }) => {
         setLoading(false)
     }
 
-  }, [])
+  }, [token,uid])
 
   if(loading){
     return <>Loading...</>

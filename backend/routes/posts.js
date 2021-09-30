@@ -6,8 +6,14 @@ const postsCtrl = require('../controllers/posts');
 const auth = require('../middleware/auth');
 const multer = require('../middleware/multer-config');
 
+// Create
 router.post('/new', auth, multer, postsCtrl.new);
+
+// Read
 router.get('/get',auth, postsCtrl.get);
 router.post('/getByUid',auth, postsCtrl.getByUid);
+
+// Delete
+router.post('/delete',auth, postsCtrl.delete);
 
 module.exports = router;

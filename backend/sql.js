@@ -110,8 +110,6 @@ exports.getPosts = getPosts;
 
 const getPostsByUid = async (uid) => {
 
-    console.log('sql');
-    console.log(uid);
     let myPromise = () => {
         return new Promise ((resolve, reject) => {
             db.query("SELECT * FROM posts WHERE uid = ?",[uid], (err,result) => {
@@ -133,5 +131,27 @@ const getPostsByUid = async (uid) => {
 }
 
 exports.getPostsByUid = getPostsByUid;
+
+const deletePostById = async (id) => {
+
+    let myPromise = () => {
+        return new Promise ((resolve, reject) => {
+            db.query("DELETE FROM posts WHERE id = ?",[id], (err,result) => {
+
+                if(result.length !== 0) {
+                    resolve(result)
+                } else {
+                    reject("Post non trouvé")
+                }
+            })
+        })
+    }
+
+    let result = await (myPromise());
+
+    return result
+}
+
+exports.deletePostById = deletePostById;
 
 

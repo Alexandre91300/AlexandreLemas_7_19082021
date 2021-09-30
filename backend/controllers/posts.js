@@ -1,4 +1,6 @@
 const sql = require('../sql');
+const fs = require('fs');
+
 
 exports.new = (req,res,next) => {
     let request = JSON.parse(req.body.post);
@@ -43,4 +45,18 @@ exports.getByUid = (req,res,next) => {
         res.status(201).json({message: err})
     })
 
+};
+
+exports.delete = (req,res,next) => {
+    const filename = req.body.imageUrl.split('/images/')[1];
+    
+    fs.unlink(`images/${filename}`, () => {
+
+        sql.deletePostById(req.body.postId).then(response => {
+            res.status(200).json({message: 'Supprimé avec succès !'})
+        }).catch(err => {
+            res.status(201).json({message: err})
+        })
+
+    })
 };
