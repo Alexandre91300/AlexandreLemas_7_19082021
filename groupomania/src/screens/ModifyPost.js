@@ -16,6 +16,8 @@ const ModifyPost = () => {
         history.push('/profil')
     }
 
+    console.log(location.state.postId);
+
     const submit = () => {
 
         let token = localStorage.getItem('token');
@@ -23,16 +25,16 @@ const ModifyPost = () => {
         let username = localStorage.getItem('username');
         console.log('Submit');
 
-        if (token && uid && username){
+        if (token && uid){
 
             let post =  {
                 title: title, 
                 description: description,
-                uid: uid,
+                postId: location.state.postId,
             }
 
             // Send request
-            Axios.post('http://localhost:3000/api/posts/new', post, {
+            Axios.post('http://localhost:3000/api/posts/update', post, {
                 headers: {
                   authorization: uid + ' ' + token
                 }

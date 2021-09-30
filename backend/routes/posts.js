@@ -13,6 +13,9 @@ router.post('/new', auth, multer, postsCtrl.new);
 router.get('/get',auth, postsCtrl.get);
 router.post('/getByUid',auth, postsCtrl.getByUid);
 
+// Update 
+router.post('/update',auth, postsCtrl.update);
+
 // Delete
 router.post('/delete',auth, postsCtrl.delete);
 

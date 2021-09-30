@@ -47,6 +47,20 @@ exports.getByUid = (req,res,next) => {
 
 };
 
+exports.update = (req,res,next) => {
+    console.log('Request update');
+    
+    console.log(req.body);  
+    
+    sql.updatePostById(req.body.postId, req.body.title, req.body.description)
+    .then(() => {
+        res.status(200).json({message: 'Modifié avec succès !'})
+    }).catch(() => {
+        res.status(200).json({message: 'Erreur de modification :/'})  
+    })
+
+};
+
 exports.delete = (req,res,next) => {
     const filename = req.body.imageUrl.split('/images/')[1];
     

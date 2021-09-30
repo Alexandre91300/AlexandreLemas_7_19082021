@@ -154,4 +154,27 @@ const deletePostById = async (id) => {
 
 exports.deletePostById = deletePostById;
 
+const updatePostById = async (id, title, description) => {
+
+    let myPromise = () => {
+        return new Promise ((resolve, reject) => {
+            db.query("UPDATE posts SET title=?, description=? WHERE id=?",[title, description, id], (err,result) => {
+
+                console.log(result.changedRows);
+                if(result.changedRows !== 0) {
+                    resolve(result)
+                } else {
+                    reject("Post non trouvé")
+                }
+            })
+        })
+    }
+
+    let result = await (myPromise());
+
+    return result
+}
+
+exports.updatePostById = updatePostById;
+
 
