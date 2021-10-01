@@ -17,7 +17,6 @@ const Accueil = () => {
         // Get posts
         if (token && uid) {
 
-            console.log('send request');
             // Send request
             Axios.get('http://localhost:3000/api/posts/get', {
               headers: {
@@ -25,8 +24,6 @@ const Accueil = () => {
               }
             }).then(res => {
     
-            console.log(res.data.posts);
-
             if(res.data.posts !== undefined){
 
                 setAllPosts(res.data.posts)

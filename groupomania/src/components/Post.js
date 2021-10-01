@@ -2,10 +2,14 @@ import like from '../assets/like.svg';
 import comment from '../assets/comment.svg';
 import Axios from 'axios';
 import { useHistory } from 'react-router';
+import Modal from './Modal';
+import { useState } from 'react';
 
 const Post = ({post, type}) => {
-
     const history = useHistory();
+
+    const [displayModal, setDisplayModal] = useState(false)
+
 
     let date = new Date(post.date * 1000);
 
@@ -81,10 +85,15 @@ const Post = ({post, type}) => {
                         <img className='post__ctn__icon' src={like} alt='Like'/>
                         <p className='post__ctn__txtLike'>{post.likes} Like</p>
                     </div>
-                    <div className='post__ctn'>
+                    <div className='post__ctn' onClick={() => setDisplayModal(true)}>
                         <img className='post__ctn__icon' src={comment} alt='Comment'/>
                         <p className='post__ctn__txtComment'>{post.commentaires} Commentaires</p>
                     </div>
+                    {displayModal ? 
+                    <Modal callBack={() => {setDisplayModal(false)}} />
+                    :
+                    null
+                    }
                 </div>
             )
     }
