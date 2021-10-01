@@ -39,7 +39,10 @@ const Accueil = () => {
     return(
         <>
         <Header/>
-        <button className='accueil__btn' onClick={() => {
+        <button 
+        data-testid='accueil-btn-newPost'
+        className='accueil__btn' 
+        onClick={() => {
             history.push('/newPost')
         }}>Nouveau Post</button>
         <section className='accueil__allPost'>

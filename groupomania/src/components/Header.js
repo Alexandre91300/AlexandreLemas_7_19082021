@@ -38,7 +38,10 @@ const Header = ({type}) => {
                      <button onClick={() => {
                          localStorage.clear();
                          document.location.reload();
-                     }} className='header__btn header__btn--logout'>Déconnexion</button>
+                     }} 
+                     className='header__btn header__btn--logout'
+                     data-testid='disconnect-btn'
+                     >Déconnexion</button>
                      <img onClick={() => {
                          history.push('/profil')
                      }} src={user_white} className="header__img" alt='Icon utilisateur'/>

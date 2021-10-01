@@ -8,10 +8,15 @@ const Login = () => {
 
     const history = useHistory()
 
-    const [email, setEmail] = useState ('sandy91300@gmail.com');
-    const [password, setPassword] = useState ('Binksbinks91');
-    const [errorMessage, setErrorMessage] = useState("");
+    // const [email, setEmail] = useState ('sandy91300@gmail.com');
+    // const [password, setPassword] = useState ('Binksbinks91');
 
+    // test.account@gmail.com
+    // Azerty123
+
+    const [email, setEmail] = useState ('');
+    const [password, setPassword] = useState ('');
+    const [errorMessage, setErrorMessage] = useState("");
 
     const [button, setButton] = useState(false);
 
@@ -44,7 +49,7 @@ const Login = () => {
     <>
         <Header type='login' />
         <section className="login">
-            <h1 className="login__title">CONNEXION</h1>
+            <h1  data-testid='login-title' className="login__title">CONNEXION</h1>
 
             <form className='login__form' onSubmit={ (e) => {
                 e.preventDefault();
@@ -54,15 +59,15 @@ const Login = () => {
                     <span className='signup__form__error'>{errorMessage}</span>
                 : null
                 }
-                <input placeholder="E-mail" value={email} className='login__form__inp' type='email' onChange={e => setEmail(e.target.value)}/>
-                <input placeholder="Mot de passe" value={password} className='login__form__inp' type='password' onChange={e => setPassword(e.target.value)}/>
+                <input data-testid='input-mail' placeholder="E-mail" value={email} className='login__form__inp' type='email' onChange={e => setEmail(e.target.value)}/>
+                <input data-testid='input-password' placeholder="Mot de passe" value={password} className='login__form__inp' type='password' onChange={e => setPassword(e.target.value)}/>
 
                 <Link to="/signup" className="login__form__link">
                     <p>Pas encore inscrit ? Créez un compte ICI !</p>
                 </Link>
 
                 { button ?
-                    <button className='login__form__btn' type='submit'>Connexion</button>
+                    <button  data-testid='submit' className='login__form__btn' type='submit'>Connexion</button>
                 :
                     <button className='login__form__btn--disabled' disabled={true} type='submit'>Connexion</button>
                 }

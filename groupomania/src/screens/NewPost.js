@@ -72,12 +72,14 @@ const NewPost = () => {
                 submit()
             }}>
                 <input 
+                data-testid='input-title'
                 className='newPost__form__title'
                 type='text' placeholder='Titre (obligatoire)' 
                 value={title} onChange={e => setTitle(e.target.value)} 
                 required/>
 
                 <textarea 
+                data-testid='input-description'
                 maxLength={280}
                 className='newPost__form__description' 
                 type='text' 
