@@ -10,7 +10,6 @@ const Post = ({post, type}) => {
 
     const [displayModal, setDisplayModal] = useState(false)
 
-
     let date = new Date(post.date * 1000);
 
     date = date.toISOString().split('T')[0].split('-').reverse().join('/')
@@ -90,7 +89,7 @@ const Post = ({post, type}) => {
                         <p className='post__ctn__txtComment'>{post.commentaires} Commentaires</p>
                     </div>
                     {displayModal ? 
-                    <Modal callBack={() => {setDisplayModal(false)}} />
+                    <Modal postId={post.id} callBack={() => {setDisplayModal(false)}} />
                     :
                     null
                     }

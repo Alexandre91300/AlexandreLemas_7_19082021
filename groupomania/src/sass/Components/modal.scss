@@ -13,7 +13,7 @@
     &__ctn{
         background-color: $secondary;
         width: 50%;
-        height: 50%;
+        height: 80%;
 
         &__comment{
             margin: 10px;
@@ -22,6 +22,22 @@
             &__text{
                 margin: 5px 0;
                 padding-left: 10px;
+            }
+        }
+
+        &__form{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 10px 20px;
+
+            &>input{
+                flex: 1;
+                padding: 5px;
+            }
+
+            &>button{
+                margin-left: 20px;
             }
         }
     }

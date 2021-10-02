@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
+import Axios from "axios";
 
-const Modal = ({display = false, callBack}) => {
+const Modal = ({callBack, postId}) => {
+    const [comment, setComment] = useState('')
 
     let hour = 3600
 
@@ -53,7 +55,7 @@ const Modal = ({display = false, callBack}) => {
     ]
     
     // Combien de secondes se sont écoulé depuis la création du commentaire
-    const dateConvertor = (timestamp) => {
+    const timeConvertor = (timestamp) => {
         
         const differenceSecond = Math.floor(Date.now() / 1000) - timestamp;
         const differenceDay = Math.floor(differenceSecond / 86400);
@@ -96,6 +98,35 @@ const Modal = ({display = false, callBack}) => {
 
     };
 
+    const submit = () => {
+
+        let token = localStorage.getItem('token');
+        let uid = localStorage.getItem('id');
+        let username = localStorage.getItem('username');
+        console.log('Submit');
+
+        if (token && uid && username && comment.length !== 0){
+
+            // Send request
+            Axios.post('http://localhost:3000/api/comments/new', {
+                comment : comment,
+                timestamp :  Math.floor(Date.now() / 1000),
+                username : username,
+                postId : postId
+            
+            }, {
+                headers: {
+                  authorization: uid + ' ' + token
+                }
+              }) .then(res => {
+                console.log(res.data);
+            })
+            .catch(err => {
+                alert(err.response.data.message)
+            })
+        }
+    }
+
     return(
 
         <div className='modal'>
@@ -105,18 +136,32 @@ const Modal = ({display = false, callBack}) => {
                 onClick={() => callBack()}
                 >X</p>
 
-                <div style={{height: '70%', overflow: "auto"}}>
+                <div style={{height: '80%',overflow: "auto"}}>
                     {
                         fakeDatas.map((item,index) => {
                             return(
                                 <div key={index} className='modal__ctn__comment'>
-                                    <p>Par <strong>{item.username}</strong> il y a {dateConvertor(item.date)}</p>
+                                    <p>Par <strong>{item.username}</strong> il y a {timeConvertor(item.date)}</p>
                                     <p className='modal__ctn__comment__text'>{item.comment}</p>
                                 </div>
                             )
                         })
                     }
                 </div>
+
+                <form className='modal__ctn__form' onSubmit={ (e) => {
+                e.preventDefault();
+                submit()
+                }}>
+                    <input 
+                    placeholder ='Laisser un commentaire...'
+                    maxLength={280} 
+                    type='text'
+                    value={comment}
+                    onChange={e => setComment(e.target.value)} 
+                    />
+                    <button>Publier</button>
+                </form>
 
             </div>
         </div>

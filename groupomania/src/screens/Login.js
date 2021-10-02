@@ -8,14 +8,14 @@ const Login = () => {
 
     const history = useHistory()
 
-    // const [email, setEmail] = useState ('sandy91300@gmail.com');
-    // const [password, setPassword] = useState ('Binksbinks91');
+    const [email, setEmail] = useState ('sandy91300@gmail.com');
+    const [password, setPassword] = useState ('Binksbinks91');
 
     // test.account@gmail.com
     // Azerty123
 
-    const [email, setEmail] = useState ('');
-    const [password, setPassword] = useState ('');
+    // const [email, setEmail] = useState ('');
+    // const [password, setPassword] = useState ('');
     const [errorMessage, setErrorMessage] = useState("");
 
     const [button, setButton] = useState(false);
@@ -59,8 +59,21 @@ const Login = () => {
                     <span className='signup__form__error'>{errorMessage}</span>
                 : null
                 }
-                <input data-testid='input-mail' placeholder="E-mail" value={email} className='login__form__inp' type='email' onChange={e => setEmail(e.target.value)}/>
-                <input data-testid='input-password' placeholder="Mot de passe" value={password} className='login__form__inp' type='password' onChange={e => setPassword(e.target.value)}/>
+                <input 
+                data-testid='input-mail' 
+                placeholder="E-mail" 
+                value={email} 
+                className='login__form__inp' 
+                type='email' 
+                onChange={e => setEmail(e.target.value)}/>
+
+                <input 
+                data-testid='input-password' 
+                placeholder="Mot de passe" 
+                value={password} 
+                className='login__form__inp' 
+                type='password' 
+                onChange={e => setPassword(e.target.value)}/>
 
                 <Link to="/signup" className="login__form__link">
                     <p>Pas encore inscrit ? Créez un compte ICI !</p>

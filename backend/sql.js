@@ -7,6 +7,7 @@ const db = mysql.createPool({
   database: 'groupomania'
 });
 
+// AUTHENTIFICATION
 
 const createUser = async (email, username, password, res) => {
     await db.query("SELECT * FROM users WHERE email = ?",[email], (err,result) => {
@@ -77,7 +78,7 @@ const getUserById = async (id) => {
 
 exports.getUserById = getUserById;
 
-
+// POSTS
 
 const createPost = async (post, res) => {
     db.query("INSERT INTO posts (username,title,description,image,date,uid,likes,commentaires) VALUES (?,?,?,?,?,?,?,?);",[post.username,post.title, post.description, post.image ,post.date, post.uid, post.likes, post.commentaires], (err,result) => {
@@ -176,5 +177,33 @@ const updatePostById = async (id, title, description) => {
 }
 
 exports.updatePostById = updatePostById;
+
+
+// COMMENTS
+
+const createComment = async (comment, timestamp, username, postId) => {
+
+    let myPromise = () => {
+        return new Promise ((resolve, reject) => {
+            db.query("INSERT INTO comments (comment,username,date,postId) VALUES (?,?,?,?);",[comment,username,timestamp,postId], (err,result) => {
+
+                if(result.affectedRows !== 0) {
+                    db.query("UPDATE posts SET commentaires = commentaires + 1 WHERE id=?",[postId], (err,result) => {
+                        console.log(result);
+                        resolve(result)
+                    })
+                } else {
+                    reject("Commentaire non créé")
+                }
+            })
+        })
+    }
+
+    let result = await (myPromise());
+
+    return result
+}
+
+exports.createComment = createComment;
 
 
