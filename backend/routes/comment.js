@@ -8,4 +8,7 @@ const auth = require('../middleware/auth');
 // Create
 router.post('/new', auth, commentsCtrl.new);
 
+// Read
+router.post('/get', auth, commentsCtrl.get);
+
 module.exports = router;

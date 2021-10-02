@@ -16,3 +16,13 @@ exports.new = (req,res,next) => {
         })
 };
 
+exports.get = (req,res,next) => {
+    sql.getComments(req.body.postId)
+    .then(comments => {
+    res.status(200).json({comments : comments})
+    })
+    .catch(err => {
+        res.status(200).json({message : 'Aucun commentaire trouvé :/'})
+    })
+    
+};

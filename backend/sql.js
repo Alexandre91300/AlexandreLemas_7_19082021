@@ -206,4 +206,25 @@ const createComment = async (comment, timestamp, username, postId) => {
 
 exports.createComment = createComment;
 
+const getComments = async (postId) => {
+    let myPromise = () => {
+        return new Promise ((resolve, reject) => {
+            db.query("SELECT * FROM comments WHERE postId = ?",[postId], (err,result) => {
+
+                if(result.length !== 0) {
+                    resolve(result)
+                } else {
+                    reject("Aucun commentaires")
+                }
+            })
+        })
+    }
+
+    let result = await (myPromise());
+
+    return result
+}
+
+exports.getComments = getComments;
+
 

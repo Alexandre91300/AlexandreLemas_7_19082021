@@ -88,8 +88,8 @@ const Post = ({post, type}) => {
                         <img className='post__ctn__icon' src={comment} alt='Comment'/>
                         <p className='post__ctn__txtComment'>{post.commentaires} Commentaires</p>
                     </div>
-                    {displayModal ? 
-                    <Modal postId={post.id} callBack={() => {setDisplayModal(false)}} />
+                    {displayModal && post.comments !== 0 ? 
+                    <Modal post={post} callBack={() => {setDisplayModal(false)}} />
                     :
                     null
                     }

@@ -1,59 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Axios from "axios";
 
-const Modal = ({callBack, postId}) => {
+const Modal = ({callBack, post}) => {
     const [comment, setComment] = useState('')
+    const [allComments, setAllComments] = useState([])
 
-    let hour = 3600
+    useEffect(() => {
+        let token = localStorage.getItem('token');
+        let uid = localStorage.getItem('id');
 
-    const fakeDatas = [
-        {
-            username : 'Ilan',
-            comment : 'Ceci est un test',
-            date : Math.floor(Date.now() / 1000) - (hour * 3),
-        },
-        {
-            username : 'Axel',
-            comment : 'Ceci est un test 2',
-            date : Math.floor(Date.now() / 1000) - (hour * 8),
-        },
-        {
-            username : 'Batou',
-            comment : 'Ceci est un test 3',
-            date : Math.floor(Date.now() / 1000) - (hour * 1),
-        },
-        {
-            username : 'Ilan',
-            comment : 'Ceci est un test',
-            date : Math.floor(Date.now() / 1000) - (hour * 3),
-        },
-        {
-            username : 'Axel',
-            comment : 'Ceci est un test 2',
-            date : Math.floor(Date.now() / 1000) - (hour * 8),
-        },
-        {
-            username : 'Batou',
-            comment : 'Ceci est un test 3',
-            date : Math.floor(Date.now() / 1000) - (hour * 1),
-        },
-        {
-            username : 'Ilan',
-            comment : 'Ceci est un test',
-            date : Math.floor(Date.now() / 1000) - (hour * 3),
-        },
-        {
-            username : 'Axel',
-            comment : 'Ceci est un test 2',
-            date : Math.floor(Date.now() / 1000) - (hour * 8),
-        },
-        {
-            username : 'Batou',
-            comment : 'Ceci est un test 3',
-            date : Math.floor(Date.now() / 1000) - (hour * 1),
-        },
-    ]
-    
+        if (token && uid && post.comments !== 0){
+
+            // Send request
+            Axios.post('http://localhost:3000/api/comments/get', {
+                postId : post.id
+            
+            }, {
+                headers: {
+                  authorization: uid + ' ' + token
+                }
+              }) .then(res => {
+                setAllComments(res.data.comments)
+            })
+            .catch(err => {
+                alert(err)
+            })
+        }
+    },[])
+
     // Combien de secondes se sont écoulé depuis la création du commentaire
     const timeConvertor = (timestamp) => {
         
@@ -105,21 +79,28 @@ const Modal = ({callBack, postId}) => {
         let username = localStorage.getItem('username');
         console.log('Submit');
 
+        const commentDatas = {
+            comment : comment,
+            timestamp :  Math.floor(Date.now() / 1000),
+            username : username,
+            postId : post.id
+        }
+
         if (token && uid && username && comment.length !== 0){
 
             // Send request
-            Axios.post('http://localhost:3000/api/comments/new', {
-                comment : comment,
-                timestamp :  Math.floor(Date.now() / 1000),
-                username : username,
-                postId : postId
-            
-            }, {
+            Axios.post('http://localhost:3000/api/comments/new', commentDatas , {
                 headers: {
                   authorization: uid + ' ' + token
                 }
               }) .then(res => {
                 console.log(res.data);
+                setAllComments(allComments => [...allComments, {
+                    comment : comment,
+                    date :  Math.floor(Date.now() / 1000),
+                    username : username,
+                    postId : post.id
+                }])
             })
             .catch(err => {
                 alert(err.response.data.message)
@@ -127,6 +108,8 @@ const Modal = ({callBack, postId}) => {
         }
     }
 
+    console.log('allComments =>');
+    console.log(allComments);
     return(
 
         <div className='modal'>
@@ -137,8 +120,8 @@ const Modal = ({callBack, postId}) => {
                 >X</p>
 
                 <div style={{height: '80%',overflow: "auto"}}>
-                    {
-                        fakeDatas.map((item,index) => {
+                    { allComments ?
+                        allComments.map((item,index) => {
                             return(
                                 <div key={index} className='modal__ctn__comment'>
                                     <p>Par <strong>{item.username}</strong> il y a {timeConvertor(item.date)}</p>
@@ -146,6 +129,8 @@ const Modal = ({callBack, postId}) => {
                                 </div>
                             )
                         })
+                        :
+                        null
                     }
                 </div>
 
