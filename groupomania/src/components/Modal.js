@@ -144,18 +144,22 @@ const Modal = ({callBack, post}) => {
 
     useEffect(() => {
 
-        let sortedComments = allComments.sort(function(a, b) {
-            var keyA = a.date,
-              keyB = b.date;
-            // Compare the 2 dates
-            if (keyA < keyB) return -1;
-            if (keyA > keyB) return 1;
-            return 0;
-          });
-        
-        sortedComments.reverse()
+        if (allComments) {
 
-        setSortedComments(sortedComments)
+            let sortedComments = allComments.sort(function(a, b) {
+                var keyA = a.date,
+                  keyB = b.date;
+                // Compare the 2 dates
+                if (keyA < keyB) return -1;
+                if (keyA > keyB) return 1;
+                return 0;
+              });
+            
+            sortedComments.reverse()
+    
+            setSortedComments(sortedComments)
+        }
+
 
     },[allComments])
     
