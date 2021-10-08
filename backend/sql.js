@@ -181,11 +181,11 @@ exports.updatePostById = updatePostById;
 
 // COMMENTS
 
-const createComment = async (comment, timestamp, username, postId) => {
+const createComment = async (comment, timestamp, username, postId, uid) => {
 
     let myPromise = () => {
         return new Promise ((resolve, reject) => {
-            db.query("INSERT INTO comments (comment,username,date,postId) VALUES (?,?,?,?);",[comment,username,timestamp,postId], (err,result) => {
+            db.query("INSERT INTO comments (comment,username,date,postId,uid) VALUES (?,?,?,?,?);",[comment,username,timestamp,postId,uid], (err,result) => {
 
                 if(result.affectedRows !== 0) {
                     db.query("UPDATE posts SET commentaires = commentaires + 1 WHERE id=?",[postId], (err,result) => {

@@ -7,7 +7,9 @@ exports.new = (req,res,next) => {
         req.body.comment,
         req.body.timestamp,
         req.body.username,
-        req.body.postId)
+        req.body.postId,
+        req.body.uid
+        )
         .then(() => {
             res.status(200).json({message : 'Commentaire créé avec succès !'})
         })

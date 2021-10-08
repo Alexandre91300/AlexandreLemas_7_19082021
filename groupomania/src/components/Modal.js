@@ -83,7 +83,8 @@ const Modal = ({callBack, post}) => {
             comment : comment,
             timestamp :  Math.floor(Date.now() / 1000),
             username : username,
-            postId : post.id
+            postId : post.id,
+            uid : uid
         }
 
         if (token && uid && username && comment.length !== 0){
@@ -99,8 +100,10 @@ const Modal = ({callBack, post}) => {
                     comment : comment,
                     date :  Math.floor(Date.now() / 1000),
                     username : username,
-                    postId : post.id
+                    postId : post.id,
+                    uid : uid
                 }])
+                setComment('')
             })
             .catch(err => {
                 alert(err.response.data.message)
