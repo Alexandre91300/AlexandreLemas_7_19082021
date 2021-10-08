@@ -23,6 +23,19 @@
                 margin: 5px 0;
                 padding-left: 10px;
             }
+
+            &__btn{
+                background-color: $red;
+                color: $secondary;
+                border: 1px solid $red;
+                padding: 5px;
+                margin-bottom: 10px;
+
+                &:hover{
+                    transform: scale(1.1);
+                    cursor: pointer;
+                }
+            }
         }
 
         &__form{

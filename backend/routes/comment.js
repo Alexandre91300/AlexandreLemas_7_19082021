@@ -11,4 +11,7 @@ router.post('/new', auth, commentsCtrl.new);
 // Read
 router.post('/get', auth, commentsCtrl.get);
 
+// Delete
+router.post('/deleteOne', auth, commentsCtrl.deleteOne);
+
 module.exports = router;

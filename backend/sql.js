@@ -140,7 +140,11 @@ const deletePostById = async (id) => {
             db.query("DELETE FROM posts WHERE id = ?",[id], (err,result) => {
 
                 if(result.length !== 0) {
-                    resolve(result)
+
+                    db.query("DELETE FROM comments WHERE postId = ?",[id], (err,result) => {
+                        resolve(result)
+                    })
+
                 } else {
                     reject("Post non trouvé")
                 }
@@ -182,7 +186,6 @@ exports.updatePostById = updatePostById;
 // COMMENTS
 
 const createComment = async (comment, timestamp, username, postId, uid) => {
-
     let myPromise = () => {
         return new Promise ((resolve, reject) => {
             db.query("INSERT INTO comments (comment,username,date,postId,uid) VALUES (?,?,?,?,?);",[comment,username,timestamp,postId,uid], (err,result) => {
@@ -226,5 +229,28 @@ const getComments = async (postId) => {
 }
 
 exports.getComments = getComments;
+
+const deleteSingleComment = async (commentId,postId) => {
+    let myPromise = () => {
+        return new Promise ((resolve, reject) => {
+            db.query("DELETE FROM comments WHERE id = ?",[commentId], (err,result) => {
+
+                if(result.length !== 0) {
+                    db.query("UPDATE posts SET commentaires = commentaires - 1 WHERE id=?",[postId], (err,result) => {
+                        resolve("Commentaire supprimé")
+                    })
+                } else {
+                    reject("Commentaire non trouvé")
+                }
+            })
+        })
+    }
+
+    let result = await (myPromise());
+
+    return result
+}
+
+exports.deleteSingleComment = deleteSingleComment;
 
 

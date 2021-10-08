@@ -28,3 +28,15 @@ exports.get = (req,res,next) => {
     })
     
 };
+
+
+exports.deleteOne = (req,res,next) => {
+    console.log('DELETE COMMENT');
+    sql.deleteSingleComment(req.body.commentId,req.body.postId)
+    .then(response => {
+    res.status(200).json({message : response})
+    })
+    .catch(err => {
+        res.status(200).json({message : 'Aucun commentaire trouvé :/'})
+    })
+};

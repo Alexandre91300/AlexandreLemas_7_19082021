@@ -4,6 +4,11 @@ import Axios from "axios";
 const Modal = ({callBack, post}) => {
     const [comment, setComment] = useState('')
     const [allComments, setAllComments] = useState([])
+    const [sortedComments, setSortedComments] = useState([]);
+
+    let token = localStorage.getItem('token');
+    let uid = localStorage.getItem('id');
+    let username = localStorage.getItem('username');
 
     useEffect(() => {
         let token = localStorage.getItem('token');
@@ -74,11 +79,6 @@ const Modal = ({callBack, post}) => {
 
     const submit = () => {
 
-        let token = localStorage.getItem('token');
-        let uid = localStorage.getItem('id');
-        let username = localStorage.getItem('username');
-        console.log('Submit');
-
         const commentDatas = {
             comment : comment,
             timestamp :  Math.floor(Date.now() / 1000),
@@ -96,13 +96,26 @@ const Modal = ({callBack, post}) => {
                 }
               }) .then(res => {
                 console.log(res.data);
-                setAllComments(allComments => [...allComments, {
-                    comment : comment,
-                    date :  Math.floor(Date.now() / 1000),
-                    username : username,
-                    postId : post.id,
-                    uid : uid
-                }])
+
+                if (allComments) {
+
+                    setAllComments(allComments => [...allComments, {
+                        comment : comment,
+                        date :  Math.floor(Date.now() / 1000),
+                        username : username,
+                        postId : post.id,
+                        uid : uid
+                    }])
+                } else {
+                    setAllComments([{
+                        comment : comment,
+                        date :  Math.floor(Date.now() / 1000),
+                        username : username,
+                        postId : post.id,
+                        uid : uid
+                    }])
+                }
+                    
                 setComment('')
             })
             .catch(err => {
@@ -111,8 +124,41 @@ const Modal = ({callBack, post}) => {
         }
     }
 
-    console.log('allComments =>');
-    console.log(allComments);
+    const deleteComment = (commentId, postId) => {
+        if (token && uid && commentId && postId ){
+
+            // Send request
+            Axios.post('http://localhost:3000/api/comments/deleteOne', {commentId : commentId, postId : postId} , {
+                headers: {
+                  authorization: uid + ' ' + token
+                }
+              }) .then(res => {
+                setAllComments(allComments.filter(item => item.id !== commentId))
+            })
+            .catch(err => {
+                alert(err.response.data.message)
+            })
+        }
+    }
+
+
+    useEffect(() => {
+
+        let sortedComments = allComments.sort(function(a, b) {
+            var keyA = a.date,
+              keyB = b.date;
+            // Compare the 2 dates
+            if (keyA < keyB) return -1;
+            if (keyA > keyB) return 1;
+            return 0;
+          });
+        
+        sortedComments.reverse()
+
+        setSortedComments(sortedComments)
+
+    },[allComments])
+    
     return(
 
         <div className='modal'>
@@ -124,16 +170,23 @@ const Modal = ({callBack, post}) => {
 
                 <div style={{height: '80%',overflow: "auto"}}>
                     { allComments ?
-                        allComments.map((item,index) => {
+                        sortedComments.map((item,index) => {
+                            
                             return(
                                 <div key={index} className='modal__ctn__comment'>
                                     <p>Par <strong>{item.username}</strong> il y a {timeConvertor(item.date)}</p>
                                     <p className='modal__ctn__comment__text'>{item.comment}</p>
+                                    {item.uid ==  uid ?
+                                        <button
+                                        onClick={() => {deleteComment(item.id, post.id )}}
+                                        className='modal__ctn__comment__btn'
+                                        >Supprimer</button>
+                                         : null}
                                 </div>
                             )
                         })
                         :
-                        null
+                        <p>Aucun commentaire</p>
                     }
                 </div>
 
