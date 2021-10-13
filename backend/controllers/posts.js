@@ -23,6 +23,16 @@ exports.new = (req,res,next) => {
     sql.createPost(post, res)
 };
 
+exports.like = (req,res,next) => {
+    sql.like(req.body.postId, req.body.uid)
+    .then((response) => {
+        res.status(201).json({message: response})
+    })
+    .catch((err) => {
+        res.status(201).json({message: err})
+    })
+};
+
 exports.get = (req,res,next) => {
     console.log('Requête reçu');
     

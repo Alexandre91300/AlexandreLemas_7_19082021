@@ -8,6 +8,7 @@ const multer = require('../middleware/multer-config');
 
 // Create
 router.post('/new', auth, multer, postsCtrl.new);
+router.post('/like', auth, postsCtrl.like);
 
 // Read
 router.get('/get',auth, postsCtrl.get);

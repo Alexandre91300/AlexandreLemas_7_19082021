@@ -182,6 +182,71 @@ const updatePostById = async (id, title, description) => {
 
 exports.updatePostById = updatePostById;
 
+const like = async (postId, uid) => {
+
+    let myPromise = () => {
+        return new Promise ((resolve, reject) => {
+            db.query("SELECT * FROM posts WHERE id = ?",[postId], (err,result) => {
+                
+                if(result.length !== 0) {
+                    
+                    let likeHere = result[0].likes.split(' ')
+    
+                    if(!likeHere.find(e => e == uid)){
+
+                        console.log('Like');
+                        // Liké
+                        let newArr = likeHere;
+                        newArr.push(uid.toString());
+                        newArr = newArr.join(' ')
+
+                        db.query("UPDATE posts SET likes = ? WHERE id = ?",[newArr,postId], (err, result) => {
+                            console.log(result.changedRows);
+
+                            if(result.changedRows === 1){
+                                resolve('Liked')
+                            } else {
+                                reject("Erreur, like non modifié :/")
+                            }
+                        })
+                    } else {
+                        // Disliké
+
+                        console.log('Dislike');
+                        
+                        let uidLiked = likeHere.find(e => e == uid);
+
+                        let newArr = likeHere.filter(e => e !== uidLiked );
+                        newArr = newArr.join(' ')
+
+                        db.query("UPDATE posts SET likes = ? WHERE id = ?",[newArr,postId], (err, result) => {
+                            console.log(result.changedRows);
+
+                            if(result.changedRows === 1){
+                                resolve('Disliked')
+                            } else {
+                                reject("Erreur, like non modifié :/")
+                            }
+
+                        })
+
+                    }
+
+
+                } else {
+                    reject("Post non trouvé")
+                }
+            })
+        })
+    }
+
+    let result = await (myPromise());
+
+    return result
+}
+
+exports.like = like;
+
 
 // COMMENTS
 

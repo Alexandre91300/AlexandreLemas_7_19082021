@@ -8,9 +8,8 @@ import Axios from 'axios';
 const Accueil = () => {
     let history = useHistory();
     const [allPosts, setAllPosts] = useState([]);
-
+    
     useEffect(() => {
-
         const token = localStorage.getItem('token');
         const uid = localStorage.getItem('id');
 
