@@ -1,4 +1,5 @@
-import like from '../assets/like.svg';
+import like from '../assets/like.png';
+import likeBlack from '../assets/like-black.png';
 import comment from '../assets/comment.svg';
 import Axios from 'axios';
 import { useHistory } from 'react-router';
@@ -125,7 +126,7 @@ const Post = ({post, type}) => {
                     <div className='post__ctn'>
                         <div onClick={() => toggleLikePost()}>
                         {postLiked ?
-                            <img className='post__ctn__icon' style={{backgroundColor: 'red'}} src={like} alt='Like'/>
+                            <img className='post__ctn__icon' src={likeBlack} alt='Like'/>
                             :
                             <img className='post__ctn__icon' src={like} alt='Like'/>
                             }
