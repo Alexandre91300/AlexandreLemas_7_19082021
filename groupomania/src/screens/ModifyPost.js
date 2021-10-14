@@ -21,7 +21,7 @@ const ModifyPost = () => {
         let token = localStorage.getItem('token');
         let uid = localStorage.getItem('id');
         
-        if (token && uid && location.state.title !== title && location.state.description !== description){
+        if (token && uid && location.state.title !== title || location.state.description !== description){
             
             console.log('Submit');
             let post =  {
