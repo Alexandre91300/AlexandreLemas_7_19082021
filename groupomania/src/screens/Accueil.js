@@ -8,16 +8,14 @@ import Axios from 'axios';
 const Accueil = () => {
     let history = useHistory();
     const [allPosts, setAllPosts] = useState([]);
-
+    
     useEffect(() => {
-
         const token = localStorage.getItem('token');
         const uid = localStorage.getItem('id');
 
         // Get posts
         if (token && uid) {
 
-            console.log('send request');
             // Send request
             Axios.get('http://localhost:3000/api/posts/get', {
               headers: {
@@ -25,8 +23,6 @@ const Accueil = () => {
               }
             }).then(res => {
     
-            console.log(res.data.posts);
-
             if(res.data.posts !== undefined){
 
                 setAllPosts(res.data.posts)
@@ -42,7 +38,10 @@ const Accueil = () => {
     return(
         <>
         <Header/>
-        <button className='accueil__btn' onClick={() => {
+        <button 
+        data-testid='accueil-btn-newPost'
+        className='accueil__btn' 
+        onClick={() => {
             history.push('/newPost')
         }}>Nouveau Post</button>
         <section className='accueil__allPost'>

@@ -7,6 +7,7 @@ const db = mysql.createPool({
   database: 'groupomania'
 });
 
+// AUTHENTIFICATION
 
 const createUser = async (email, username, password, res) => {
     await db.query("SELECT * FROM users WHERE email = ?",[email], (err,result) => {
@@ -77,7 +78,7 @@ const getUserById = async (id) => {
 
 exports.getUserById = getUserById;
 
-
+// POSTS
 
 const createPost = async (post, res) => {
     db.query("INSERT INTO posts (username,title,description,image,date,uid,likes,commentaires) VALUES (?,?,?,?,?,?,?,?);",[post.username,post.title, post.description, post.image ,post.date, post.uid, post.likes, post.commentaires], (err,result) => {
@@ -139,7 +140,11 @@ const deletePostById = async (id) => {
             db.query("DELETE FROM posts WHERE id = ?",[id], (err,result) => {
 
                 if(result.length !== 0) {
-                    resolve(result)
+
+                    db.query("DELETE FROM comments WHERE postId = ?",[id], (err,result) => {
+                        resolve(result)
+                    })
+
                 } else {
                     reject("Post non trouvé")
                 }
@@ -176,5 +181,141 @@ const updatePostById = async (id, title, description) => {
 }
 
 exports.updatePostById = updatePostById;
+
+const like = async (postId, uid) => {
+
+    let myPromise = () => {
+        return new Promise ((resolve, reject) => {
+            db.query("SELECT * FROM posts WHERE id = ?",[postId], (err,result) => {
+                
+                if(result.length !== 0) {
+                    
+                    let likeHere = result[0].likes.split(' ')
+    
+                    if(!likeHere.find(e => e == uid)){
+
+                        console.log('Like');
+                        // Liké
+                        let newArr = likeHere;
+                        newArr.push(uid.toString());
+                        newArr = newArr.join(' ')
+
+                        db.query("UPDATE posts SET likes = ? WHERE id = ?",[newArr,postId], (err, result) => {
+                            console.log(result.changedRows);
+
+                            if(result.changedRows === 1){
+                                resolve('Liked')
+                            } else {
+                                reject("Erreur, like non modifié :/")
+                            }
+                        })
+                    } else {
+                        // Disliké
+
+                        console.log('Dislike');
+                        
+                        let uidLiked = likeHere.find(e => e == uid);
+
+                        let newArr = likeHere.filter(e => e !== uidLiked );
+                        newArr = newArr.join(' ')
+
+                        db.query("UPDATE posts SET likes = ? WHERE id = ?",[newArr,postId], (err, result) => {
+                            console.log(result.changedRows);
+
+                            if(result.changedRows === 1){
+                                resolve('Disliked')
+                            } else {
+                                reject("Erreur, like non modifié :/")
+                            }
+
+                        })
+
+                    }
+
+
+                } else {
+                    reject("Post non trouvé")
+                }
+            })
+        })
+    }
+
+    let result = await (myPromise());
+
+    return result
+}
+
+exports.like = like;
+
+
+// COMMENTS
+
+const createComment = async (comment, timestamp, username, postId, uid) => {
+    let myPromise = () => {
+        return new Promise ((resolve, reject) => {
+            db.query("INSERT INTO comments (comment,username,date,postId,uid) VALUES (?,?,?,?,?);",[comment,username,timestamp,postId,uid], (err,result) => {
+
+                if(result.affectedRows !== 0) {
+                    db.query("UPDATE posts SET commentaires = commentaires + 1 WHERE id=?",[postId], (err,result) => {
+                        console.log(result);
+                        resolve(result)
+                    })
+                } else {
+                    reject("Commentaire non créé")
+                }
+            })
+        })
+    }
+
+    let result = await (myPromise());
+
+    return result
+}
+
+exports.createComment = createComment;
+
+const getComments = async (postId) => {
+    let myPromise = () => {
+        return new Promise ((resolve, reject) => {
+            db.query("SELECT * FROM comments WHERE postId = ?",[postId], (err,result) => {
+
+                if(result.length !== 0) {
+                    resolve(result)
+                } else {
+                    reject("Aucun commentaires")
+                }
+            })
+        })
+    }
+
+    let result = await (myPromise());
+
+    return result
+}
+
+exports.getComments = getComments;
+
+const deleteSingleComment = async (commentId,postId) => {
+    let myPromise = () => {
+        return new Promise ((resolve, reject) => {
+            db.query("DELETE FROM comments WHERE id = ?",[commentId], (err,result) => {
+
+                if(result.length !== 0) {
+                    db.query("UPDATE posts SET commentaires = commentaires - 1 WHERE id=?",[postId], (err,result) => {
+                        resolve("Commentaire supprimé")
+                    })
+                } else {
+                    reject("Commentaire non trouvé")
+                }
+            })
+        })
+    }
+
+    let result = await (myPromise());
+
+    return result
+}
+
+exports.deleteSingleComment = deleteSingleComment;
 
 
