@@ -106,8 +106,14 @@ const Post = ({post, type}) => {
                     <img className='post__image' src={post.image} alt='Comment'/>
                     <p className='post__txt'>{post.username} <span className='post__txt--grey'>le {date}</span></p>
                     <div className='post__ctn'>
-                        <img className='post__ctn__icon' src={like} alt='Like'/>
-                        <p className='post__ctn__txtLike'>{post.likes.length} Like</p>
+                        <div onClick={() => toggleLikePost()}>
+                        {postLiked ?
+                            <img className='post__ctn__icon' src={likeBlack} alt='Like'/>
+                            :
+                            <img className='post__ctn__icon' src={like} alt='Like'/>
+                            }
+                        </div>
+                        <p className='post__ctn__txtLike'>{likeNumber} Like</p>
                     </div>
                     <div className='post__ctn'>
                         <img className='post__ctn__icon' src={comment} alt='Comment'/>
