@@ -8,11 +8,11 @@ import Header from '../components/Header'
 const ModifyPost = () => {
     const history = useHistory();
     const location = useLocation();
-    
+
     const [title, setTitle] = useState(location.state.title);
     const [description, setDescription] = useState(location.state.description);
 
-    if(!location.state){
+    if (!location.state) {
         history.push('/profil')
     }
 
@@ -20,12 +20,11 @@ const ModifyPost = () => {
 
         let token = localStorage.getItem('token');
         let uid = localStorage.getItem('id');
-        
-        if (token && uid && location.state.title !== title && location.state.description !== description){
-            
-            console.log('Submit');
-            let post =  {
-                title: title, 
+
+        if (token && uid && location.state.title !== title || location.state.description !== description) {
+
+            let post = {
+                title: title,
                 description: description,
                 postId: location.state.postId,
             }
@@ -33,50 +32,49 @@ const ModifyPost = () => {
             // Send request
             Axios.post('http://localhost:3000/api/posts/update', post, {
                 headers: {
-                  authorization: uid + ' ' + token
+                    authorization: uid + ' ' + token
                 }
-              }) .then(res => {
-            console.log(res.data);
-            history.push('/profil')
+            }).then(res => {
+                history.goBack()
             })
-            .catch(err => {
-                alert(err.response.data.message)
-            })
+                .catch(err => {
+                    alert(err.response.data.message)
+                })
         } else {
-            history.push('/profil')
+            history.goBack()
         }
     }
 
-    return(
+    return (
         <>
-        <Header/>
-        <section className='newPost'>
-            <h1 className='newPost__title'>Modifier le POST</h1>
-            <form className='newPost__form' onSubmit={e => {
-                e.preventDefault()
-                submit()
-            }}>
-                <input 
-                className='newPost__form__title'
-                type='text' placeholder='Titre (obligatoire)' 
-                value={title} onChange={e => setTitle(e.target.value)} 
-                required/>
+            <Header />
+            <section className='newPost'>
+                <h1 className='newPost__title'>Modifier le POST</h1>
+                <form className='newPost__form' onSubmit={e => {
+                    e.preventDefault()
+                    submit()
+                }}>
+                    <input
+                        className='newPost__form__title'
+                        type='text' placeholder='Titre (obligatoire)'
+                        value={title} onChange={e => setTitle(e.target.value)}
+                        required />
 
-                <textarea 
-                maxLength={280}
-                className='newPost__form__description' 
-                type='text' 
-                placeholder='Description (facultative)' 
-                value={description} 
-                onChange={e => setDescription(e.target.value)}/>
+                    <textarea
+                        maxLength={280}
+                        className='newPost__form__description'
+                        type='text'
+                        placeholder='Description (facultative)'
+                        value={description}
+                        onChange={e => setDescription(e.target.value)} />
 
-                <img style={{width: 400, height: 400, objectFit: 'cover'}} src={location.state.image} />
+                    <img style={{ width: 400, height: 400, objectFit: 'cover' }} src={location.state.image} />
 
-                <button className='newPost__form__submit' type='submit'>Enregistrer les modifications</button>
+                    <button className='newPost__form__submit' type='submit'>Enregistrer les modifications</button>
 
-            </form>
+                </form>
 
-        </section>
+            </section>
         </>
     )
 }

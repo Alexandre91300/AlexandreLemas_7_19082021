@@ -21,10 +21,10 @@ const NewPost = () => {
         let username = localStorage.getItem('username');
         console.log('Submit');
 
-        if (token && uid && username){
+        if (token && uid && username) {
 
-            let post =  {
-                title: title, 
+            let post = {
+                title: title,
                 description: description,
                 date: Math.floor(Date.now() / 1000),
                 uid: uid,
@@ -39,20 +39,20 @@ const NewPost = () => {
             // Send request
             Axios.post('http://localhost:3000/api/posts/new', formData, {
                 headers: {
-                  authorization: uid + ' ' + token
+                    authorization: uid + ' ' + token
                 }
-              }) .then(res => {
-            console.log(res.data);
-            history.push('/')
+            }).then(res => {
+                console.log(res.data);
+                history.goBack()
             })
-            .catch(err => {
-                alert(err.response.data.message)
-            })
+                .catch(err => {
+                    alert(err.response.data.message)
+                })
         }
     }
 
     useEffect(() => {
-        if(image){
+        if (image) {
             let reader = new FileReader();
             reader.onloadend = () => {
                 setPreview(reader.result)
@@ -60,64 +60,64 @@ const NewPost = () => {
             reader.readAsDataURL(image)
         }
 
-    },[image])
+    }, [image])
 
-    return(
+    return (
         <>
-        <Header/>
-        <section className='newPost'>
-            <h1 className='newPost__title'>Nouveau POST</h1>
-            <form className='newPost__form' onSubmit={e => {
-                e.preventDefault()
-                submit()
-            }}>
-                <input 
-                data-testid='input-title'
-                className='newPost__form__title'
-                type='text' placeholder='Titre (obligatoire)' 
-                value={title} onChange={e => setTitle(e.target.value)} 
-                required/>
+            <Header />
+            <section className='newPost'>
+                <h1 className='newPost__title'>Nouveau POST</h1>
+                <form className='newPost__form' onSubmit={e => {
+                    e.preventDefault()
+                    submit()
+                }}>
+                    <input
+                        data-testid='input-title'
+                        className='newPost__form__title'
+                        type='text' placeholder='Titre (obligatoire)'
+                        value={title} onChange={e => setTitle(e.target.value)}
+                        required />
 
-                <textarea 
-                data-testid='input-description'
-                maxLength={280}
-                className='newPost__form__description' 
-                type='text' 
-                placeholder='Description (facultative)' 
-                value={description} 
-                onChange={e => setDescription(e.target.value)}/>
+                    <textarea
+                        data-testid='input-description'
+                        maxLength={280}
+                        className='newPost__form__description'
+                        type='text'
+                        placeholder='Description (facultative)'
+                        value={description}
+                        onChange={e => setDescription(e.target.value)} />
 
-                <div>
+                    <div>
 
-                <input 
-                required
-                style={{marginBottom: 20}}
-                accept='image/*'
-                multiple={false} 
-                type='file' 
-                onChange={e => {
-                    let file = e.target.files[0];
+                        <input
+                            required
+                            style={{ marginBottom: 20 }}
+                            accept='image/*'
+                            multiple={false}
+                            type='file'
+                            onChange={e => {
+                                let file = e.target.files[0];
 
-                    if(file && file.type.substr(0, 5) === 'image'){
-                        setImage(file)
-                    } else {
-                        setImage(null)
+                                if (file && file.type.substr(0, 5) === 'image') {
+                                    setImage(file)
+                                } else {
+                                    setImage(null)
+                                }
+                            }} />
+                    </div>
+
+
+                    {preview !== "" ?
+                        <img style={{ width: 400, height: 400, objectFit: 'cover' }} src={preview} />
+                        :
+                        <div className='newPost__form__fakeImg' />
                     }
-                }}/>
-                </div>
 
+                    <button className='newPost__form__submit' type='submit' >Poster</button>
 
-                {preview !== "" ? 
-                <img style={{width: 400, height: 400, objectFit: 'cover'}} src={preview} />
-                :
-                <div className='newPost__form__fakeImg'/>
-                }
+                </form>
 
-                <button className='newPost__form__submit' type='submit' >Poster</button>
-
-            </form>
-
-        </section>
+            </section>
 
         </>
 
