@@ -93,10 +93,6 @@ const Post = ({ post }) => {
         })
     }
 
-    console.log(post.uid);
-    console.log(uid);
-
-
     return (
         <div className='post'>
             <h2 className='post__title'>{post.title}</h2>
