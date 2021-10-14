@@ -3,13 +3,16 @@
 @import './Utils/variables.scss';
 @import './Utils//mixins.scss';
 
+// Components
 @import './Components/header.scss';
 @import './Components/post.scss';
 @import './Components/modal.scss';
 
+// Screens
 @import './Pages//login.scss';
 @import './Pages/signup.scss';
 @import './Pages/accueil.scss';
 @import './Pages/newPost.scss';
 @import './Pages/profil.scss';
+@import './Pages/setting.scss';
 

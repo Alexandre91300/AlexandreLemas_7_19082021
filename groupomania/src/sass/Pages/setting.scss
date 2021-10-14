@@ -1,0 +1,63 @@
+.setting{
+
+    &__title{
+        text-align: center;
+        margin: 50px 0;
+    }
+
+
+    &__ctn{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &__box{
+            border:  2px solid $red;
+            border-radius: 10px;
+            padding: 20px;
+            width: 500px;
+            color: $red;
+
+            &>h2{
+                width: 100%;
+                text-align: center;
+                font-size: 40px;
+                margin-bottom: 20px;
+            }
+
+            &>p{
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+
+            &__code{
+                color: $blue;
+                font-size: 30px;
+            }
+
+            &>input{
+                padding: 5px;
+                width: 200px;
+            }
+
+            &__btn{
+                color: $secondary;
+                background-color: $red;
+                border: none;
+                width: 100px;
+                height: 30px;
+                margin-left: 20px;
+                cursor: pointer;
+                font-weight: bold;
+
+                &:hover{
+                    transform: scale(1.1);
+                }
+
+                &--grey{
+                    background-color: $grey;
+                }
+            }
+        }
+    }
+}
