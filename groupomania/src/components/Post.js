@@ -5,6 +5,7 @@ import Axios from 'axios';
 import { useHistory } from 'react-router';
 import Modal from './Modal';
 import { useEffect, useState } from 'react';
+import { timeConvertor } from '../utils/timeConvertor';
 
 const Post = ({ post }) => {
     const history = useHistory();
@@ -13,10 +14,6 @@ const Post = ({ post }) => {
     const [postLiked, setPostLiked] = useState(false);
     const [likeNumber, setlikeNumber] = useState(post.likes.split(' ').length);
     const [commentNumber, setCommentNumber] = useState(post.commentaires)
-
-    let date = new Date(post.date * 1000);
-
-    date = date.toISOString().split('T')[0].split('-').reverse().join('/')
 
     const token = localStorage.getItem('token');
     const uid = localStorage.getItem('id');
@@ -120,7 +117,7 @@ const Post = ({ post }) => {
                 null
             }
             <img className='post__image' src={post.image} alt='Comment' />
-            <p className='post__txt'>{post.username} <span className='post__txt--grey'>le {date}</span></p>
+            <p className='post__txt'>{post.username} <span className='post__txt--grey'>il y a {timeConvertor(post.date)}</span></p>
             <div className='post__ctn'>
                 <div onClick={() => toggleLikePost()}>
                     {postLiked ?

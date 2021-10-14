@@ -30,7 +30,7 @@ const Profil = () => {
             }).then(res => {
 
                 if (res.data.posts !== undefined) {
-                    setAllPosts(res.data.posts)
+                    setAllPosts(res.data.posts.reverse())
                 }
             })
                 .catch(err => {
