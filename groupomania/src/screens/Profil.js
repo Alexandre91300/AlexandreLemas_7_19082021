@@ -4,9 +4,11 @@ import Axios from 'axios';
 import Header from "../components/Header";
 import user_black from '../assets/user_black.svg';
 import Post from "../components/Post";
+import { useHistory } from "react-router";
 
 
 const Profil = () => {
+    const history = useHistory();
 
     const [allPosts, setAllPosts] = useState([]);
 
@@ -51,6 +53,12 @@ const Profil = () => {
         <section className="profil__header">
             <img src={user_black} className="profil__header__img" alt='Icon utilisateur'/>
             {username ? <h1 className="profil__header__title">{username}</h1> : <h1 className="profil__header__title">Username introuvable</h1>}
+        <button 
+        data-testid='accueil-btn-newPost'
+        className='accueil__btn' 
+        onClick={() => {
+            history.push('/newPost')
+        }}>Nouveau Post</button>
             <span className="profil__header__line"/>
         </section>
 
