@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import { Link, useHistory } from 'react-router-dom';
 import Axios from 'axios';
@@ -10,7 +10,6 @@ const Login = () => {
 
     const [email, setEmail] = useState('sandy91300@gmail.com');
     const [password, setPassword] = useState('Binksbinks91');
-
     // test.account@gmail.com
     // Azerty123
 
@@ -25,6 +24,30 @@ const Login = () => {
     } else if (button && email.length === 0 && password.length === 0) {
         setButton(false)
     }
+
+
+    useEffect(() => {
+
+        let token = localStorage.getItem('token');
+        let uid = localStorage.getItem('id');
+        if (token && uid) {
+
+            console.log('send request');
+            // Send request
+            Axios.post('http://localhost:3000/api/auth/isUserAuth', { token: token, uid: uid }, {
+                headers: {
+                    authorization: uid + ' ' + token
+                }
+            }).then(res => {
+
+                if (res.data.isAuth) {
+                    history.push('/')
+                }
+
+            })
+        }
+
+    }, [])
 
     const submit = () => {
         // Send request

@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState, useEffect } from 'react'
 import Header from '../components/Header';
 import { Link, useHistory } from 'react-router-dom';
 import PasswordValidator from 'password-validator';
@@ -13,17 +13,17 @@ const SignUp = () => {
     var schema = new PasswordValidator();
 
     schema
-    .is().min(8)                                    // Minimum length 8
-    .is().max(100)                                  // Maximum length 100
-    .has().uppercase()                              // Must have uppercase letters
-    .has().lowercase()                              // Must have lowercase letters
-    .has().digits(1)                                // Must have at least 2 digits
-    .has().not().spaces()                           // Should not have spaces
-    .is().not().oneOf(['Passw0rd', 'Password123']); // Blacklist these values
+        .is().min(8)                                    // Minimum length 8
+        .is().max(100)                                  // Maximum length 100
+        .has().uppercase()                              // Must have uppercase letters
+        .has().lowercase()                              // Must have lowercase letters
+        .has().digits(1)                                // Must have at least 2 digits
+        .has().not().spaces()                           // Should not have spaces
+        .is().not().oneOf(['Passw0rd', 'Password123']); // Blacklist these values
 
-    const [pseudo, setPseudo] = useState ('');
-    const [email, setEmail] = useState ('');
-    const [password, setPassword] = useState ('');
+    const [pseudo, setPseudo] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
     const [errorMessage, setErrorMessage] = useState("");
 
@@ -31,28 +31,51 @@ const SignUp = () => {
 
     const [button, setButton] = useState(false);
 
-    if (!button && pseudo.length > 0  && email.length > 0 && schema.validate(password)) {
+    if (!button && pseudo.length > 0 && email.length > 0 && schema.validate(password)) {
         setButton(true)
-    } else if (button  && pseudo.length > 0  && email.length === 0 && password.length === 0) {
+    } else if (button && pseudo.length > 0 && email.length === 0 && password.length === 0) {
         setButton(false)
     }
 
+    useEffect(() => {
+
+        let token = localStorage.getItem('token');
+        let uid = localStorage.getItem('id');
+        if (token && uid) {
+
+            console.log('send request');
+            // Send request
+            Axios.post('http://localhost:3000/api/auth/isUserAuth', { token: token, uid: uid }, {
+                headers: {
+                    authorization: uid + ' ' + token
+                }
+            }).then(res => {
+
+                if (res.data.isAuth) {
+                    history.push('/')
+                }
+
+            })
+        }
+
+    }, [])
+
     const submit = () => {
         // Send request
-        Axios.post('http://localhost:3000/api/auth/signup', {username: pseudo, email: email, password: password})
-        .then(res => {
-        console.log(res.data.message);
-        // ACTION
+        Axios.post('http://localhost:3000/api/auth/signup', { username: pseudo, email: email, password: password })
+            .then(res => {
+                console.log(res.data.message);
+                // ACTION
 
-        history.push('/login')
- 
+                history.push('/login')
 
-        })
-        .catch(err => {
-            console.error(err.response.data.message);
-            setErrorMessage(err.response.data.message)
 
-        })
+            })
+            .catch(err => {
+                console.error(err.response.data.message);
+                setErrorMessage(err.response.data.message)
+
+            })
     }
 
     const displayVerif = (e) => {
@@ -62,59 +85,59 @@ const SignUp = () => {
                     setInputFocus(true)
                 }
                 break;
-        
+
             case 'unFocus':
                 if (inputFocus) {
                     setInputFocus(false)
                 }
                 break;
-        
+
             default:
                 break;
         }
     }
 
-    return(
+    return (
         <>
-        <Header type='signup' />
-        <section className="signup">
-            <h1 className="signup__title">INSCRIPTION</h1>
+            <Header type='signup' />
+            <section className="signup">
+                <h1 className="signup__title">INSCRIPTION</h1>
 
-            <form className='signup__form' onSubmit={ (e) => {
-                e.preventDefault();
-                submit()
-            }}>
-                { errorMessage.length !== 0 ?
-                    <span className='signup__form__error'>{errorMessage}</span>
-                : null
-                }
-                <input placeholder="Pseudo" value={pseudo} className='signup__form__inp' type='text' onChange={e => setPseudo(e.target.value)}/>
-                <input placeholder="E-mail" value={email} className='signup__form__inp' type='email' onChange={e => setEmail(e.target.value)}/>
-                <input placeholder="Mot de passe" value={password} className='signup__form__inp' type='password' onFocus={() => {displayVerif('focus')}} onBlur={() => {displayVerif('unFocus')}} onChange={e => setPassword(e.target.value)}/>
+                <form className='signup__form' onSubmit={(e) => {
+                    e.preventDefault();
+                    submit()
+                }}>
+                    {errorMessage.length !== 0 ?
+                        <span className='signup__form__error'>{errorMessage}</span>
+                        : null
+                    }
+                    <input placeholder="Pseudo" value={pseudo} className='signup__form__inp' type='text' onChange={e => setPseudo(e.target.value)} />
+                    <input placeholder="E-mail" value={email} className='signup__form__inp' type='email' onChange={e => setEmail(e.target.value)} />
+                    <input placeholder="Mot de passe" value={password} className='signup__form__inp' type='password' onFocus={() => { displayVerif('focus') }} onBlur={() => { displayVerif('unFocus') }} onChange={e => setPassword(e.target.value)} />
 
-                { inputFocus ?
-                    <div className="signup__form__verif">
-                        {password.length >= 8 && password.length <= 100 ? <p style={{backgroundColor : 'black',color: 'white' }}>8 - 100</p> : <p>8 - 100</p>}
-                        {/[a-z]/.test(password) ? <p style={{backgroundColor : 'black',color: 'white' }}>minuscule</p> : <p>minuscule</p>}
-                        {/[A-Z]/.test(password) ? <p style={{backgroundColor : 'black',color: 'white' }}>MAJUSCULE</p> : <p>MAJUSCULE</p>}
-                        {/[0-9]/.test(password) ? <p style={{backgroundColor : 'black',color: 'white' }}>Chiffre</p> : <p>Chiffre</p>}
-                    </div>
-                    :
-                    null
-                }
-                
+                    {inputFocus ?
+                        <div className="signup__form__verif">
+                            {password.length >= 8 && password.length <= 100 ? <p style={{ backgroundColor: 'black', color: 'white' }}>8 - 100</p> : <p>8 - 100</p>}
+                            {/[a-z]/.test(password) ? <p style={{ backgroundColor: 'black', color: 'white' }}>minuscule</p> : <p>minuscule</p>}
+                            {/[A-Z]/.test(password) ? <p style={{ backgroundColor: 'black', color: 'white' }}>MAJUSCULE</p> : <p>MAJUSCULE</p>}
+                            {/[0-9]/.test(password) ? <p style={{ backgroundColor: 'black', color: 'white' }}>Chiffre</p> : <p>Chiffre</p>}
+                        </div>
+                        :
+                        null
+                    }
 
-                <Link to="/login" className="signup__form__link">
-                    <p>Déjà inscrit ? Connectez-vous ICI !</p>
-                </Link>
 
-                { button ?
-                    <button className='signup__form__btn' type='submit'>S'inscrire</button>
-                :
-                    <button className='signup__form__btn--disabled' disabled={true} type='submit'>S'inscrire</button>
-                }
-            </form>
-        </section>
+                    <Link to="/login" className="signup__form__link">
+                        <p>Déjà inscrit ? Connectez-vous ICI !</p>
+                    </Link>
+
+                    {button ?
+                        <button className='signup__form__btn' type='submit'>S'inscrire</button>
+                        :
+                        <button className='signup__form__btn--disabled' disabled={true} type='submit'>S'inscrire</button>
+                    }
+                </form>
+            </section>
         </>
 
     )
