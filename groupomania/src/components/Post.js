@@ -12,6 +12,7 @@ const Post = ({ post }) => {
     const [displayModal, setDisplayModal] = useState(false)
     const [postLiked, setPostLiked] = useState(false);
     const [likeNumber, setlikeNumber] = useState(post.likes.split(' ').length);
+    const [commentNumber, setCommentNumber] = useState(post.commentaires)
 
     let date = new Date(post.date * 1000);
 
@@ -26,8 +27,6 @@ const Post = ({ post }) => {
             setPostLiked(true)
         }
 
-        console.log(post.likes.split(' '));
-
         if (post.likes.split(' ')[0] === '0') {
             setlikeNumber(likeNumber - 1)
         }
@@ -35,7 +34,6 @@ const Post = ({ post }) => {
     }, [])
 
     const deletePost = () => {
-        console.log('Delete post');
 
         let imageUrl = post.image;
 
@@ -56,7 +54,6 @@ const Post = ({ post }) => {
     }
 
     const toggleLikePost = () => {
-        console.log('Like post');
 
         if (token && uid && postId) {
 
@@ -93,6 +90,23 @@ const Post = ({ post }) => {
         })
     }
 
+    const modalCallback = (e) => {
+        switch (e) {
+
+            case 'incrementComment':
+                setCommentNumber(commentNumber + 1)
+                break;
+
+            case 'decrementComment':
+                setCommentNumber(commentNumber - 1)
+                break;
+
+            default:
+                setDisplayModal(false)
+                break;
+        }
+    }
+
     return (
         <div className='post'>
             <h2 className='post__title'>{post.title}</h2>
@@ -119,10 +133,10 @@ const Post = ({ post }) => {
             </div>
             <div className='post__ctn' onClick={() => setDisplayModal(true)}>
                 <img className='post__ctn__icon' src={comment} alt='Comment' />
-                <p className='post__ctn__txtComment'>{post.commentaires} Commentaires</p>
+                <p className='post__ctn__txtComment'>{commentNumber} Commentaires</p>
             </div>
             {displayModal && post.comments !== 0 ?
-                <Modal post={post} callBack={() => { setDisplayModal(false) }} />
+                <Modal post={post} callBack={(e) => { modalCallback(e) }} />
                 :
                 null
             }

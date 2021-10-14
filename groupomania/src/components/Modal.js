@@ -11,6 +11,8 @@ const Modal = ({ callBack, post }) => {
     let uid = localStorage.getItem('id');
     let username = localStorage.getItem('username');
 
+
+
     useEffect(() => {
         let token = localStorage.getItem('token');
         let uid = localStorage.getItem('id');
@@ -97,9 +99,11 @@ const Modal = ({ callBack, post }) => {
                 }
             }).then(res => {
 
+                callBack('incrementComment')
                 setReload(reload + 1)
 
                 setComment('')
+
             })
                 .catch(err => {
                     alert(err.response.data.message)
@@ -115,7 +119,8 @@ const Modal = ({ callBack, post }) => {
                     authorization: uid + ' ' + token
                 }
             }).then(res => {
-                console.log(allComments.filter(item => item.id !== commentId));
+                callBack('decrementComment')
+
                 setAllComments(allComments.filter(item => item.id !== commentId))
             })
                 .catch(err => {

@@ -14,10 +14,6 @@ const Profil = () => {
 
     const username = localStorage.getItem('username')
 
-    console.log('username =>');
-    console.log(username);
-
-
     useEffect(() => {
 
         const token = localStorage.getItem('token');
@@ -26,7 +22,6 @@ const Profil = () => {
         // Get posts
         if (token && uid) {
 
-            console.log('send request');
             // Send request
             Axios.post('http://localhost:3000/api/posts/getByUid', { uid: uid }, {
                 headers: {
@@ -34,10 +29,7 @@ const Profil = () => {
                 }
             }).then(res => {
 
-                console.log(res.data.posts);
-
                 if (res.data.posts !== undefined) {
-
                     setAllPosts(res.data.posts)
                 }
             })
