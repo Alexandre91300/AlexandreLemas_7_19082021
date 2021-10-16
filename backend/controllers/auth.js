@@ -97,3 +97,12 @@ exports.deleteDatas = (req, res, next) => {
 
     })
 };
+
+exports.deleteAccount = (req, res, next) => {
+    sql.deleteAccount(req.body.uid).then(() => {
+        res.status(201).json({ message: 'Delete account !' })
+    }).catch(() => {
+        res.status(201).json({ message: 'Problème de suppression :/' })
+    })
+};
+

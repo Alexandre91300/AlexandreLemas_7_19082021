@@ -87,7 +87,7 @@ const deleteDatas = async (uid) => {
         return new Promise((resolve, reject) => {
             db.query("DELETE FROM posts WHERE uid = ?", [uid], (err, result) => {
                 db.query("DELETE FROM comments WHERE uid = ?", [uid], (err, result) => {
-                    resolve(result[0])
+                    resolve()
                 })
             })
         })
@@ -99,6 +99,30 @@ const deleteDatas = async (uid) => {
 }
 
 exports.deleteDatas = deleteDatas;
+
+const deleteAccount = async (uid) => {
+
+    // Supprimer les posts et commentaires
+
+    let myPromise = () => {
+        return new Promise((resolve, reject) => {
+            db.query("DELETE FROM users WHERE id = ?", [uid], (err, result) => {
+                deleteDatas(uid).then(() => {
+                    resolve()
+                }).catch(() => {
+                    reject()
+                })
+            })
+        })
+    }
+
+    let result = await (myPromise());
+
+    return result
+}
+
+exports.deleteAccount = deleteAccount;
+
 // POSTS
 
 const createPost = async (post, res) => {

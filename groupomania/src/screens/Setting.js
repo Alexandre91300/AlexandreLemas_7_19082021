@@ -10,6 +10,9 @@ const Setting = () => {
     const [code, setCode] = useState(null);
     const [input, setInput] = useState('');
 
+    const token = localStorage.getItem('token');
+    const uid = localStorage.getItem('id');
+
     const generateCode = (length) => {
         var result = '';
         var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -22,14 +25,10 @@ const Setting = () => {
     }
 
     useEffect(() => {
-        setCode(generateCode(1))
+        setCode(generateCode(10))
     }, [])
 
     const deleteAllPosts = () => {
-        const token = localStorage.getItem('token');
-        const uid = localStorage.getItem('id');
-
-        // Get posts
         if (token && uid) {
 
             // Send request
@@ -39,15 +38,27 @@ const Setting = () => {
                 }
             }).then(res => {
                 history.push('/profil')
+            }).catch(err => {
+                console.log(err);
             })
-                .catch(err => {
-                    console.log(err);
-                })
         }
     }
 
     const deleteAccount = () => {
-        alert('Delete Account')
+        if (token && uid) {
+
+            // Send request
+            Axios.post('http://localhost:3000/api/auth/deleteAccount', { uid: uid }, {
+                headers: {
+                    authorization: uid + ' ' + token
+                }
+            }).then(res => {
+                localStorage.clear();
+                document.location.reload();
+            }).catch(err => {
+                console.log(err);
+            })
+        }
     }
 
 

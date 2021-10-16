@@ -8,8 +8,8 @@ const Login = () => {
 
     const history = useHistory()
 
-    const [email, setEmail] = useState('sandy91300@gmail.com');
-    const [password, setPassword] = useState('Binksbinks91');
+    const [email, setEmail] = useState('tEsT2@gmail.com');
+    const [password, setPassword] = useState('Azerty123');
     // test.account@gmail.com
     // Azerty123
 
