@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
 import Header from "../components/Header";
+import Axios from 'axios'
 
 const Setting = () => {
+
+    const history = useHistory();
 
     const [code, setCode] = useState(null);
     const [input, setInput] = useState('');
@@ -18,11 +22,28 @@ const Setting = () => {
     }
 
     useEffect(() => {
-        setCode(generateCode(1))
+        setCode(generateCode(10))
     }, [])
 
     const deleteAllPosts = () => {
-        alert('DELETE')
+        const token = localStorage.getItem('token');
+        const uid = localStorage.getItem('id');
+
+        // Get posts
+        if (token && uid) {
+
+            // Send request
+            Axios.post('http://localhost:3000/api/auth/deleteDatas', { uid: uid }, {
+                headers: {
+                    authorization: uid + ' ' + token
+                }
+            }).then(res => {
+                history.push('/profil')
+            })
+                .catch(err => {
+                    console.log(err);
+                })
+        }
     }
 
 
