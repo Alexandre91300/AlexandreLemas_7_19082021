@@ -22,7 +22,7 @@ const Setting = () => {
     }
 
     useEffect(() => {
-        setCode(generateCode(10))
+        setCode(generateCode(1))
     }, [])
 
     const deleteAllPosts = () => {
@@ -46,6 +46,10 @@ const Setting = () => {
         }
     }
 
+    const deleteAccount = () => {
+        alert('Delete Account')
+    }
+
 
     return (
         <>
@@ -59,6 +63,17 @@ const Setting = () => {
                     <p>Attention, cette action est irréversible !</p>
 
                     <p>En effectuant cette action, vous allez supprimer tous vos posts ainsi que tous vos commentaires.</p>
+
+                    <button onClick={() => deleteAllPosts()} className='setting__ctn__box__btn'>Supprimer</button>
+
+                </section>
+
+                <section className='setting__ctn__box'>
+                    <h2>Supprimer mon compte</h2>
+
+                    <p>Attention, cette action est irréversible !</p>
+
+                    <p>En effectuant cette action, vous allez supprimer votre compte et vos données.</p>
 
                     <p>Merci de saisir le code indiqué en bleu ci-dessous, afin de déverrouiller le bouton de suppression.</p>
 
@@ -74,7 +89,7 @@ const Setting = () => {
                     />
 
                     {input === code ?
-                        <button onClick={() => deleteAllPosts()} className='setting__ctn__box__btn'>Supprimer</button>
+                        <button onClick={() => deleteAccount()} className='setting__ctn__box__btn'>Supprimer</button>
                         :
                         <button
                             className='setting__ctn__box__btn setting__ctn__box__btn--grey'
