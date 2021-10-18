@@ -1,3 +1,4 @@
+const fs = require('fs');
 const mysql = require('mysql');
 
 const db = mysql.createPool({
@@ -85,9 +86,22 @@ const deleteDatas = async (uid) => {
 
     let myPromise = () => {
         return new Promise((resolve, reject) => {
-            db.query("DELETE FROM posts WHERE uid = ?", [uid], (err, result) => {
-                db.query("DELETE FROM comments WHERE uid = ?", [uid], (err, result) => {
-                    resolve()
+            getPostsByUid(uid).then(posts => {
+
+                // Delete images
+                posts.map(item => {
+                    console.log(item.image);
+                    let filename = item.image.split('/images/')[1];
+
+                    fs.unlink(`images/${filename}`, () => {
+                        console.log('Image supprimé avec succès !');
+                    })
+                })
+
+                db.query("DELETE FROM posts WHERE uid = ?", [uid], (err, result) => {
+                    db.query("DELETE FROM comments WHERE uid = ?", [uid], (err, result) => {
+                        resolve()
+                    })
                 })
             })
         })
