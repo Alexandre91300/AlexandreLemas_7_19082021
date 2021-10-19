@@ -8,15 +8,15 @@ const Modal = ({ callBack, post }) => {
     const [sortedComments, setSortedComments] = useState([]);
     const [reload, setReload] = useState(0)
 
-    let token = localStorage.getItem('token');
-    let uid = localStorage.getItem('id');
-    let username = localStorage.getItem('username');
-
-
+    const token = localStorage.getItem('token');
+    const uid = localStorage.getItem('id');
+    const username = localStorage.getItem('username');
+    const adminId = 31;
 
     useEffect(() => {
         let token = localStorage.getItem('token');
         let uid = localStorage.getItem('id');
+
 
         if (token && uid && post.comments !== 0) {
 
@@ -125,7 +125,7 @@ const Modal = ({ callBack, post }) => {
                                 <div key={index} className='modal__ctn__comment'>
                                     <p>Par <strong>{item.username}</strong> il y a {timeConvertor(item.date)}</p>
                                     <p className='modal__ctn__comment__text'>{item.comment}</p>
-                                    {item.uid == uid ?
+                                    {item.uid == uid || uid == adminId ?
                                         <button
                                             onClick={() => { deleteComment(item.id, post.id) }}
                                             className='modal__ctn__comment__btn'
