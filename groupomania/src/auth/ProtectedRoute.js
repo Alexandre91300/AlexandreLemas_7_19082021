@@ -13,33 +13,35 @@ const ProtectedRoute = ({ component: Component, ...restOfProps }) => {
 
     if (token && uid) {
 
-        console.log('send request');
-        // Send request
-        Axios.post('http://localhost:3000/api/auth/isUserAuth', {token: token, uid: uid}, {
-          headers: {
-            authorization: uid + ' ' + token
-          }
-        }).then(res => {
+      // Send request
+      Axios.post('http://localhost:3000/api/auth/isUserAuth', { token: token, uid: uid }, {
+        headers: {
+          authorization: uid + ' ' + token
+        }
+      }).then(res => {
 
-          localStorage.setItem('username',res.data.username)
+        localStorage.setItem('username', res.data.username)
+
 
         if (res.data.isAuth) {
-            console.log('User connected');
-            setIsAuthenticated(true)
-            setLoading(false)
+          console.log('User connected');
+          setIsAuthenticated(true)
+          setLoading(false)
+        } else {
+          console.log('User disconnected');
+          localStorage.clear()
         }
-  
-        })
-        .catch(err => {
-            setLoading(false)
-        })
-    } else {
+
+      }).catch(err => {
         setLoading(false)
+      })
+    } else {
+      setLoading(false)
     }
 
-  }, [token,uid])
+  }, [token, uid])
 
-  if(loading){
+  if (loading) {
     return <>Loading...</>
   }
 

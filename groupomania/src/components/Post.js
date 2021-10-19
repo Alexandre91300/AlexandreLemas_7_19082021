@@ -18,6 +18,7 @@ const Post = ({ post }) => {
     const token = localStorage.getItem('token');
     const uid = localStorage.getItem('id');
     const postId = post.id;
+    const adminId = 31;
 
     useEffect(() => {
         if (post.likes.split(' ').find(e => e === uid)) {
@@ -108,7 +109,7 @@ const Post = ({ post }) => {
         <div className='post'>
             <h2 className='post__title'>{post.title}</h2>
             <p className='post__description'>{post.description}</p>
-            {uid == post.uid ?
+            {uid == post.uid || uid == adminId ?
                 <div>
                     <button className='post__deleteBtn' onClick={() => deletePost()} >Supprimer</button>
                     <button className='post__modifyBtn' onClick={() => modifyPost()} >Modifier</button>

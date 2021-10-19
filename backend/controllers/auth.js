@@ -84,7 +84,10 @@ exports.isUserAuth = (req, res, next) => {
         .then(user => {
             res.status(201).json({ isAuth: true, username: user.username })
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+            res.status(201).json({ isAuth: false })
+
+        })
 
 };
 
