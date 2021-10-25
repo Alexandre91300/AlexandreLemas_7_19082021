@@ -1,3 +1,5 @@
+// Les différents headers de l'app
+
 import React from 'react';
 import logo_white from '../assets/logo_white.svg';
 import user_white from '../assets/user_white.svg';

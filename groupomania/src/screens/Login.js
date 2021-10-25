@@ -6,8 +6,8 @@ import Axios from "axios";
 const Login = () => {
     const history = useHistory();
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("account-1@test.com");
+    const [password, setPassword] = useState("Azerty123");
 
     // ADMIN 
     // E-mail : admin.accout@groupomania.com

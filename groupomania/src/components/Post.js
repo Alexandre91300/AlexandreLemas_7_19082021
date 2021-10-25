@@ -1,11 +1,14 @@
+import Axios from 'axios';
+import { useHistory } from 'react-router';
+import { useEffect, useState } from 'react';
+import { timeConvertor } from '../utils/timeConvertor';
+
+import Modal from './Modal';
+import { deletePost, toggleLikePost } from '../api/Post';
 import like from '../assets/like.png';
 import likeBlack from '../assets/like-black.png';
 import comment from '../assets/comment.svg';
-import Axios from 'axios';
-import { useHistory } from 'react-router';
-import Modal from './Modal';
-import { useEffect, useState } from 'react';
-import { timeConvertor } from '../utils/timeConvertor';
+
 
 const Post = ({ post }) => {
     const history = useHistory();
@@ -15,7 +18,6 @@ const Post = ({ post }) => {
     const [likeNumber, setlikeNumber] = useState(post.likes.split(' ').length);
     const [commentNumber, setCommentNumber] = useState(post.commentaires)
 
-    const token = localStorage.getItem('token');
     const uid = localStorage.getItem('id');
     const postId = post.id;
     const adminId = 31;
@@ -31,49 +33,29 @@ const Post = ({ post }) => {
 
     }, [])
 
-    const deletePost = () => {
-
-        let imageUrl = post.image;
-
-        if (token && uid && postId && imageUrl) {
-
-            // Send request
-            Axios.post('http://localhost:3000/api/posts/delete', { postId: postId, imageUrl: imageUrl }, {
-                headers: {
-                    authorization: uid + ' ' + token
-                }
-            }).then(res => {
+    const handleDeletePost = () => {
+        deletePost(postId, post.image)
+            .then(res => {
                 window.location.reload()
+            }).catch(err => {
+                alert(err)
             })
-                .catch(err => {
-                    console.log(err.response.data.message)
-                })
-        }
+
     }
 
-    const toggleLikePost = () => {
+    const handleToggleLikePost = () => {
+        toggleLikePost(postId).then(() => {
+            setPostLiked(!postLiked)
 
-        if (token && uid && postId) {
+            if (!postLiked) {
+                setlikeNumber(likeNumber + 1)
+            } else {
+                setlikeNumber(likeNumber - 1)
+            }
 
-            // Send request
-            Axios.post('http://localhost:3000/api/posts/like', { postId: postId, uid: uid }, {
-                headers: {
-                    authorization: uid + ' ' + token
-                }
-            }).then(res => {
-                setPostLiked(!postLiked)
-
-                if (!postLiked) {
-                    setlikeNumber(likeNumber + 1)
-                } else {
-                    setlikeNumber(likeNumber - 1)
-                }
-
-            })
-                .catch(err => {
-                    console.log(err.response.data.message)
-                })
-        }
+        }).catch(err => {
+            alert(err)
+        })
     }
 
     const modifyPost = () => {
@@ -111,7 +93,7 @@ const Post = ({ post }) => {
             <p className='post__description'>{post.description}</p>
             {uid == post.uid || uid == adminId ?
                 <div>
-                    <button className='post__deleteBtn' onClick={() => deletePost()} >Supprimer</button>
+                    <button className='post__deleteBtn' onClick={() => handleDeletePost()} >Supprimer</button>
                     <button className='post__modifyBtn' onClick={() => modifyPost()} >Modifier</button>
                 </div>
                 :
@@ -120,7 +102,7 @@ const Post = ({ post }) => {
             <img className='post__image' src={post.image} alt='Comment' />
             <p className='post__txt'>{post.username} <span className='post__txt--grey'>il y a {timeConvertor(post.date)}</span></p>
             <div className='post__ctn'>
-                <div onClick={() => toggleLikePost()}>
+                <div onClick={() => handleToggleLikePost()}>
                     {postLiked ?
                         <img className='post__ctn__icon' src={likeBlack} alt='Like' />
                         :

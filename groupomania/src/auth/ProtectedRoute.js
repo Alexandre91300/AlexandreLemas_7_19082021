@@ -1,48 +1,49 @@
+// Vérification de l'authentification de l'utilisateur
+
 import React, { useEffect, useState } from "react";
 import { Redirect, Route } from "react-router-dom";
-import Axios from 'axios';
+import Axios from "axios";
 
 const ProtectedRoute = ({ component: Component, ...restOfProps }) => {
-
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const [loading, setLoading] = useState(true)
-  const token = localStorage.getItem('token');
-  const uid = localStorage.getItem('id');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const token = localStorage.getItem("token");
+  const uid = localStorage.getItem("id");
 
   useEffect(() => {
-
     if (token && uid) {
-
       // Send request
-      Axios.post('http://localhost:3000/api/auth/isUserAuth', { token: token, uid: uid }, {
-        headers: {
-          authorization: uid + ' ' + token
+      Axios.post(
+        "http://localhost:3000/api/auth/isUserAuth",
+        { token: token, uid: uid },
+        {
+          headers: {
+            authorization: uid + " " + token,
+          },
         }
-      }).then(res => {
+      )
+        .then((res) => {
+          localStorage.setItem("username", res.data.username);
 
-        localStorage.setItem('username', res.data.username)
-
-
-        if (res.data.isAuth) {
-          console.log('User connected');
-          setIsAuthenticated(true)
-          setLoading(false)
-        } else {
-          console.log('User disconnected');
-          localStorage.clear()
-        }
-
-      }).catch(err => {
-        setLoading(false)
-      })
+          if (res.data.isAuth) {
+            console.log("User connected");
+            setIsAuthenticated(true);
+            setLoading(false);
+          } else {
+            console.log("User disconnected");
+            localStorage.clear();
+          }
+        })
+        .catch((err) => {
+          setLoading(false);
+        });
     } else {
-      setLoading(false)
+      setLoading(false);
     }
-
-  }, [token, uid])
+  }, [token, uid]);
 
   if (loading) {
-    return <>Loading...</>
+    return <>Loading...</>;
   }
 
   return (
@@ -53,6 +54,6 @@ const ProtectedRoute = ({ component: Component, ...restOfProps }) => {
       }
     />
   );
-}
+};
 
 export default ProtectedRoute;

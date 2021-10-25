@@ -1,3 +1,5 @@
+// Modal d'affichages des commentaires
+
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import { timeConvertor } from "../utils/timeConvertor";
@@ -35,7 +37,7 @@ const Modal = ({ callBack, post }) => {
                     alert(err)
                 })
         }
-    }, [reload])
+    }, [post.comments, post.id, reload])
 
 
     const submit = () => {
