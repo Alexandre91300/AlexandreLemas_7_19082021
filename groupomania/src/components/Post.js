@@ -1,4 +1,3 @@
-import Axios from 'axios';
 import { useHistory } from 'react-router';
 import { useEffect, useState } from 'react';
 import { timeConvertor } from '../utils/timeConvertor';
@@ -72,7 +71,6 @@ const Post = ({ post }) => {
 
     const modalCallback = (e) => {
         switch (e) {
-
             case 'incrementComment':
                 setCommentNumber(commentNumber + 1)
                 break;

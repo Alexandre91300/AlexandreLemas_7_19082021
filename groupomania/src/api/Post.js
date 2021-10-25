@@ -42,3 +42,24 @@ export const toggleLikePost = async (postId) => {
         throw TypeError("Il manque le post ID en argument");
     }
 }
+
+export const modifyPost = async (title, description, postId) => {
+
+    let post = {
+        title: title,
+        description: description,
+        postId: postId,
+    }
+
+    // Send request
+    Axios.post('http://localhost:3000/api/posts/update', post, {
+        headers: {
+            authorization: uid + ' ' + token
+        }
+    }).then(() => {
+        return;
+    }).catch(err => {
+        throw TypeError(err.response.data.message)
+    })
+
+}
