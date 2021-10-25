@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import Axios from 'axios';
-
 import Header from '../components/Header'
+import { createPost } from '../api/Post';
 
 const NewPost = () => {
     const history = useHistory()
@@ -15,40 +14,13 @@ const NewPost = () => {
     const [preview, setPreview] = useState('')
 
     const submit = () => {
-
-        let token = localStorage.getItem('token');
-        let uid = localStorage.getItem('id');
-        let username = localStorage.getItem('username');
-        console.log('Submit');
-
-        if (token && uid && username) {
-
-            let post = {
-                title: title,
-                description: description,
-                date: Math.floor(Date.now() / 1000),
-                uid: uid,
-                username: username
-            }
-
-            const formData = new FormData()
-
-            formData.append('post', JSON.stringify(post));
-            formData.append('image', image);
-
-            // Send request
-            Axios.post('http://localhost:3000/api/posts/new', formData, {
-                headers: {
-                    authorization: uid + ' ' + token
-                }
-            }).then(res => {
-                console.log(res.data);
+        createPost(title, description, image)
+            .then(() => {
                 history.goBack()
             })
-                .catch(err => {
-                    alert(err.response.data.message)
-                })
-        }
+            .catch(err => {
+                alert(err)
+            })
     }
 
     useEffect(() => {

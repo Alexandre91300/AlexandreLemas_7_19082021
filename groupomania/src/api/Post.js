@@ -2,6 +2,36 @@ import Axios from 'axios';
 
 const token = localStorage.getItem('token');
 const uid = localStorage.getItem('id');
+const username = localStorage.getItem('username');
+
+export const createPost = async (title, description, image) => {
+
+    let post = {
+        title: title,
+        description: description,
+        date: Math.floor(Date.now() / 1000),
+        uid: uid,
+        username: username
+    }
+
+    const formData = new FormData()
+
+    formData.append('post', JSON.stringify(post));
+    formData.append('image', image);
+
+    // Send request
+    Axios.post('http://localhost:3000/api/posts/new', formData, {
+        headers: {
+            authorization: uid + ' ' + token
+        }
+    })
+        .then(res => {
+            return res.data;
+        })
+        .catch(err => {
+            throw TypeError(err.response.data.message);
+        })
+}
 
 
 export const deletePost = async (postId, imageUrl) => {
