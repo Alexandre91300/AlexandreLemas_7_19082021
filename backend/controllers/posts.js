@@ -1,6 +1,7 @@
+/* LOGIQUE DE GESTION DES REQUETES POST */
+
 const sql = require('../sql');
 const fs = require('fs');
-
 
 exports.new = (req, res, next) => {
     let request = JSON.parse(req.body.post);

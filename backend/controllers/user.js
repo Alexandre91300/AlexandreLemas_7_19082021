@@ -1,4 +1,4 @@
-/* LOGIQUE DES REQUETES D'AUTHENTIFICATION */
+/* LOGIQUE DE GESTION DES REQUETES USER */
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -28,9 +28,6 @@ const encrypt = (string) => {
     const enc = CryptoJS.AES.encrypt(string, keyutf, { iv: iv });
     return enc.toString();
 }
-
-// POST
-/******/
 
 exports.signUp = (req, res, next) => {
 
@@ -73,7 +70,6 @@ exports.login = (req, res, next) => {
             console.log(err);
             res.status(400).json({ message: err })
         })
-
 };
 
 exports.isUserAuth = (req, res, next) => {
@@ -89,7 +85,6 @@ exports.isUserAuth = (req, res, next) => {
         })
 
 };
-
 
 exports.deleteDatas = (req, res, next) => {
     sql.deleteDatas(req.body.uid).then(() => {

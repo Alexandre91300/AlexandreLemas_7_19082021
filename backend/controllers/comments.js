@@ -1,3 +1,6 @@
+/* LOGIQUE DE GESTION DES REQUETES COMMENTAIRE */
+
+
 const sql = require('../sql');
 
 exports.new = (req, res, next) => {

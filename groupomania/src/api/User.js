@@ -2,7 +2,7 @@ import Axios from 'axios';
 import { ENDPOINT } from './ApiConst';
 
 export const createAccount = async (username, email, password) => {
-    await Axios.post(`${ENDPOINT}/api/auth/signup`,
+    await Axios.post(`${ENDPOINT}/api/user/signup`,
         {
             username: username,
             email: email,
@@ -17,7 +17,7 @@ export const createAccount = async (username, email, password) => {
 }
 
 export const login = async (email, password) => {
-    await Axios.post(`${ENDPOINT}/api/auth/login`, {
+    await Axios.post(`${ENDPOINT}/api/user/login`, {
         email: email,
         password: password,
     })
@@ -39,7 +39,7 @@ export const userIsAuth = async () => {
 
     if (token && uid) {
 
-        await Axios.post(`${ENDPOINT}/api/auth/isUserAuth`, { token: token, uid: uid }, {
+        await Axios.post(`${ENDPOINT}/api/user/isUserAuth`, { token: token, uid: uid }, {
             headers: {
                 authorization: uid + ' ' + token
             }
@@ -63,7 +63,7 @@ export const deleteUserDatas = async () => {
     let uid = localStorage.getItem('id');
 
     if (token && uid) {
-        await Axios.post(`${ENDPOINT}/api/auth/deleteDatas`, { uid: uid }, {
+        await Axios.post(`${ENDPOINT}/api/user/deleteDatas`, { uid: uid }, {
             headers: {
                 authorization: uid + ' ' + token
             }
@@ -83,7 +83,7 @@ export const deleteUserAccount = async () => {
 
     if (token && uid) {
         // Send request
-        await Axios.post(`${ENDPOINT}/api/auth/deleteAccount`, { uid: uid }, {
+        await Axios.post(`${ENDPOINT}/api/user/deleteAccount`, { uid: uid }, {
             headers: {
                 authorization: uid + ' ' + token
             }
