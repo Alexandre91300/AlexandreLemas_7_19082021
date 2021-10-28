@@ -29,16 +29,18 @@ const encrypt = (string) => {
     return enc.toString();
 }
 
-
+// VALID 
 exports.signUp = (req, res, next) => {
     if (schema.validate(req.body.password)) {
         bcrypt.hash(req.body.password, 10)
             .then(hash => {
                 sql.createUser(encrypt(req.body.email), req.body.username, hash, res)
             })
+            // Response code VALID V
             .catch(error => res.status(500).json({ error }))
     } else {
-        res.status(400).json({ message: "Invalid password: Min length = 6 / Max length = 100 / Uppercase letters / Lowercase letters / have at least 2 digits" })
+        // Response code VALID V
+        res.status(409).json({ message: "Mot de passe invalide: longueur min = 6 /longueur max = 100 / MAJUSCULE / minuscule / min 2 caractères digitale" })
     }
 };
 
