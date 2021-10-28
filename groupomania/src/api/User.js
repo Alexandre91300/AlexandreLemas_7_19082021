@@ -1,7 +1,8 @@
 import Axios from 'axios';
+import { ENDPOINT } from './ApiConst';
 
 export const createAccount = async (username, email, password) => {
-    await Axios.post('http://localhost:3000/api/auth/signup',
+    await Axios.post(`${ENDPOINT}/api/auth/signup`,
         {
             username: username,
             email: email,
@@ -16,7 +17,7 @@ export const createAccount = async (username, email, password) => {
 }
 
 export const login = async (email, password) => {
-    await Axios.post("http://localhost:3000/api/auth/login", {
+    await Axios.post(`${ENDPOINT}/api/auth/login`, {
         email: email,
         password: password,
     })
@@ -38,7 +39,7 @@ export const userIsAuth = async () => {
 
     if (token && uid) {
 
-        await Axios.post('http://localhost:3000/api/auth/isUserAuth', { token: token, uid: uid }, {
+        await Axios.post(`${ENDPOINT}/api/auth/isUserAuth`, { token: token, uid: uid }, {
             headers: {
                 authorization: uid + ' ' + token
             }
@@ -52,5 +53,46 @@ export const userIsAuth = async () => {
         }).catch(() => {
             throw false;
         })
+    } else {
+        throw TypeError("Il manque le TOKEN et l'ID utilisateur");
+    }
+}
+
+export const deleteUserDatas = async () => {
+    let token = localStorage.getItem('token');
+    let uid = localStorage.getItem('id');
+
+    if (token && uid) {
+        await Axios.post(`${ENDPOINT}/api/auth/deleteDatas`, { uid: uid }, {
+            headers: {
+                authorization: uid + ' ' + token
+            }
+        }).then(() => {
+            return;
+        }).catch(err => {
+            throw err;
+        })
+    } else {
+        throw TypeError("Il manque le TOKEN et l'ID utilisateur");
+    }
+}
+
+export const deleteUserAccount = async () => {
+    let token = localStorage.getItem('token');
+    let uid = localStorage.getItem('id');
+
+    if (token && uid) {
+        // Send request
+        await Axios.post(`${ENDPOINT}/api/auth/deleteAccount`, { uid: uid }, {
+            headers: {
+                authorization: uid + ' ' + token
+            }
+        }).then(() => {
+            return;
+        }).catch(err => {
+            throw err;
+        })
+    } else {
+        throw TypeError("Il manque le TOKEN et l'ID utilisateur");
     }
 }

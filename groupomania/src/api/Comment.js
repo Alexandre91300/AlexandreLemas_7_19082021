@@ -1,4 +1,5 @@
 import Axios from 'axios';
+import { ENDPOINT } from './ApiConst';
 
 export const getCommentsByPostId = async (postId) => {
     let token = localStorage.getItem('token');
@@ -7,7 +8,7 @@ export const getCommentsByPostId = async (postId) => {
     let comments = [];
 
     if (token && uid) {
-        await Axios.post('http://localhost:3000/api/comments/get', {
+        await Axios.post(`${ENDPOINT}/api/comments/get`, {
             postId: postId
         }, {
             headers: {
@@ -39,7 +40,7 @@ export const createComment = async (comment, postId) => {
     }
 
     if (token && uid && username) {
-        await Axios.post('http://localhost:3000/api/comments/new', commentDatas, {
+        await Axios.post(`${ENDPOINT}/api/comments/new`, commentDatas, {
             headers: {
                 authorization: uid + ' ' + token
             }
@@ -58,7 +59,7 @@ export const deleteComment = async (commentId, postId) => {
     let token = localStorage.getItem('token');
     let uid = localStorage.getItem('id');
 
-    await Axios.post('http://localhost:3000/api/comments/deleteOne', { commentId: commentId, postId: postId }, {
+    await Axios.post(`${ENDPOINT}/api/comments/deleteOne`, { commentId: commentId, postId: postId }, {
         headers: {
             authorization: uid + ' ' + token
         }

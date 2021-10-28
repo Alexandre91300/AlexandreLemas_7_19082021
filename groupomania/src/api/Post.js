@@ -1,4 +1,6 @@
 import Axios from 'axios';
+import { ENDPOINT } from './ApiConst';
+
 
 export const getPosts = async () => {
     let token = localStorage.getItem('token');
@@ -10,7 +12,7 @@ export const getPosts = async () => {
     if (token && uid) {
 
         // Send request
-        await Axios.get('http://localhost:3000/api/posts/get', {
+        await Axios.get(`${ENDPOINT}/api/posts/get`, {
             headers: {
                 authorization: uid + ' ' + token
             }
@@ -38,7 +40,7 @@ export const getPostsByUid = async () => {
     if (token && uid) {
 
         // Send request
-        await Axios.post('http://localhost:3000/api/posts/getByUid', { uid: uid }, {
+        await Axios.post(`${ENDPOINT}/api/posts/getByUid`, { uid: uid }, {
             headers: {
                 authorization: uid + ' ' + token
             }
@@ -76,7 +78,7 @@ export const createPost = async (title, description, image) => {
     formData.append('image', image);
 
     // Send request
-    await Axios.post('http://localhost:3000/api/posts/new', formData, {
+    await Axios.post(`${ENDPOINT}/api/posts/new`, formData, {
         headers: {
             authorization: uid + ' ' + token
         }
@@ -97,7 +99,7 @@ export const deletePost = async (postId, imageUrl) => {
     if (postId && imageUrl) {
 
         // Send request
-        await Axios.post('http://localhost:3000/api/posts/delete', { postId: postId, imageUrl: imageUrl }, {
+        await Axios.post(`${ENDPOINT}/api/posts/delete`, { postId: postId, imageUrl: imageUrl }, {
             headers: {
                 authorization: uid + ' ' + token
             }
@@ -119,7 +121,7 @@ export const toggleLikePost = async (postId) => {
     if (postId) {
 
         // Send request
-        await Axios.post('http://localhost:3000/api/posts/like', { postId: postId, uid: uid }, {
+        await Axios.post(`${ENDPOINT}/api/posts/like`, { postId: postId, uid: uid }, {
             headers: {
                 authorization: uid + ' ' + token
             }
@@ -146,7 +148,7 @@ export const modifyPost = async (title, description, postId) => {
     }
 
     // Send request
-    await Axios.post('http://localhost:3000/api/posts/update', post, {
+    await Axios.post(`${ENDPOINT}/api/posts/update`, post, {
         headers: {
             authorization: uid + ' ' + token
         }

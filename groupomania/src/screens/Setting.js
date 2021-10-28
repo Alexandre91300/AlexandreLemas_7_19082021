@@ -1,66 +1,32 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router';
-import Header from "../components/Header";
-import Axios from 'axios'
+import Header from '../components/Header';
+import { deleteUserAccount, deleteUserDatas } from '../api/User';
+import { generateCode } from '../utils/generateCode';
 
 const Setting = () => {
-
     const history = useHistory();
-
-    const [code, setCode] = useState(null);
+    const [code, setCode] = useState(generateCode(10));
     const [input, setInput] = useState('');
 
-    const token = localStorage.getItem('token');
-    const uid = localStorage.getItem('id');
-
-    const generateCode = (length) => {
-        var result = '';
-        var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        var charactersLength = characters.length;
-        for (var i = 0; i < length; i++) {
-            result += characters.charAt(Math.floor(Math.random() *
-                charactersLength));
-        }
-        return result;
-    }
-
-    useEffect(() => {
-        setCode(generateCode(10))
-    }, [])
-
-    const deleteAllPosts = () => {
-        if (token && uid) {
-
-            // Send request
-            Axios.post('http://localhost:3000/api/auth/deleteDatas', { uid: uid }, {
-                headers: {
-                    authorization: uid + ' ' + token
-                }
-            }).then(res => {
+    const handleDeleteUserDatas = () => {
+        deleteUserDatas()
+            .then(res => {
                 history.push('/profil')
             }).catch(err => {
-                console.log(err);
+                alert(err);
             })
-        }
     }
 
-    const deleteAccount = () => {
-        if (token && uid) {
-
-            // Send request
-            Axios.post('http://localhost:3000/api/auth/deleteAccount', { uid: uid }, {
-                headers: {
-                    authorization: uid + ' ' + token
-                }
-            }).then(res => {
+    const handleDeleteAccount = () => {
+        deleteUserAccount()
+            .then(() => {
                 localStorage.clear();
                 document.location.reload();
             }).catch(err => {
-                console.log(err);
+                alert(err);
             })
-        }
     }
-
 
     return (
         <>
@@ -75,7 +41,7 @@ const Setting = () => {
 
                     <p>En effectuant cette action, vous allez supprimer tous vos posts ainsi que tous vos commentaires.</p>
 
-                    <button onClick={() => deleteAllPosts()} className='setting__ctn__box__btn'>Supprimer</button>
+                    <button onClick={() => handleDeleteUserDatas()} className='setting__ctn__box__btn'>Supprimer</button>
 
                 </section>
 
@@ -100,7 +66,7 @@ const Setting = () => {
                     />
 
                     {input === code ?
-                        <button onClick={() => deleteAccount()} className='setting__ctn__box__btn'>Supprimer</button>
+                        <button onClick={() => handleDeleteAccount()} className='setting__ctn__box__btn'>Supprimer</button>
                         :
                         <button
                             className='setting__ctn__box__btn setting__ctn__box__btn--grey'
