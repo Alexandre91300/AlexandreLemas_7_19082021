@@ -1,10 +1,66 @@
 import Axios from 'axios';
 
-const token = localStorage.getItem('token');
-const uid = localStorage.getItem('id');
-const username = localStorage.getItem('username');
+export const getPosts = async () => {
+    let token = localStorage.getItem('token');
+    let uid = localStorage.getItem('id');
+
+    let posts = [];
+
+    // Get posts
+    if (token && uid) {
+
+        // Send request
+        await Axios.get('http://localhost:3000/api/posts/get', {
+            headers: {
+                authorization: uid + ' ' + token
+            }
+        }).then(res => {
+            if (res.data.posts !== undefined) {
+                posts = res.data.posts
+            }
+        }).catch(err => {
+            throw TypeError(err);
+        })
+    } else {
+        throw TypeError("Il manque le TOKEN et l'ID utilisateur");
+    }
+
+    return posts.reverse()
+}
+
+export const getPostsByUid = async () => {
+    let token = localStorage.getItem('token');
+    let uid = localStorage.getItem('id');
+
+    let posts = [];
+
+    // Get posts
+    if (token && uid) {
+
+        // Send request
+        await Axios.post('http://localhost:3000/api/posts/getByUid', { uid: uid }, {
+            headers: {
+                authorization: uid + ' ' + token
+            }
+        }).then(res => {
+            if (res.data.posts !== undefined) {
+                posts = res.data.posts.reverse()
+            }
+        }).catch(err => {
+            throw TypeError(err);
+        })
+    } else {
+        throw TypeError("Il manque le TOKEN et l'ID utilisateur");
+    }
+
+    return posts.reverse()
+}
 
 export const createPost = async (title, description, image) => {
+    let token = localStorage.getItem('token');
+    let uid = localStorage.getItem('id');
+    let username = localStorage.getItem('username');
+
 
     let post = {
         title: title,
@@ -20,13 +76,13 @@ export const createPost = async (title, description, image) => {
     formData.append('image', image);
 
     // Send request
-    Axios.post('http://localhost:3000/api/posts/new', formData, {
+    await Axios.post('http://localhost:3000/api/posts/new', formData, {
         headers: {
             authorization: uid + ' ' + token
         }
     })
-        .then(res => {
-            return res.data;
+        .then(() => {
+            return;
         })
         .catch(err => {
             throw TypeError(err.response.data.message);
@@ -35,10 +91,13 @@ export const createPost = async (title, description, image) => {
 
 
 export const deletePost = async (postId, imageUrl) => {
-    if (token && uid && postId && imageUrl) {
+    let token = localStorage.getItem('token');
+    let uid = localStorage.getItem('id');
+
+    if (postId && imageUrl) {
 
         // Send request
-        Axios.post('http://localhost:3000/api/posts/delete', { postId: postId, imageUrl: imageUrl }, {
+        await Axios.post('http://localhost:3000/api/posts/delete', { postId: postId, imageUrl: imageUrl }, {
             headers: {
                 authorization: uid + ' ' + token
             }
@@ -54,11 +113,13 @@ export const deletePost = async (postId, imageUrl) => {
 }
 
 export const toggleLikePost = async (postId) => {
+    let token = localStorage.getItem('token');
+    let uid = localStorage.getItem('id');
 
-    if (token && uid && postId) {
+    if (postId) {
 
         // Send request
-        Axios.post('http://localhost:3000/api/posts/like', { postId: postId, uid: uid }, {
+        await Axios.post('http://localhost:3000/api/posts/like', { postId: postId, uid: uid }, {
             headers: {
                 authorization: uid + ' ' + token
             }
@@ -74,6 +135,9 @@ export const toggleLikePost = async (postId) => {
 }
 
 export const modifyPost = async (title, description, postId) => {
+    let token = localStorage.getItem('token');
+    let uid = localStorage.getItem('id');
+
 
     let post = {
         title: title,
@@ -82,7 +146,7 @@ export const modifyPost = async (title, description, postId) => {
     }
 
     // Send request
-    Axios.post('http://localhost:3000/api/posts/update', post, {
+    await Axios.post('http://localhost:3000/api/posts/update', post, {
         headers: {
             authorization: uid + ' ' + token
         }

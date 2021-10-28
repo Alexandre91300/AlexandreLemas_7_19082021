@@ -16,7 +16,7 @@ const NewPost = () => {
     const submit = () => {
         createPost(title, description, image)
             .then(() => {
-                history.goBack()
+                history.push('/profil')
             })
             .catch(err => {
                 alert(err)

@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import Axios from 'axios';
+import { useHistory } from "react-router";
 
 import Header from "../components/Header";
 import user_black from '../assets/user_black.svg';
 import Post from "../components/Post";
-import { useHistory } from "react-router";
-
+import { getPostsByUid } from "../api/Post";
 
 const Profil = () => {
     const history = useHistory();
@@ -15,30 +14,11 @@ const Profil = () => {
     const username = localStorage.getItem('username')
 
     useEffect(() => {
-
-        const token = localStorage.getItem('token');
-        const uid = localStorage.getItem('id');
-
-        // Get posts
-        if (token && uid) {
-
-            // Send request
-            Axios.post('http://localhost:3000/api/posts/getByUid', { uid: uid }, {
-                headers: {
-                    authorization: uid + ' ' + token
-                }
-            }).then(res => {
-
-                if (res.data.posts !== undefined) {
-                    setAllPosts(res.data.posts.reverse())
-                }
-            })
-                .catch(err => {
-                    console.log(err);
-                })
-        }
-
+        getPostsByUid()
+            .then(posts => setAllPosts(posts))
+            .catch(err => alert(err))
     }, [])
+
     return (
         <>
             <Header />

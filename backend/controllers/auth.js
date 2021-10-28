@@ -55,9 +55,11 @@ exports.login = (req, res, next) => {
                     if (!valid) {
                         res.status(500).json({ message: 'Mot de passe invalide' })
                     } else {
+                        console.log(user);
 
                         res.status(200).json({
                             id: user.id,
+                            username: user.username,
                             token: jwt.sign({ userId: user.id },
                                 `${process.env.TOKEN}`,
                                 { expiresIn: 86400 }
@@ -66,9 +68,6 @@ exports.login = (req, res, next) => {
                     }
                 })
                 .catch(error => res.status(500).json({ message: error }));
-
-
-
         })
         .catch(err => {
             console.log(err);

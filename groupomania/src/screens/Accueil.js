@@ -2,7 +2,7 @@ import Header from "../components/Header"
 import Post from "../components/Post"
 import { useHistory } from 'react-router-dom';
 import { useEffect, useState } from "react";
-import Axios from 'axios';
+import { getPosts } from "../api/Post";
 
 
 const Accueil = () => {
@@ -10,29 +10,9 @@ const Accueil = () => {
     const [allPosts, setAllPosts] = useState([]);
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        const uid = localStorage.getItem('id');
-
-        // Get posts
-        if (token && uid) {
-
-            // Send request
-            Axios.get('http://localhost:3000/api/posts/get', {
-                headers: {
-                    authorization: uid + ' ' + token
-                }
-            }).then(res => {
-
-                if (res.data.posts !== undefined) {
-
-                    setAllPosts(res.data.posts.reverse())
-                }
-            })
-                .catch(err => {
-                    console.log(err);
-                })
-        }
-
+        getPosts()
+            .then(posts => setAllPosts(posts))
+            .catch(err => alert(err))
     }, [])
 
     return (
