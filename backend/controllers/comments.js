@@ -1,13 +1,13 @@
 /* LOGIQUE DE GESTION DES REQUETES COMMENTAIRE */
 
 
-const sql = require('../sql');
+const sqlComment = require('../sql/comment');
 
 exports.new = (req, res, next) => {
     console.log('CREATE COMMENT');
 
 
-    sql.createComment(
+    sqlComment.createComment(
         req.body.comment,
         req.body.timestamp,
         req.body.username,
@@ -25,7 +25,7 @@ exports.new = (req, res, next) => {
 exports.get = (req, res, next) => {
     console.log('GET COMMENTS');
 
-    sql.getComments(req.body.postId)
+    sqlComment.getComments(req.body.postId)
         .then(comments => {
             res.status(200).json({ comments: comments })
         })
@@ -38,7 +38,7 @@ exports.get = (req, res, next) => {
 
 exports.deleteOne = (req, res, next) => {
     console.log('DELETE COMMENT');
-    sql.deleteSingleComment(req.body.commentId, req.body.postId)
+    sqlComment.deleteSingleComment(req.body.commentId, req.body.postId)
         .then(response => {
             res.status(200).json({ message: response })
         })

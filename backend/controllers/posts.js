@@ -1,6 +1,6 @@
 /* LOGIQUE DE GESTION DES REQUETES POST */
 
-const sql = require('../sql');
+const sqlPost = require('../sql/post');
 const fs = require('fs');
 
 exports.new = (req, res, next) => {
@@ -21,11 +21,11 @@ exports.new = (req, res, next) => {
     console.log(post);
 
     // SQL
-    sql.createPost(post, res)
+    sqlPost.createPost(post, res)
 };
 
 exports.like = (req, res, next) => {
-    sql.like(req.body.postId, req.body.uid)
+    sqlPost.like(req.body.postId, req.body.uid)
         .then((response) => {
             res.status(201).json({ message: response })
         })
@@ -37,7 +37,7 @@ exports.like = (req, res, next) => {
 exports.get = (req, res, next) => {
     console.log('Requête reçu');
 
-    sql.getPosts().then(posts => {
+    sqlPost.getPosts().then(posts => {
         res.status(200).json({ posts })
     }).catch(err => {
         res.status(201).json({ message: err })
@@ -50,7 +50,7 @@ exports.getByUid = (req, res, next) => {
 
     console.log(req.body)
 
-    sql.getPostsByUid(req.body.uid).then(posts => {
+    sqlPost.getPostsByUid(req.body.uid).then(posts => {
         res.status(200).json({ posts })
     }).catch(err => {
         res.status(201).json({ message: err })
@@ -63,7 +63,7 @@ exports.update = (req, res, next) => {
 
     console.log(req.body);
 
-    sql.updatePostById(req.body.postId, req.body.title, req.body.description)
+    sqlPost.updatePostById(req.body.postId, req.body.title, req.body.description)
         .then(() => {
             res.status(200).json({ message: 'Modifié avec succès !' })
         }).catch(() => {
@@ -78,7 +78,7 @@ exports.delete = (req, res, next) => {
 
     fs.unlink(`images/${filename}`, () => {
 
-        sql.deletePostById(req.body.postId).then(response => {
+        sqlPost.deletePostById(req.body.postId).then(response => {
             res.status(200).json({ message: 'Supprimé avec succès !' })
         }).catch(err => {
             res.status(201).json({ message: err })
