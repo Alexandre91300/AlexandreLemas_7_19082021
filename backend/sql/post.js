@@ -1,7 +1,5 @@
 // SQL > POST
 
-
-const fs = require('fs');
 const mysql = require('mysql');
 
 const db = mysql.createPool({
@@ -45,9 +43,6 @@ const getPostsByUid = async (uid) => {
     let myPromise = () => {
         return new Promise((resolve, reject) => {
             db.query("SELECT * FROM posts WHERE uid = ?", [uid], (err, result) => {
-
-                console.log(result);
-
                 if (result.length !== 0) {
                     resolve(result)
                 } else {

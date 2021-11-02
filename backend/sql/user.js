@@ -10,6 +10,7 @@ const db = mysql.createPool({
     database: 'groupomania'
 });
 
+// VALID
 const createUser = async (email, username, password, res) => {
     await db.query("SELECT * FROM users WHERE email = ?", [email], (err, result) => {
         if (result.length === 0) {
@@ -34,18 +35,18 @@ const createUser = async (email, username, password, res) => {
         }
     })
 }
-
 exports.createUser = createUser;
 
-
-const getUserByEmail = async (email) => {
+// VALID
+const getUserByEmail = async (email, res) => {
     let myPromise = () => {
         return new Promise((resolve, reject) => {
             db.query("SELECT * FROM users WHERE email = ?", [email], (err, result) => {
                 if (result.length !== 0) {
                     resolve(result[0])
                 } else {
-                    reject("E-mail invalide")
+                    // Response VALID
+                    res.status(404).json({ message: 'Utilisateur introuvable' })
                 }
             })
         })
@@ -55,9 +56,9 @@ const getUserByEmail = async (email) => {
 
     return result
 }
-
 exports.getUserByEmail = getUserByEmail;
 
+// VALID
 const getUserById = async (id) => {
     let myPromise = () => {
         return new Promise((resolve, reject) => {
@@ -66,7 +67,7 @@ const getUserById = async (id) => {
                 if (result.length !== 0) {
                     resolve(result[0])
                 } else {
-                    reject("Utilisateur introuvable")
+                    reject()
                 }
             })
         })
@@ -76,32 +77,40 @@ const getUserById = async (id) => {
 
     return result
 }
-
 exports.getUserById = getUserById;
 
+// VALID
 const deleteDatas = async (uid) => {
-
-    // Supprimer les posts et commentaires
 
     let myPromise = () => {
         return new Promise((resolve, reject) => {
-            getPostsByUid(uid).then(posts => {
+            console.log('Delete datas')
+            db.query("SELECT * FROM posts WHERE uid = ?", [uid], (err, result) => {
+                if (result.length !== 0) {
+                    result.map(item => {
+                        let filename = item.image.split('/images/')[1]
 
-                // Delete images
-                posts.map(item => {
-                    console.log(item.image);
-                    let filename = item.image.split('/images/')[1];
+                        console.log('filename =>');
+                        console.log(filename);
 
-                    fs.unlink(`images/${filename}`, () => {
-                        console.log('Image supprimé avec succès !');
+                        try {
+                            fs.unlink(`images/${filename}`, (e) => {
+                                console.log('Image supprimé avec succès !');
+                            })
+                        } catch (error) {
+                            console.log('ERROR =>');
+                            console.log(error);
+                        }
                     })
-                })
 
-                db.query("DELETE FROM posts WHERE uid = ?", [uid], (err, result) => {
-                    db.query("DELETE FROM comments WHERE uid = ?", [uid], (err, result) => {
-                        resolve()
+                    db.query("DELETE FROM posts WHERE uid = ?", [uid], (err, result) => {
+                        db.query("DELETE FROM comments WHERE uid = ?", [uid], (err, result) => {
+                            resolve()
+                        })
                     })
-                })
+                } else {
+                    reject()
+                }
             })
         })
     }
@@ -113,9 +122,8 @@ const deleteDatas = async (uid) => {
 
 exports.deleteDatas = deleteDatas;
 
+// VALID
 const deleteAccount = async (uid) => {
-
-    // Supprimer les posts et commentaires
 
     let myPromise = () => {
         return new Promise((resolve, reject) => {

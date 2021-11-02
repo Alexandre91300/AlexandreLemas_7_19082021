@@ -15,7 +15,7 @@ const Profil = () => {
 
     useEffect(() => {
         getPostsByUid()
-            .then(posts => setAllPosts(posts))
+            .then(posts => setAllPosts(posts.reverse()))
             .catch(err => alert(err))
     }, [])
 

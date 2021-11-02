@@ -21,9 +21,9 @@ const SignUp = () => {
         .has().not().spaces()                           // Should not have spaces
         .is().not().oneOf(['Passw0rd', 'Password123']); // Blacklist these values
 
-    const [pseudo, setPseudo] = useState('Admin');
-    const [email, setEmail] = useState('qsfqsfs@gmail.com');
-    const [password, setPassword] = useState('Azerty913');
+    const [pseudo, setPseudo] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
     const [errorMessage, setErrorMessage] = useState("");
 
