@@ -3,10 +3,9 @@
 const sqlPost = require('../sql/post');
 const fs = require('fs');
 
+// Valid
 exports.new = (req, res, next) => {
     let request = JSON.parse(req.body.post);
-
-    console.log('Requête reçu !');
 
     let post = {
         username: request.username,
@@ -18,12 +17,15 @@ exports.new = (req, res, next) => {
         likes: 0,
         commentaires: 0
     }
-    console.log(post);
 
-    // SQL
-    sqlPost.createPost(post, res)
+    sqlPost.createPost(post).then(() => {
+        res.status(201).json({ message: "Post publié avec succès !" })
+    }).catch(() => {
+        res.status(400).json({ message: "Impossible de publier le post :/" })
+    })
 };
 
+// Invalid
 exports.like = (req, res, next) => {
     sqlPost.like(req.body.postId, req.body.uid)
         .then((response) => {
@@ -34,6 +36,7 @@ exports.like = (req, res, next) => {
         })
 };
 
+// Invalid
 exports.get = (req, res, next) => {
     console.log('Requête reçu');
 
@@ -44,7 +47,7 @@ exports.get = (req, res, next) => {
     })
 };
 
-
+// Invalid
 exports.getByUid = (req, res, next) => {
     console.log('Requête reçu');
 
@@ -58,6 +61,7 @@ exports.getByUid = (req, res, next) => {
 
 };
 
+// Invalid
 exports.update = (req, res, next) => {
     console.log('Request update');
 
@@ -71,6 +75,8 @@ exports.update = (req, res, next) => {
         })
 
 };
+
+// Invalid
 
 exports.delete = (req, res, next) => {
     console.log(req.body.imageUrl);

@@ -9,14 +9,28 @@ const db = mysql.createPool({
     database: 'groupomania'
 });
 
-const createPost = async (post, res) => {
-    db.query("INSERT INTO posts (username,title,description,image,date,uid,likes,commentaires) VALUES (?,?,?,?,?,?,?,?);", [post.username, post.title, post.description, post.image, post.date, post.uid, post.likes, post.commentaires], (err, result) => {
-        res.status(201).json({ message: "Post created !" })
-    })
+// Invalid
+const createPost = async (post) => {
+    let myPromise = () => {
+        return new Promise((resolve, reject) => {
+            db.query("INSERT INTO posts (username,title,description,image,date,uid,likes,commentaires) VALUES (?,?,?,?,?,?,?,?);", [post.username, post.title, post.description, post.image, post.date, post.uid, post.likes, post.commentaires], (err, result) => {
+                if (err === null) {
+                    resolve()
+                } else {
+                    reject()
+                }
+            })
+
+        })
+    }
+
+    let result = await (myPromise());
+    return result
 }
 
 exports.createPost = createPost;
 
+// Invalid
 const getPosts = async () => {
     let myPromise = () => {
         return new Promise((resolve, reject) => {
@@ -38,6 +52,7 @@ const getPosts = async () => {
 
 exports.getPosts = getPosts;
 
+// Invalid
 const getPostsByUid = async (uid) => {
 
     let myPromise = () => {
@@ -59,6 +74,7 @@ const getPostsByUid = async (uid) => {
 
 exports.getPostsByUid = getPostsByUid;
 
+// Invalid
 const deletePostById = async (id) => {
 
     let myPromise = () => {
@@ -85,6 +101,7 @@ const deletePostById = async (id) => {
 
 exports.deletePostById = deletePostById;
 
+// Invalid
 const updatePostById = async (id, title, description) => {
 
     let myPromise = () => {
@@ -108,6 +125,7 @@ const updatePostById = async (id, title, description) => {
 
 exports.updatePostById = updatePostById;
 
+// Invalid
 const like = async (postId, uid) => {
 
     let myPromise = () => {
@@ -157,7 +175,6 @@ const like = async (postId, uid) => {
                         })
 
                     }
-
 
                 } else {
                     reject("Post non trouvé")
