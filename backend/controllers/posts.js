@@ -25,48 +25,27 @@ exports.new = (req, res, next) => {
     })
 };
 
-// Invalid
-exports.like = (req, res, next) => {
-    sqlPost.like(req.body.postId, req.body.uid)
-        .then((response) => {
-            res.status(201).json({ message: response })
-        })
-        .catch((err) => {
-            res.status(201).json({ message: err })
-        })
-};
-
-// Invalid
+// Valid
 exports.get = (req, res, next) => {
-    console.log('Requête reçu');
-
     sqlPost.getPosts().then(posts => {
         res.status(200).json({ posts })
     }).catch(err => {
-        res.status(201).json({ message: err })
+        res.status(204).json({ message: 'Aucun post trouvé' })
     })
 };
 
-// Invalid
+// Valid
 exports.getByUid = (req, res, next) => {
-    console.log('Requête reçu');
-
-    console.log(req.body)
-
     sqlPost.getPostsByUid(req.body.uid).then(posts => {
         res.status(200).json({ posts })
     }).catch(err => {
-        res.status(201).json({ message: err })
+        res.status(204).json({ message: 'Aucun post trouvé' })
     })
 
 };
 
-// Invalid
+// Valid
 exports.update = (req, res, next) => {
-    console.log('Request update');
-
-    console.log(req.body);
-
     sqlPost.updatePostById(req.body.postId, req.body.title, req.body.description)
         .then(() => {
             res.status(200).json({ message: 'Modifié avec succès !' })
@@ -76,19 +55,28 @@ exports.update = (req, res, next) => {
 
 };
 
-// Invalid
-
+// Valid
 exports.delete = (req, res, next) => {
-    console.log(req.body.imageUrl);
     const filename = req.body.imageUrl.split('/images/')[1];
 
     fs.unlink(`images/${filename}`, () => {
-
-        sqlPost.deletePostById(req.body.postId).then(response => {
+        sqlPost.deletePostById(req.body.postId).then(() => {
             res.status(200).json({ message: 'Supprimé avec succès !' })
-        }).catch(err => {
-            res.status(201).json({ message: err })
+        }).catch(() => {
+            res.status(404).json({ message: "Post non trouvé" })
         })
 
     })
 };
+
+// Valid
+exports.like = (req, res, next) => {
+    sqlPost.like(req.body.postId, req.body.uid)
+        .then((response) => {
+            res.status(200).json({ message: response })
+        })
+        .catch((err) => {
+            res.status(201).json({ message: err })
+        })
+};
+
