@@ -80,7 +80,7 @@ const NewPost = () => {
 
 
                     {preview !== "" ?
-                        <img style={{ width: 400, height: 400, objectFit: 'cover' }} src={preview} />
+                        <img className='newPost__form__image' src={preview} />
                         :
                         <div className='newPost__form__fakeImg' />
                     }
