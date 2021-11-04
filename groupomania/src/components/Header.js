@@ -1,6 +1,6 @@
 // Les différents headers de l'app
 
-import React from 'react';
+import React, { useState } from 'react';
 import logo_white from '../assets/logo_white.svg';
 import user_white from '../assets/user_white.svg';
 import setting from '../assets/setting.png';
@@ -8,8 +8,9 @@ import { useHistory } from 'react-router-dom';
 
 
 const Header = ({ type }) => {
-
     let history = useHistory();
+
+    const [displayBurgerHeader, setDisplayBurgerHeader] = useState(false);
 
     switch (type) {
         case 'login':
@@ -37,7 +38,7 @@ const Header = ({ type }) => {
                     <a href='/'>
                         <img src={logo_white} className="header__img" alt='Logo Groupomania' />
                     </a>
-                    <div className='header__imgCtn'>
+                    <div className={"header__imgCtn " + (!displayBurgerHeader ? 'header__imgCtn--displayNone' : '')}>
 
                         <button onClick={() => {
                             localStorage.clear();
@@ -48,13 +49,17 @@ const Header = ({ type }) => {
                         >Déconnexion</button>
                         <img onClick={() => {
                             history.push('/profil')
-                        }} src={user_white} className="header__img" alt='Icon utilisateur' />
+                        }} src={user_white} className="header__imgCtn__img" alt='Icon utilisateur' />
 
                         <img onClick={() => {
                             history.push('/setting')
-                        }} src={setting} className="header__img" alt='Icon utilisateur' />
+                        }} src={setting} className="header__imgCtn__img" alt='Icon utilisateur' />
+
 
                     </div>
+                    <p className='header__burgerBtn' onClick={() => setDisplayBurgerHeader(!displayBurgerHeader)}>
+                        {!displayBurgerHeader ? 'III' : 'X'}
+                    </p>
                 </header>
             )
     }

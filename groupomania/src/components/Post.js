@@ -1,13 +1,13 @@
 import { useHistory } from 'react-router';
 import { useEffect, useState } from 'react';
-import { timeConvertor } from '../utils/timeConvertor';
 
 import Modal from './Modal';
 import { deletePost, toggleLikePost } from '../api/Post';
+import { timeConvertor } from '../utils/timeConvertor';
+
 import like from '../assets/like.png';
 import likeBlack from '../assets/like-black.png';
 import comment from '../assets/comment.svg';
-
 
 const Post = ({ post }) => {
     const history = useHistory();
