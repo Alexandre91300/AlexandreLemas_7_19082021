@@ -78,7 +78,7 @@ export const createPost = async (title, description, image) => {
     formData.append('image', image);
 
     // Send request
-    await Axios.post(`${ENDPOINT}/api/posts/new`, formData, {
+    await Axios.post(`${ENDPOINT}/api/posts/create`, formData, {
         headers: {
             authorization: uid + ' ' + token
         }
@@ -148,7 +148,7 @@ export const modifyPost = async (title, description, postId) => {
     }
 
     // Send request
-    await Axios.post(`${ENDPOINT}/api/posts/update`, post, {
+    await Axios.patch(`${ENDPOINT}/api/posts/update`, post, {
         headers: {
             authorization: uid + ' ' + token
         }

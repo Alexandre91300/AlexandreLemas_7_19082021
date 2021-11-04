@@ -5,11 +5,14 @@ const router = express.Router();
 const userCtrl = require('../controllers/user');
 const auth = require('../middleware/auth');
 
+// Create
 router.post('/signup', userCtrl.signUp);
-router.post('/login', userCtrl.login);
 
+// Read
+router.post('/login', userCtrl.login);
 router.post('/isUserAuth', auth, userCtrl.isUserAuth);
 
+// Delete
 router.post('/deleteDatas', auth, userCtrl.deleteDatas);
 router.post('/deleteAccount', auth, userCtrl.deleteAccount);
 

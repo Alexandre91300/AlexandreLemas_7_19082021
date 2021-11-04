@@ -7,7 +7,7 @@ const app = express();
 
 const userRoutes = require('./routes/user');
 const postsRoutes = require('./routes/posts');
-const commentsRoutes = require('./routes/comment');
+const commentsRoutes = require('./routes/comments');
 
 require('dotenv').config();
 const helmet = require('helmet');

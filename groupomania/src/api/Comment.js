@@ -40,7 +40,7 @@ export const createComment = async (comment, postId) => {
     }
 
     if (token && uid && username) {
-        await Axios.post(`${ENDPOINT}/api/comments/new`, commentDatas, {
+        await Axios.post(`${ENDPOINT}/api/comments/create`, commentDatas, {
             headers: {
                 authorization: uid + ' ' + token
             }
@@ -59,7 +59,7 @@ export const deleteComment = async (commentId, postId) => {
     let token = localStorage.getItem('token');
     let uid = localStorage.getItem('id');
 
-    await Axios.post(`${ENDPOINT}/api/comments/deleteOne`, { commentId: commentId, postId: postId }, {
+    await Axios.post(`${ENDPOINT}/api/comments/delete`, { commentId: commentId, postId: postId }, {
         headers: {
             authorization: uid + ' ' + token
         }
