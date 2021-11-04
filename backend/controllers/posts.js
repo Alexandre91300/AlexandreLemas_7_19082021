@@ -1,86 +1,76 @@
-const sql = require('../sql');
+// LOGIQUE DE GESTION DES REQUETES POST 
+
+const sqlPost = require('../sql/post');
 const fs = require('fs');
 
-
-exports.new = (req,res,next) => {
+exports.new = (req, res, next) => {
     let request = JSON.parse(req.body.post);
-    
-    console.log('Requête reçu !');
 
     let post = {
-        username : request.username,
-        title : request.title,
-        description : request.description,
-        image : `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
-        date : request.date,
-        uid : parseInt(request.uid),
-        likes : 0,
-        commentaires : 0
+        username: request.username,
+        title: request.title,
+        description: request.description,
+        image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+        date: request.date,
+        uid: parseInt(request.uid),
+        likes: 0,
+        commentaires: 0
     }
-    console.log(post);
 
-    // SQL
-    sql.createPost(post, res)
-};
-
-exports.like = (req,res,next) => {
-    sql.like(req.body.postId, req.body.uid)
-    .then((response) => {
-        res.status(201).json({message: response})
-    })
-    .catch((err) => {
-        res.status(201).json({message: err})
-    })
-};
-
-exports.get = (req,res,next) => {
-    console.log('Requête reçu');
-    
-    sql.getPosts().then(posts => {
-        res.status(200).json({posts})
-    }).catch(err => {
-        res.status(201).json({message: err})
-    })
-};
-
-
-exports.getByUid = (req,res,next) => {
-    console.log('Requête reçu');
-
-    console.log(req.body)
-    
-    sql.getPostsByUid(req.body.uid).then(posts => {
-        res.status(200).json({posts})
-    }).catch(err => {
-        res.status(201).json({message: err})
-    })
-
-};
-
-exports.update = (req,res,next) => {
-    console.log('Request update');
-    
-    console.log(req.body);  
-    
-    sql.updatePostById(req.body.postId, req.body.title, req.body.description)
-    .then(() => {
-        res.status(200).json({message: 'Modifié avec succès !'})
+    sqlPost.createPost(post).then(() => {
+        res.status(201).json({ message: "Post publié avec succès !" })
     }).catch(() => {
-        res.status(200).json({message: 'Erreur de modification :/'})  
+        res.status(400).json({ message: "Impossible de publier le post :/" })
+    })
+};
+
+exports.get = (req, res, next) => {
+    sqlPost.getPosts().then(posts => {
+        res.status(200).json({ posts })
+    }).catch(() => {
+        res.status(204).json({ message: 'Aucun post trouvé' })
+    })
+};
+
+exports.getByUid = (req, res, next) => {
+    sqlPost.getPostsByUid(req.body.uid).then(posts => {
+        res.status(200).json({ posts })
+    }).catch(() => {
+        res.status(204).json({ message: 'Aucun post trouvé' })
     })
 
 };
 
-exports.delete = (req,res,next) => {
-    const filename = req.body.imageUrl.split('/images/')[1];
-    
-    fs.unlink(`images/${filename}`, () => {
+exports.update = (req, res, next) => {
+    sqlPost.updatePostById(req.body.postId, req.body.title, req.body.description)
+        .then(() => {
+            res.status(200).json({ message: 'Modifié avec succès !' })
+        }).catch(() => {
+            res.status(200).json({ message: 'Erreur de modification :/' })
+        })
 
-        sql.deletePostById(req.body.postId).then(response => {
-            res.status(200).json({message: 'Supprimé avec succès !'})
-        }).catch(err => {
-            res.status(201).json({message: err})
+};
+
+exports.delete = (req, res, next) => {
+    const filename = req.body.imageUrl.split('/images/')[1];
+
+    fs.unlink(`images/${filename}`, () => {
+        sqlPost.deletePostById(req.body.postId).then(() => {
+            res.status(200).json({ message: 'Supprimé avec succès !' })
+        }).catch(() => {
+            res.status(404).json({ message: "Post non trouvé" })
         })
 
     })
 };
+
+exports.like = (req, res, next) => {
+    sqlPost.like(req.body.postId, req.body.uid)
+        .then((response) => {
+            res.status(200).json({ message: response })
+        })
+        .catch((err) => {
+            res.status(201).json({ message: err })
+        })
+};
+

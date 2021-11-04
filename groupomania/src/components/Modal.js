@@ -1,6 +1,8 @@
+// Modal d'affichages des commentaires
+
 import React, { useEffect, useState } from "react";
-import Axios from "axios";
 import { timeConvertor } from "../utils/timeConvertor";
+import { createComment, getCommentsByPostId, deleteComment } from "../api/Comment";
 
 const Modal = ({ callBack, post }) => {
     const [comment, setComment] = useState('')
@@ -8,85 +10,47 @@ const Modal = ({ callBack, post }) => {
     const [sortedComments, setSortedComments] = useState([]);
     const [reload, setReload] = useState(0)
 
-    const token = localStorage.getItem('token');
     const uid = localStorage.getItem('id');
-    const username = localStorage.getItem('username');
     const adminId = 31;
 
     useEffect(() => {
-        let token = localStorage.getItem('token');
-        let uid = localStorage.getItem('id');
-
-
-        if (token && uid && post.comments !== 0) {
-
-            // Send request
-            Axios.post('http://localhost:3000/api/comments/get', {
-                postId: post.id
-
-            }, {
-                headers: {
-                    authorization: uid + ' ' + token
-                }
-            }).then(res => {
-                setAllComments(res.data.comments)
-            })
+        if (post.comments !== 0) {
+            getCommentsByPostId(post.id)
+                .then(comments => {
+                    setAllComments(comments)
+                })
                 .catch(err => {
                     alert(err)
                 })
         }
-    }, [reload])
+    }, [post.comments, post.id, reload])
 
-
-    const submit = () => {
-
-        const commentDatas = {
-            comment: comment,
-            timestamp: Math.floor(Date.now() / 1000),
-            username: username,
-            postId: post.id,
-            uid: uid
-        }
-
-        if (token && uid && username && comment.length !== 0) {
-
-            // Send request
-            Axios.post('http://localhost:3000/api/comments/new', commentDatas, {
-                headers: {
-                    authorization: uid + ' ' + token
-                }
-            }).then(res => {
-
-                callBack('incrementComment')
-                setReload(reload + 1)
-
-                setComment('')
-
-            })
+    const handleCreateComment = () => {
+        if (comment.length !== 0) {
+            createComment(comment, post.id)
+                .then(() => {
+                    callBack('incrementComment')
+                    setReload(reload + 1)
+                    setComment('')
+                })
                 .catch(err => {
                     alert(err.response.data.message)
                 })
         }
     }
 
-    const deleteComment = (commentId, postId) => {
-        if (token && uid && commentId && postId) {
-            // Send request
-            Axios.post('http://localhost:3000/api/comments/deleteOne', { commentId: commentId, postId: postId }, {
-                headers: {
-                    authorization: uid + ' ' + token
-                }
-            }).then(res => {
-                callBack('decrementComment')
-
-                setAllComments(allComments.filter(item => item.id !== commentId))
-            })
+    const handleDeleteComment = (commentId, postId) => {
+        if (commentId && postId) {
+            deleteComment(commentId, postId)
+                .then(() => {
+                    callBack('decrementComment')
+                    setAllComments(allComments.filter(item => item.id !== commentId))
+                })
                 .catch(err => {
                     alert(err.response.data.message)
                 })
         }
     }
-
 
     useEffect(() => {
 
@@ -127,7 +91,7 @@ const Modal = ({ callBack, post }) => {
                                     <p className='modal__ctn__comment__text'>{item.comment}</p>
                                     {item.uid == uid || uid == adminId ?
                                         <button
-                                            onClick={() => { deleteComment(item.id, post.id) }}
+                                            onClick={() => { handleDeleteComment(item.id, post.id) }}
                                             className='modal__ctn__comment__btn'
                                         >Supprimer</button>
                                         : null}
@@ -141,7 +105,7 @@ const Modal = ({ callBack, post }) => {
 
                 <form className='modal__ctn__form' onSubmit={(e) => {
                     e.preventDefault();
-                    submit()
+                    handleCreateComment()
                 }}>
                     <input
                         placeholder='Laisser un commentaire...'

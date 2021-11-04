@@ -1,45 +1,37 @@
-const sql = require('../sql');
+// LOGIQUE DE GESTION DES REQUETES COMMENTAIRE 
+
+const sqlComment = require('../sql/comment');
 
 exports.new = (req, res, next) => {
-    console.log('CREATE COMMENT');
-
-
-    sql.createComment(
+    sqlComment.createComment(
         req.body.comment,
         req.body.timestamp,
         req.body.username,
         req.body.postId,
         req.body.uid
-    )
-        .then(() => {
-            res.status(200).json({ message: 'Commentaire créé avec succès !' })
-        })
-        .catch(err => {
-            res.status(200).json({ message: 'Erreur' })
-        })
+    ).then(() => {
+        res.status(201).json({ message: 'Commentaire créé avec succès !' })
+    }).catch(err => {
+        res.status(400).json({ message: 'Commentaire non créé :/' })
+    })
 };
 
 exports.get = (req, res, next) => {
-    console.log('GET COMMENTS');
-
-    sql.getComments(req.body.postId)
+    sqlComment.getComments(req.body.postId)
         .then(comments => {
             res.status(200).json({ comments: comments })
         })
-        .catch(err => {
-            res.status(200).json({ message: 'Aucun commentaire trouvé :/' })
+        .catch(() => {
+            res.status(204).json({ message: 'Aucun commentaire' })
         })
-
 };
 
-
 exports.deleteOne = (req, res, next) => {
-    console.log('DELETE COMMENT');
-    sql.deleteSingleComment(req.body.commentId, req.body.postId)
+    sqlComment.deleteComment(req.body.commentId, req.body.postId)
         .then(response => {
-            res.status(200).json({ message: response })
+            res.status(200).json({ message: "Commentaire supprimé avec succès !" })
         })
-        .catch(err => {
+        .catch(() => {
             res.status(200).json({ message: 'Aucun commentaire trouvé :/' })
         })
 };

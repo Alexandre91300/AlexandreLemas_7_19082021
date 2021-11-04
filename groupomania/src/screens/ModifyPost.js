@@ -1,9 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 
-import Axios from 'axios';
-
 import Header from '../components/Header'
+import { modifyPost } from '../api/Post';
 
 const ModifyPost = () => {
     const history = useHistory();
@@ -17,29 +16,16 @@ const ModifyPost = () => {
     }
 
     const submit = () => {
+        if (location.state.title !== title || location.state.description !== description) {
 
-        let token = localStorage.getItem('token');
-        let uid = localStorage.getItem('id');
-
-        if (token && uid && location.state.title !== title || location.state.description !== description) {
-
-            let post = {
-                title: title,
-                description: description,
-                postId: location.state.postId,
-            }
-
-            // Send request
-            Axios.post('http://localhost:3000/api/posts/update', post, {
-                headers: {
-                    authorization: uid + ' ' + token
-                }
-            }).then(res => {
-                history.goBack()
-            })
+            modifyPost(title, description, location.state.postId)
+                .then(() => {
+                    history.goBack()
+                })
                 .catch(err => {
                     alert(err.response.data.message)
                 })
+
         } else {
             history.goBack()
         }
@@ -68,7 +54,7 @@ const ModifyPost = () => {
                         value={description}
                         onChange={e => setDescription(e.target.value)} />
 
-                    <img style={{ width: 400, height: 400, objectFit: 'cover' }} src={location.state.image} />
+                    <img alt='Post' style={{ width: 400, height: 400, objectFit: 'cover' }} src={location.state.image} />
 
                     <button className='newPost__form__submit' type='submit'>Enregistrer les modifications</button>
 

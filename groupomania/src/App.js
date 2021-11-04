@@ -22,14 +22,14 @@ function App() {
       <Router>
         <Switch>
 
-          {/* Routes PROTEGE */}
+          {/* Routes PROTEGES */}
           <ProtectedRoute path="/" exact component={Accueil} />
           <ProtectedRoute path="/newPost" exact component={NewPost} />
           <ProtectedRoute path="/modifyPost" exact component={ModifyPost} />
           <ProtectedRoute path="/profil" exact component={Profil} />
           <ProtectedRoute path="/setting" exact component={Setting} />
 
-          {/* Routes LIBRE */}
+          {/* Routes LIBRES */}
           <Route path="/login" component={Login} />
           <Route path="/signup" component={SignUp} />
           <Route path="/" component={() => { return (<h1>ERREUR 404</h1>) }} />

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Header from '../components/Header';
 import { Link, useHistory } from 'react-router-dom';
 import PasswordValidator from 'password-validator';
-import Axios from 'axios';
+import { createAccount } from '../api/User';
 
 
 
@@ -38,44 +38,17 @@ const SignUp = () => {
     }
 
     useEffect(() => {
-
-        let token = localStorage.getItem('token');
-        let uid = localStorage.getItem('id');
+        let token = localStorage.getItem("token");
+        let uid = localStorage.getItem("id");
         if (token && uid) {
-
-            console.log('send request');
-            // Send request
-            Axios.post('http://localhost:3000/api/auth/isUserAuth', { token: token, uid: uid }, {
-                headers: {
-                    authorization: uid + ' ' + token
-                }
-            }).then(res => {
-
-                if (res.data.isAuth) {
-                    history.push('/')
-                }
-
-            })
+            history.push("/");
         }
-
     }, [])
 
     const submit = () => {
-        // Send request
-        Axios.post('http://localhost:3000/api/auth/signup', { username: pseudo, email: email, password: password })
-            .then(res => {
-                console.log(res.data.message);
-                // ACTION
-
-                history.push('/login')
-
-
-            })
-            .catch(err => {
-                console.error(err.response.data.message);
-                setErrorMessage(err.response.data.message)
-
-            })
+        createAccount(pseudo, email, password)
+            .then(() => history.push('/login'))
+            .catch(err => setErrorMessage(err))
     }
 
     const displayVerif = (e) => {

@@ -1,11 +1,11 @@
-/* LOGIQUE DES REQUETES D'AUTHENTIFICATION */
+// LOGIQUE DE GESTION DES REQUETES USER 
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const passwordValidator = require('password-validator');
 const CryptoJS = require("crypto-js");
-const sql = require('../sql');
+const sqlUser = require('../sql/user');
 
 // Password Validator
 var schema = new passwordValidator();
@@ -29,35 +29,29 @@ const encrypt = (string) => {
     return enc.toString();
 }
 
-// POST
-/******/
-
 exports.signUp = (req, res, next) => {
-
     if (schema.validate(req.body.password)) {
         bcrypt.hash(req.body.password, 10)
             .then(hash => {
-                sql.createUser(encrypt(req.body.email), req.body.username, hash, res)
+                sqlUser.createUser(encrypt(req.body.email), req.body.username, hash, res)
             })
             .catch(error => res.status(500).json({ error }))
     } else {
-        res.status(400).json({ message: "Invalid password: Min length = 6 / Max length = 100 / Uppercase letters / Lowercase letters / have at least 2 digits" })
+        res.status(409).json({ message: "Mot de passe invalide: longueur min = 6 /longueur max = 100 / MAJUSCULE / minuscule / min 2 caractères digitale" })
     }
-
 };
 
 exports.login = (req, res, next) => {
-    sql.getUserByEmail(encrypt(req.body.email), res)
+    sqlUser.getUserByEmail(encrypt(req.body.email), res)
         .then(user => {
-            console.log(user.id);
             bcrypt.compare(req.body.password, user.password)
                 .then(valid => {
                     if (!valid) {
-                        res.status(500).json({ message: 'Mot de passe invalide' })
+                        res.status(403).json({ message: 'Mot de passe invalide' })
                     } else {
-
                         res.status(200).json({
                             id: user.id,
+                            username: user.username,
                             token: jwt.sign({ userId: user.id },
                                 `${process.env.TOKEN}`,
                                 { expiresIn: 86400 }
@@ -66,46 +60,33 @@ exports.login = (req, res, next) => {
                     }
                 })
                 .catch(error => res.status(500).json({ message: error }));
-
-
-
         })
-        .catch(err => {
-            console.log(err);
-            res.status(400).json({ message: err })
-        })
-
 };
 
 exports.isUserAuth = (req, res, next) => {
-    console.log('isAuth');
-
-    sql.getUserById(req.headers.authorization.split(' ')[0])
+    sqlUser.getUserById(req.headers.authorization.split(' ')[0])
         .then(user => {
-            res.status(201).json({ isAuth: true, username: user.username })
+            res.status(200).json({ isAuth: true, username: user.username })
         })
-        .catch(err => {
-            res.status(201).json({ isAuth: false })
-
+        .catch(() => {
+            res.status(401).json({ isAuth: false })
         })
 
 };
 
-
 exports.deleteDatas = (req, res, next) => {
-    sql.deleteDatas(req.body.uid).then(() => {
-        res.status(201).json({ message: 'Delete all' })
+    sqlUser.deleteDatas(req.body.uid).then(() => {
+        res.status(200).json({ message: 'Données utilisateur supprimé avec succès !' })
     }).catch(() => {
-        res.status(201).json({ message: 'Problème de suppression :/' })
-
+        res.status(500).json({ message: 'Problème de suppression :/' })
     })
 };
 
 exports.deleteAccount = (req, res, next) => {
-    sql.deleteAccount(req.body.uid).then(() => {
-        res.status(201).json({ message: 'Delete account !' })
+    sqlUser.deleteAccount(req.body.uid).then(() => {
+        res.status(200).json({ message: 'Compte et données utilisateur supprimé avec succès !' })
     }).catch(() => {
-        res.status(201).json({ message: 'Problème de suppression :/' })
+        res.status(500).json({ message: 'Problème de suppression :/' })
     })
 };
 
