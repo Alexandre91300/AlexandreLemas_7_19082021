@@ -1,9 +1,8 @@
-/* LOGIQUE DE GESTION DES REQUETES POST */
+// LOGIQUE DE GESTION DES REQUETES POST 
 
 const sqlPost = require('../sql/post');
 const fs = require('fs');
 
-// Valid
 exports.new = (req, res, next) => {
     let request = JSON.parse(req.body.post);
 
@@ -25,26 +24,23 @@ exports.new = (req, res, next) => {
     })
 };
 
-// Valid
 exports.get = (req, res, next) => {
     sqlPost.getPosts().then(posts => {
         res.status(200).json({ posts })
-    }).catch(err => {
+    }).catch(() => {
         res.status(204).json({ message: 'Aucun post trouvé' })
     })
 };
 
-// Valid
 exports.getByUid = (req, res, next) => {
     sqlPost.getPostsByUid(req.body.uid).then(posts => {
         res.status(200).json({ posts })
-    }).catch(err => {
+    }).catch(() => {
         res.status(204).json({ message: 'Aucun post trouvé' })
     })
 
 };
 
-// Valid
 exports.update = (req, res, next) => {
     sqlPost.updatePostById(req.body.postId, req.body.title, req.body.description)
         .then(() => {
@@ -55,7 +51,6 @@ exports.update = (req, res, next) => {
 
 };
 
-// Valid
 exports.delete = (req, res, next) => {
     const filename = req.body.imageUrl.split('/images/')[1];
 
@@ -69,7 +64,6 @@ exports.delete = (req, res, next) => {
     })
 };
 
-// Valid
 exports.like = (req, res, next) => {
     sqlPost.like(req.body.postId, req.body.uid)
         .then((response) => {

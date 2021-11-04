@@ -10,34 +10,27 @@ const db = mysql.createPool({
     database: 'groupomania'
 });
 
-// VALID
 const createUser = async (email, username, password, res) => {
     await db.query("SELECT * FROM users WHERE email = ?", [email], (err, result) => {
         if (result.length === 0) {
             db.query("SELECT * FROM users WHERE username = ?", [username], (err, result) => {
                 if (result.length === 0) {
                     db.query("INSERT INTO users (email,username,password) VALUES (?,?,?);", [email, username, password], (err, result) => {
-                        // Response code VALID
                         res.status(201).json({ message: "Utilisateur créé avec succès !" })
                     })
 
                 } else {
-                    console.log("Pseudonyme déjà utilisé");
-                    // Response code VALID
                     res.status(409).json({ message: "Pseudonyme déjà utilisé" })
                 }
             })
 
         } else {
-            console.log("E-mail déjà utilisé");
-            // Response code VALID
             res.status(409).json({ message: "E-mail déjà utilisé" })
         }
     })
 }
 exports.createUser = createUser;
 
-// VALID
 const getUserByEmail = async (email, res) => {
     let myPromise = () => {
         return new Promise((resolve, reject) => {
@@ -45,7 +38,6 @@ const getUserByEmail = async (email, res) => {
                 if (result.length !== 0) {
                     resolve(result[0])
                 } else {
-                    // Response VALID
                     res.status(404).json({ message: 'Utilisateur introuvable' })
                 }
             })
@@ -53,17 +45,14 @@ const getUserByEmail = async (email, res) => {
     }
 
     let result = await (myPromise());
-
     return result
 }
 exports.getUserByEmail = getUserByEmail;
 
-// VALID
 const getUserById = async (id) => {
     let myPromise = () => {
         return new Promise((resolve, reject) => {
             db.query("SELECT * FROM users WHERE id = ?", [id], (err, result) => {
-
                 if (result.length !== 0) {
                     resolve(result[0])
                 } else {
@@ -74,14 +63,11 @@ const getUserById = async (id) => {
     }
 
     let result = await (myPromise());
-
     return result
 }
 exports.getUserById = getUserById;
 
-// VALID
 const deleteDatas = async (uid) => {
-
     let myPromise = () => {
         return new Promise((resolve, reject) => {
             console.log('Delete datas')
@@ -98,8 +84,7 @@ const deleteDatas = async (uid) => {
                                 console.log('Image supprimé avec succès !');
                             })
                         } catch (error) {
-                            console.log('ERROR =>');
-                            console.log(error);
+                            console.log('ERROR => ' + error);
                         }
                     })
 
@@ -116,15 +101,11 @@ const deleteDatas = async (uid) => {
     }
 
     let result = await (myPromise());
-
     return result
 }
-
 exports.deleteDatas = deleteDatas;
 
-// VALID
 const deleteAccount = async (uid) => {
-
     let myPromise = () => {
         return new Promise((resolve, reject) => {
             db.query("DELETE FROM users WHERE id = ?", [uid], (err, result) => {
@@ -138,8 +119,6 @@ const deleteAccount = async (uid) => {
     }
 
     let result = await (myPromise());
-
     return result
 }
-
 exports.deleteAccount = deleteAccount;

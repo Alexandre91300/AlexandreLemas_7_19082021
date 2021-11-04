@@ -9,7 +9,6 @@ const db = mysql.createPool({
     database: 'groupomania'
 });
 
-// Valid
 const createPost = async (post) => {
     let myPromise = () => {
         return new Promise((resolve, reject) => {
@@ -29,7 +28,6 @@ const createPost = async (post) => {
 }
 exports.createPost = createPost;
 
-// Valid
 const getPosts = async () => {
     let myPromise = () => {
         return new Promise((resolve, reject) => {
@@ -48,7 +46,6 @@ const getPosts = async () => {
 }
 exports.getPosts = getPosts;
 
-// Valid
 const getPostsByUid = async (uid) => {
     let myPromise = () => {
         return new Promise((resolve, reject) => {
@@ -67,7 +64,6 @@ const getPostsByUid = async (uid) => {
 }
 exports.getPostsByUid = getPostsByUid;
 
-// Valid
 const updatePostById = async (id, title, description) => {
     let myPromise = () => {
         return new Promise((resolve, reject) => {
@@ -86,7 +82,6 @@ const updatePostById = async (id, title, description) => {
 }
 exports.updatePostById = updatePostById;
 
-// Valid
 const deletePostById = async (id) => {
     let myPromise = () => {
         return new Promise((resolve, reject) => {
@@ -107,7 +102,6 @@ const deletePostById = async (id) => {
 }
 exports.deletePostById = deletePostById;
 
-// Valid
 const like = async (postId, uid) => {
     let myPromise = () => {
         return new Promise((resolve, reject) => {
