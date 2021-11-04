@@ -11,7 +11,7 @@ const Setting = () => {
 
     const handleDeleteUserDatas = () => {
         deleteUserDatas()
-            .then(res => {
+            .then(() => {
                 history.push('/profil')
             }).catch(err => {
                 alert(err);
@@ -56,8 +56,6 @@ const Setting = () => {
 
                     <p className='setting__ctn__box__code'>{code}</p>
 
-
-
                     <input
                         onChange={e => setInput(e.target.value)}
                         value={input}
@@ -66,10 +64,10 @@ const Setting = () => {
                     />
 
                     {input === code ?
-                        <button onClick={() => handleDeleteAccount()} className='setting__ctn__box__btn'>Supprimer</button>
+                        <button onClick={() => handleDeleteAccount()} className='setting__ctn__box__btn  setting__ctn__box__btn--deleteAccount'>Supprimer</button>
                         :
                         <button
-                            className='setting__ctn__box__btn setting__ctn__box__btn--grey'
+                            className='setting__ctn__box__btn setting__ctn__box__btn--grey  setting__ctn__box__btn--deleteAccount'
                             onClick={() => alert('Merci de saisir le code indiqué en bleu')}
                         >Supprimer</button>
                     }
