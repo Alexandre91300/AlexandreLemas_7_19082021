@@ -1,133 +1,142 @@
-.signup{
+.signup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  &__title {
+    font-size: 50px;
+    margin: 20px 0;
+    @include phone-only {
+      font-size: 30px;
+    }
+  }
+
+  &__form {
+    padding: 10px;
     display: flex;
-    align-items: center;
-    justify-content: center;
     flex-direction: column;
-
-    &__title{
-        font-size: 50px;
-        margin: 20px 0;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 350px;
+    @include phone-only {
+      padding: 15px;
     }
 
-    &__form{
+    &__error {
+      color: $red;
+      margin-bottom: 10px;
+      max-width: 350px;
+    }
+
+    &__inp {
+      border: 2px solid $primary;
+      border-radius: 50px;
+      padding-left: 15px;
+      height: 50px;
+      max-width: 350px;
+      width: 100%;
+      font-size: 20px;
+      margin-bottom: 20px;
+
+      @include phone-only {
+        height: 40px;
+        font-size: 15px;
+      }
+
+      &:focus {
+        background-color: $primary;
+        transform: scale(1.1);
+        color: $secondary;
+
+        &::placeholder {
+          color: $primary;
+        }
+      }
+    }
+
+    &__verif {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: center;
+      max-width: 350px;
+      flex-wrap: wrap;
+      animation-name: slidein;
+      animation-duration: 1s;
+      animation-fill-mode: forwards;
+      transform: scale(0);
+      opacity: 0;
+      margin-bottom: 10px;
+
+      & > p {
+        margin: 5px;
         padding: 10px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-between;
-        margin-top: 0px;
+        color: $primary;
+        background-color: $secondary;
+        border: 2px solid $primary;
+        font-weight: bold;
+        border-radius: 50px;
+        font-size: 12px;
+      }
 
-        &__error{
-            color: $red;
-            margin-bottom: 10px;
-            max-width: 350px;
-        }
-
-        &__inp{
-            border: 2px solid $primary;
-            border-radius: 50px;
-            padding-left: 15px;
-            height: 50px;
-            width: 350px;
-            font-size: 20px;
-            margin-bottom: 20px;
-
-            &:focus{
-                background-color: $primary;
-                transform: scale(1.1);
-                color: $secondary;
-
-                &::placeholder{
-                    color: $primary;
-                }
-            }
-        }
-
-        &__verif{
-            display: flex;
-            flex-direction: row;
-            align-items: flex-start;
-            justify-content: center;
-            max-width: 350px;
-            flex-wrap: wrap;
-            animation-name: slidein;
-            animation-duration: 1s;
-            animation-fill-mode: forwards;
-            transform: scale(0);
-            opacity: 0;
-            margin-bottom: 10px;
-
-            &>p{
-                margin: 5px;
-                padding: 10px;
-                color: $primary;
-                background-color: $secondary;
-                border: 2px solid $primary;
-                font-weight: bold;
-                border-radius: 50px;
-                font-size: 12px;
-            }
-
-            &--ok{
-                background-color: $primary;
-                color: $secondary;
-            }
-            
-        }
-
-        @keyframes slidein {
-            from {
-                transform: scale(0);
-                opacity: 0;
-            }
-          
-            to {
-                transform: scale(1);
-                opacity: 100%;
-            }
-          }
-
-
-        &__link{
-            font-weight: bold;
-            align-self: flex-start;
-            cursor: pointer;
-            color: $primary;
-            text-decoration: none;
-            &:hover{
-                transform: scale(1.1);
-            }
-        }
-
-        &__btn{
-            background-color: $primary;
-            color: $secondary;
-            font-weight: bold;
-            font-size: 20px;
-            padding: 10px;
-            border: 2px solid $primary;
-            margin-top: 30px;
-            align-self: flex-end;
-            cursor: pointer;
-
-            &:hover{
-                transform: scale(1.1);
-                background: $secondary;
-                color: $primary;
-            }
-
-            &--disabled{
-                background-color: $grey;
-                color: $secondary;
-                font-weight: bold;
-                font-size: 20px;
-                padding: 10px;
-                border: 2px solid $grey;
-                margin-top: 30px;
-                align-self: flex-end;
-            }
-        }
+      &--ok {
+        background-color: $primary;
+        color: $secondary;
+      }
     }
 
+    @keyframes slidein {
+      from {
+        transform: scale(0);
+        opacity: 0;
+      }
 
+      to {
+        transform: scale(1);
+        opacity: 100%;
+      }
+    }
+
+    &__link {
+      font-weight: bold;
+      align-self: flex-start;
+      cursor: pointer;
+      color: $primary;
+      text-decoration: none;
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+
+    &__btn {
+      background-color: $primary;
+      color: $secondary;
+      font-weight: bold;
+      font-size: 20px;
+      padding: 10px;
+      border: 2px solid $primary;
+      margin-top: 30px;
+      align-self: flex-end;
+      cursor: pointer;
+
+      &:hover {
+        transform: scale(1.1);
+        background: $secondary;
+        color: $primary;
+      }
+
+      &--disabled {
+        background-color: $grey;
+        color: $secondary;
+        font-weight: bold;
+        font-size: 20px;
+        padding: 10px;
+        border: 2px solid $grey;
+        margin-top: 30px;
+        align-self: flex-end;
+      }
+    }
+  }
 }

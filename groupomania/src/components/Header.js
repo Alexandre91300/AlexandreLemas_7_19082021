@@ -19,7 +19,7 @@ const Header = ({ type }) => {
                     <img src={logo_white} className="header__img" alt='Logo Groupomania' />
                     <button onClick={() => {
                         history.push('/signup')
-                    }} className='header__btn'>Inscription</button>
+                    }} className='header__btn header__btn--login'>Inscription</button>
                 </header>
             )
         case 'signup':
@@ -28,7 +28,7 @@ const Header = ({ type }) => {
                     <img src={logo_white} className="header__img" alt='Logo Groupomania' />
                     <button onClick={() => {
                         history.push('/login')
-                    }} className='header__btn'>Connexion</button>
+                    }} className='header__btn header__btn--signup'>Connexion</button>
                 </header>
             )
 
