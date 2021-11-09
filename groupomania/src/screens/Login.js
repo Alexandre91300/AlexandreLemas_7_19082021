@@ -52,6 +52,7 @@ const Login = () => {
                         <span className="signup__form__error">{errorMessage}</span>
                     ) : null}
                     <input
+                        tabIndex='0'
                         data-testid="input-mail"
                         placeholder="E-mail"
                         value={email}
