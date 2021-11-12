@@ -49,6 +49,7 @@
         background-color: $primary;
         transform: scale(1.1);
         color: $secondary;
+        border: 2px solid $primary !important;
 
         &::placeholder {
           color: $primary;

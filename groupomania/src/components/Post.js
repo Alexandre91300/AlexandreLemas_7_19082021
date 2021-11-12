@@ -100,19 +100,23 @@ const Post = ({ post }) => {
             <img className='post__image' src={post.image} alt='Comment' />
             <p className='post__txt'>{post.username} <span className='post__txt--grey'>il y a {timeConvertor(post.date)}</span></p>
             <div className='post__ctn'>
-                <div onClick={() => handleToggleLikePost()}>
+                <button
+                    style={{ backgroundColor: 'transparent', border: 'none' }}
+                    onClick={() => handleToggleLikePost()}>
                     {postLiked ?
                         <img className='post__ctn__icon' src={likeBlack} alt='Like' />
                         :
                         <img className='post__ctn__icon' src={like} alt='Like' />
                     }
-                </div>
+                </button>
                 <p className='post__ctn__txtLike'>{likeNumber} Like</p>
             </div>
-            <div className='post__ctn' onClick={() => setDisplayModal(true)}>
+            <button
+                style={{ backgroundColor: 'transparent', border: 'none' }}
+                className='post__ctn' onClick={() => setDisplayModal(true)}>
                 <img className='post__ctn__icon' src={comment} alt='Comment' />
                 <p className='post__ctn__txtComment'>{commentNumber} Commentaires</p>
-            </div>
+            </button>
             {displayModal && post.comments !== 0 ?
                 <Modal post={post} callBack={(e) => { modalCallback(e) }} />
                 :

@@ -77,10 +77,10 @@ const Modal = ({ callBack, post }) => {
 
         <div className='modal'>
             <div className='modal__ctn'>
-                <p
+                <button
                     style={{ margin: 10, cursor: "pointer" }}
                     onClick={() => callBack()}
-                >X</p>
+                >X</button>
 
                 <div className='modal__ctn__commentCtn'>
                     {allComments ?
