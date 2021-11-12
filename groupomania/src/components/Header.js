@@ -47,13 +47,21 @@ const Header = ({ type }) => {
                             className='header__btn header__btn--logout'
                             data-testid='disconnect-btn'
                         >Déconnexion</button>
-                        <img onClick={() => {
-                            history.push('/profil')
-                        }} src={user_white} className="header__imgCtn__img" alt='Icon utilisateur' />
+                        <button
+                            style={{ backgroundColor: 'transparent', border: 'none' }}
+                            onClick={() => {
+                                history.push('/profil')
+                            }} >
+                            <img src={user_white} className="header__imgCtn__img" alt='Icon utilisateur' />
+                        </button>
 
-                        <img onClick={() => {
-                            history.push('/setting')
-                        }} src={setting} className="header__imgCtn__img" alt='Icon utilisateur' />
+                        <button
+                            style={{ backgroundColor: 'transparent', border: 'none' }}
+                            onClick={() => {
+                                history.push('/setting')
+                            }}>
+                            <img src={setting} className="header__imgCtn__img" alt='Icon utilisateur' />
+                        </button>
 
 
                     </div>
