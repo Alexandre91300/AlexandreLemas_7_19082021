@@ -97,16 +97,16 @@ const Post = ({ post }) => {
                 :
                 null
             }
-            <img className='post__image' src={post.image} alt='Comment' />
+            <img className='post__image' src={post.image} alt='Image du post' />
             <p className='post__txt'>{post.username} <span className='post__txt--grey'>il y a {timeConvertor(post.date)}</span></p>
             <div className='post__ctn'>
                 <button
                     style={{ backgroundColor: 'transparent', border: 'none' }}
                     onClick={() => handleToggleLikePost()}>
                     {postLiked ?
-                        <img className='post__ctn__icon' src={likeBlack} alt='Like' />
+                        <img className='post__ctn__icon' src={likeBlack} alt='Icon coeur noir plein, post liké' />
                         :
-                        <img className='post__ctn__icon' src={like} alt='Like' />
+                        <img className='post__ctn__icon' src={like} alt='Icon coeur noir vide, post non liké' />
                     }
                 </button>
                 <p className='post__ctn__txtLike'>{likeNumber} Like</p>
@@ -114,7 +114,7 @@ const Post = ({ post }) => {
             <button
                 style={{ backgroundColor: 'transparent', border: 'none' }}
                 className='post__ctn' onClick={() => setDisplayModal(true)}>
-                <img className='post__ctn__icon' src={comment} alt='Comment' />
+                <img className='post__ctn__icon' src={comment} alt='Icon commentaires, bulle avec du texte' />
                 <p className='post__ctn__txtComment'>{commentNumber} Commentaires</p>
             </button>
             {displayModal && post.comments !== 0 ?

@@ -80,7 +80,7 @@ const NewPost = () => {
 
 
                     {preview !== "" ?
-                        <img className='newPost__form__image' src={preview} />
+                        <img className='newPost__form__image' src={preview} alt='Image de votre post' />
                         :
                         <div className='newPost__form__fakeImg' />
                     }

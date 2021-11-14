@@ -16,7 +16,7 @@ const Header = ({ type }) => {
         case 'login':
             return (
                 <header className='header'>
-                    <img src={logo_white} className="header__img" alt='Logo Groupomania' />
+                    <img src={logo_white} className="header__img" alt='Logo de Groupomania' />
                     <button onClick={() => {
                         history.push('/signup')
                     }} className='header__btn header__btn--login'>Inscription</button>
@@ -25,7 +25,7 @@ const Header = ({ type }) => {
         case 'signup':
             return (
                 <header className='header'>
-                    <img src={logo_white} className="header__img" alt='Logo Groupomania' />
+                    <img src={logo_white} className="header__img" alt='Logo de Groupomania' />
                     <button onClick={() => {
                         history.push('/login')
                     }} className='header__btn header__btn--signup'>Connexion</button>
@@ -36,8 +36,13 @@ const Header = ({ type }) => {
             return (
                 <header className='header'>
                     <a href='/'>
-                        <img src={logo_white} className="header__img" alt='Logo Groupomania' />
+                        <img src={logo_white} className="header__img" alt='Logo de Groupomania' />
                     </a>
+                    <button className='header__burgerBtn' onClick={() => setDisplayBurgerHeader(!displayBurgerHeader)}>
+                        <p  >
+                            {!displayBurgerHeader ? 'III' : 'X'}
+                        </p>
+                    </button>
                     <div className={"header__imgCtn " + (!displayBurgerHeader ? 'header__imgCtn--displayNone' : '')}>
 
                         <button onClick={() => {
@@ -52,7 +57,7 @@ const Header = ({ type }) => {
                             onClick={() => {
                                 history.push('/profil')
                             }} >
-                            <img src={user_white} className="header__imgCtn__img" alt='Icon utilisateur' />
+                            <img src={user_white} className="header__imgCtn__img" alt='Icon utilisateur, bonhomme en blanc' />
                         </button>
 
                         <button
@@ -60,14 +65,11 @@ const Header = ({ type }) => {
                             onClick={() => {
                                 history.push('/setting')
                             }}>
-                            <img src={setting} className="header__imgCtn__img" alt='Icon utilisateur' />
+                            <img src={setting} className="header__imgCtn__img" alt='Icon paramètres, roue crantée' />
                         </button>
 
 
                     </div>
-                    <p className='header__burgerBtn' onClick={() => setDisplayBurgerHeader(!displayBurgerHeader)}>
-                        {!displayBurgerHeader ? 'III' : 'X'}
-                    </p>
                 </header>
             )
     }

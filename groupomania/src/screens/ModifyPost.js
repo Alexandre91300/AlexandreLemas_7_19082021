@@ -54,7 +54,7 @@ const ModifyPost = () => {
                         value={description}
                         onChange={e => setDescription(e.target.value)} />
 
-                    <img className='newPost__form__image' src={location.state.image} />
+                    <img className='newPost__form__image' src={location.state.image} alt='Image de votre post' />
 
                     <button className='newPost__form__submit' type='submit'>Enregistrer les modifications</button>
 
