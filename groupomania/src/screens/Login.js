@@ -52,7 +52,7 @@ const Login = () => {
                         <span className="signup__form__error">{errorMessage}</span>
                     ) : null}
                     <input
-                        tabIndex='0'
+                        tabIndex='1'
                         data-testid="input-mail"
                         placeholder="E-mail"
                         value={email}
@@ -62,6 +62,7 @@ const Login = () => {
                     />
 
                     <input
+                        tabIndex='2'
                         data-testid="input-password"
                         placeholder="Mot de passe"
                         value={password}
@@ -70,12 +71,16 @@ const Login = () => {
                         onChange={(e) => setPassword(e.target.value)}
                     />
 
-                    <Link to="/signup" className="login__form__link">
+                    <Link
+                        tabIndex='3'
+                        to="/signup"
+                        className="login__form__link">
                         <p>Pas encore inscrit ? Créez un compte ICI !</p>
                     </Link>
 
                     {button ? (
                         <button
+                            tabIndex='4'
                             data-testid="submit"
                             className="login__form__btn"
                             type="submit"

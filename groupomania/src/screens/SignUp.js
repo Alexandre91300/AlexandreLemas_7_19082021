@@ -84,9 +84,9 @@ const SignUp = () => {
                         <span className='signup__form__error'>{errorMessage}</span>
                         : null
                     }
-                    <input placeholder="Pseudo" value={pseudo} className='signup__form__inp' type='text' onChange={e => setPseudo(e.target.value)} />
-                    <input placeholder="E-mail" value={email} className='signup__form__inp' type='email' onChange={e => setEmail(e.target.value)} />
-                    <input placeholder="Mot de passe" value={password} className='signup__form__inp' type='password' onFocus={() => { displayVerif('focus') }} onBlur={() => { displayVerif('unFocus') }} onChange={e => setPassword(e.target.value)} />
+                    <input tabIndex='1' placeholder="Pseudo" value={pseudo} className='signup__form__inp' type='text' onChange={e => setPseudo(e.target.value)} />
+                    <input tabIndex='2' placeholder="E-mail" value={email} className='signup__form__inp' type='email' onChange={e => setEmail(e.target.value)} />
+                    <input tabIndex='3' placeholder="Mot de passe" value={password} className='signup__form__inp' type='password' onFocus={() => { displayVerif('focus') }} onBlur={() => { displayVerif('unFocus') }} onChange={e => setPassword(e.target.value)} />
 
                     {inputFocus ?
                         <div className="signup__form__verif">
@@ -100,12 +100,12 @@ const SignUp = () => {
                     }
 
 
-                    <Link to="/login" className="signup__form__link">
+                    <Link tabIndex='4' to="/login" className="signup__form__link">
                         <p>Déjà inscrit ? Connectez-vous ICI !</p>
                     </Link>
 
                     {button ?
-                        <button className='signup__form__btn' type='submit'>S'inscrire</button>
+                        <button tabIndex='5' className='signup__form__btn' type='submit'>S'inscrire</button>
                         :
                         <button className='signup__form__btn--disabled' disabled={true} type='submit'>S'inscrire</button>
                     }
