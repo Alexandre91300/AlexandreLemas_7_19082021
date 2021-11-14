@@ -16,5 +16,10 @@
   // Création d'un cadre autours des éléments lors du focus (WCAG)
   &:focus {
     border: 3px solid #3498db !important;
+    outline: none;
+  }
+
+  &:active {
+    border: none !important;
   }
 }
