@@ -19,6 +19,7 @@ const SignUp = () => {
         .has().lowercase()                              // Must have lowercase letters
         .has().digits(1)                                // Must have at least 2 digits
         .has().not().spaces()                           // Should not have spaces
+        .has().not().symbols()                          // Should not have symbols
         .is().not().oneOf(['Passw0rd', 'Password123']); // Blacklist these values
 
     const [pseudo, setPseudo] = useState('');
@@ -28,14 +29,6 @@ const SignUp = () => {
     const [errorMessage, setErrorMessage] = useState("");
 
     const [inputFocus, setInputFocus] = useState(false)
-
-    const [button, setButton] = useState(false);
-
-    if (!button && pseudo.length > 0 && email.length > 0 && schema.validate(password)) {
-        setButton(true)
-    } else if (button && pseudo.length > 0 && email.length === 0 && password.length === 0) {
-        setButton(false)
-    }
 
     useEffect(() => {
         let token = localStorage.getItem("token");
@@ -104,7 +97,7 @@ const SignUp = () => {
                         <p>Déjà inscrit ? Connectez-vous ICI !</p>
                     </Link>
 
-                    {button ?
+                    {pseudo.length > 0 && email.length > 0 && schema.validate(password) ?
                         <button tabIndex='5' className='signup__form__btn' type='submit'>S'inscrire</button>
                         :
                         <button className='signup__form__btn--disabled' disabled={true} type='submit'>S'inscrire</button>

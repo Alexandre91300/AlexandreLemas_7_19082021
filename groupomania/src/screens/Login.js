@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 import { Link, useHistory } from "react-router-dom";
 import { login } from "../api/User";
+import { sqlInjectionFilter } from "../utils/SqlInjectionFilter";
 
 const Login = () => {
     const history = useHistory();
@@ -10,14 +11,6 @@ const Login = () => {
     const [password, setPassword] = useState("Azerty123");
 
     const [errorMessage, setErrorMessage] = useState("");
-
-    const [button, setButton] = useState(false);
-
-    if (!button && email.length > 0 && password.length > 0) {
-        setButton(true);
-    } else if (button && email.length === 0 && password.length === 0) {
-        setButton(false);
-    }
 
     useEffect(() => {
         let token = localStorage.getItem("token");
@@ -78,7 +71,7 @@ const Login = () => {
                         <p>Pas encore inscrit ? Créez un compte ICI !</p>
                     </Link>
 
-                    {button ? (
+                    {email.length !== 0 && password.length >= 8 && sqlInjectionFilter(email) && sqlInjectionFilter(password) ? (
                         <button
                             tabIndex='4'
                             data-testid="submit"
