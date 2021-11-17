@@ -19,7 +19,6 @@ const Accueil = () => {
         <>
             <Header />
             <button
-                data-testid='accueil-btn-newPost'
                 className='accueil__btn'
                 onClick={() => {
                     history.push('/newPost')

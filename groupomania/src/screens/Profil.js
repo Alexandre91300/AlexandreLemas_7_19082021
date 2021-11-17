@@ -26,7 +26,6 @@ const Profil = () => {
                 <img src={user_black} className="profil__header__img" alt='Icon utilisateur, bonhomme blanc vous représentant' />
                 {username ? <h1 className="profil__header__title">{username}</h1> : <h1 className="profil__header__title">Username introuvable :/</h1>}
                 <button
-                    data-testid='accueil-btn-newPost'
                     className='accueil__btn'
                     onClick={() => {
                         history.push('/newPost')

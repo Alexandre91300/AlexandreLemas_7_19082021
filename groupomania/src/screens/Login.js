@@ -30,7 +30,7 @@ const Login = () => {
         <>
             <Header type="login" />
             <section className="login">
-                <h1 data-testid="login-title" className="login__title">
+                <h1 className="login__title">
                     CONNEXION
                 </h1>
 
@@ -46,7 +46,6 @@ const Login = () => {
                     ) : null}
                     <input
                         tabIndex='1'
-                        data-testid="input-mail"
                         placeholder="E-mail"
                         value={email}
                         className="login__form__inp"
@@ -56,7 +55,6 @@ const Login = () => {
 
                     <input
                         tabIndex='2'
-                        data-testid="input-password"
                         placeholder="Mot de passe"
                         value={password}
                         className="login__form__inp"
@@ -74,7 +72,6 @@ const Login = () => {
                     {email.length !== 0 && password.length >= 8 && sqlInjectionFilter(email) && sqlInjectionFilter(password) ? (
                         <button
                             tabIndex='4'
-                            data-testid="submit"
                             className="login__form__btn"
                             type="submit"
                         >

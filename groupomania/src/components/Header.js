@@ -50,7 +50,6 @@ const Header = ({ type }) => {
                             document.location.reload();
                         }}
                             className='header__btn header__btn--logout'
-                            data-testid='disconnect-btn'
                         >Déconnexion</button>
                         <button
                             style={{ backgroundColor: 'transparent', border: 'none' }}
