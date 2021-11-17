@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { getPosts } from "../api/Post";
 
 
-const Accueil = () => {
+const Home = () => {
     let history = useHistory();
     const [allPosts, setAllPosts] = useState([]);
 
@@ -19,11 +19,11 @@ const Accueil = () => {
         <>
             <Header />
             <button
-                className='accueil__btn'
+                className='home__btn'
                 onClick={() => {
                     history.push('/newPost')
                 }}>Nouveau Post</button>
-            <section className='accueil__allPost'>
+            <section className='home__allPost'>
                 {allPosts.length !== 0 ?
                     allPosts.map(e => {
                         return <Post post={e} key={e.id} />
@@ -36,4 +36,4 @@ const Accueil = () => {
     )
 }
 
-export default Accueil
+export default Home
