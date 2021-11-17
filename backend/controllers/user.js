@@ -6,6 +6,8 @@ require('dotenv').config();
 const passwordValidator = require('password-validator');
 const CryptoJS = require("crypto-js");
 const sqlUser = require('../sql/user');
+const sqlInjection = require('../utils/sqlInjectionFilter')
+
 
 // Password Validator
 var schema = new passwordValidator();
@@ -30,6 +32,10 @@ const encrypt = (string) => {
 }
 
 exports.signUp = (req, res, next) => {
+    sqlInjection.sqlInjectionFilter(req.body.email, res)
+    sqlInjection.sqlInjectionFilter(req.body.username, res)
+    sqlInjection.sqlInjectionFilter(req.body.password, res)
+
     if (schema.validate(req.body.password)) {
         bcrypt.hash(req.body.password, 10)
             .then(hash => {
@@ -42,6 +48,10 @@ exports.signUp = (req, res, next) => {
 };
 
 exports.login = (req, res, next) => {
+
+    sqlInjection.sqlInjectionFilter(req.body.email, res)
+    sqlInjection.sqlInjectionFilter(req.body.password, res)
+
     sqlUser.getUserByEmail(encrypt(req.body.email), res)
         .then(user => {
             bcrypt.compare(req.body.password, user.password)
@@ -64,6 +74,9 @@ exports.login = (req, res, next) => {
 };
 
 exports.isUserAuth = (req, res, next) => {
+
+    sqlInjection.sqlInjectionFilter(req.headers.authorization.split(' ')[0], res)
+
     sqlUser.getUserById(req.headers.authorization.split(' ')[0])
         .then(user => {
             res.status(200).json({ isAuth: true, username: user.username })
@@ -75,6 +88,8 @@ exports.isUserAuth = (req, res, next) => {
 };
 
 exports.deleteDatas = (req, res, next) => {
+    sqlInjection.sqlInjectionFilter(req.body.uid, res)
+
     sqlUser.deleteDatas(req.body.uid).then(() => {
         res.status(200).json({ message: 'Données utilisateur supprimé avec succès !' })
     }).catch(() => {
@@ -83,6 +98,8 @@ exports.deleteDatas = (req, res, next) => {
 };
 
 exports.deleteAccount = (req, res, next) => {
+    sqlInjection.sqlInjectionFilter(req.body.uid, res)
+
     sqlUser.deleteAccount(req.body.uid).then(() => {
         res.status(200).json({ message: 'Compte et données utilisateur supprimé avec succès !' })
     }).catch(() => {
