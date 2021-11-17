@@ -78,6 +78,10 @@
       align-self: center;
       cursor: pointer;
 
+      &--disabled {
+        background-color: $grey;
+      }
+
       &:hover {
         transform: scale(1.1);
         background-color: $secondary;

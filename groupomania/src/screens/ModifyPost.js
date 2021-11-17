@@ -3,6 +3,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 
 import Header from '../components/Header'
 import { modifyPost } from '../api/Post';
+import { sqlInjectionFilter } from '../utils/SqlInjectionFilter';
 
 const ModifyPost = () => {
     const history = useHistory();
@@ -55,8 +56,11 @@ const ModifyPost = () => {
                         onChange={e => setDescription(e.target.value)} />
 
                     <img className='newPost__form__image' src={location.state.image} alt='Image de votre post' />
-
-                    <button className='newPost__form__submit' type='submit'>Enregistrer les modifications</button>
+                    {sqlInjectionFilter(title) && sqlInjectionFilter(description) ?
+                        <button className='newPost__form__submit' type='submit'>Enregistrer les modifications</button>
+                        :
+                        <button className='newPost__form__submit newPost__form__submit--disabled' type='submit' disabled>Enregistrer les modifications</button>
+                    }
 
                 </form>
 

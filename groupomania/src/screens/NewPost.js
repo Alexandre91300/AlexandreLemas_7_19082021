@@ -4,6 +4,8 @@ import { useHistory } from 'react-router-dom';
 import Header from '../components/Header'
 import { createPost } from '../api/Post';
 
+import { sqlInjectionFilter } from '../utils/SqlInjectionFilter';
+
 const NewPost = () => {
     const history = useHistory()
 
@@ -85,8 +87,11 @@ const NewPost = () => {
                         <div className='newPost__form__fakeImg' />
                     }
 
-                    <button className='newPost__form__submit' type='submit' >Poster</button>
-
+                    {sqlInjectionFilter(title) && sqlInjectionFilter(description) ?
+                        <button className='newPost__form__submit' type='submit'>Poster</button>
+                        :
+                        <button className='newPost__form__submit newPost__form__submit--disabled' type='submit' disabled>Poster</button>
+                    }
                 </form>
 
             </section>

@@ -3,6 +3,7 @@ import Header from '../components/Header';
 import { Link, useHistory } from 'react-router-dom';
 import PasswordValidator from 'password-validator';
 import { createAccount } from '../api/User';
+import { sqlInjectionFilter } from '../utils/SqlInjectionFilter';
 
 
 
@@ -97,7 +98,7 @@ const SignUp = () => {
                         <p>Déjà inscrit ? Connectez-vous ICI !</p>
                     </Link>
 
-                    {pseudo.length > 0 && email.length > 0 && schema.validate(password) ?
+                    {pseudo.length > 0 && email.length > 0 && schema.validate(password) && sqlInjectionFilter(pseudo) && sqlInjectionFilter(email) && sqlInjectionFilter(password) ?
                         <button tabIndex='5' className='signup__form__btn' type='submit'>S'inscrire</button>
                         :
                         <button className='signup__form__btn--disabled' disabled={true} type='submit'>S'inscrire</button>
