@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { timeConvertor } from "../utils/timeConvertor";
 import { createComment, getCommentsByPostId, deleteComment } from "../api/Comment";
+import { ADMIN_ID } from "../constant/Admin";
 
 const Modal = ({ callBack, post }) => {
     const [comment, setComment] = useState('')
@@ -11,7 +12,6 @@ const Modal = ({ callBack, post }) => {
     const [reload, setReload] = useState(0)
 
     const uid = localStorage.getItem('id');
-    const adminId = 31;
 
     useEffect(() => {
         if (post.comments !== 0) {
@@ -89,7 +89,7 @@ const Modal = ({ callBack, post }) => {
                                 <div key={index} className='modal__ctn__commentCtn__comment'>
                                     <p>Par <strong>{item.username}</strong> il y a {timeConvertor(item.date)}</p>
                                     <p className='modal__ctn__commentCtn__comment__text'>{item.comment}</p>
-                                    {item.uid == uid || uid == adminId ?
+                                    {item.uid == uid || uid == ADMIN_ID ?
                                         <button
                                             onClick={() => { handleDeleteComment(item.id, post.id) }}
                                             className='modal__ctn__commentCtn__comment__btn'

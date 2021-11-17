@@ -8,6 +8,7 @@ import { timeConvertor } from '../utils/timeConvertor';
 import like from '../assets/like.png';
 import likeBlack from '../assets/like-black.png';
 import comment from '../assets/comment.svg';
+import { ADMIN_ID } from '../constant/Admin';
 
 const Post = ({ post }) => {
     const history = useHistory();
@@ -19,7 +20,7 @@ const Post = ({ post }) => {
 
     const uid = localStorage.getItem('id');
     const postId = post.id;
-    const adminId = 31;
+
 
     useEffect(() => {
         if (post.likes.split(' ').find(e => e === uid)) {
@@ -89,7 +90,7 @@ const Post = ({ post }) => {
         <div className='post'>
             <h2 className='post__title'>{post.title}</h2>
             <p className='post__description'>{post.description}</p>
-            {uid == post.uid || uid == adminId ?
+            {uid == post.uid || uid == ADMIN_ID ?
                 <div>
                     <button className='post__deleteBtn' onClick={() => handleDeletePost()} >Supprimer</button>
                     <button className='post__modifyBtn' onClick={() => modifyPost()} >Modifier</button>
