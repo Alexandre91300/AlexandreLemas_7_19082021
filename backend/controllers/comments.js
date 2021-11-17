@@ -1,8 +1,17 @@
 // LOGIQUE DE GESTION DES REQUETES COMMENTAIRE 
 
 const sqlComment = require('../sql/comment');
+const sqlInjection = require('../utils/sqlInjectionFilter')
+
 
 exports.new = (req, res, next) => {
+
+    sqlInjection.sqlInjectionFilter(req.body.comment, res)
+    sqlInjection.sqlInjectionFilter(req.body.timestamp, res)
+    sqlInjection.sqlInjectionFilter(req.body.username, res)
+    sqlInjection.sqlInjectionFilter(req.body.postId, res)
+    sqlInjection.sqlInjectionFilter(req.body.uid, res)
+
     sqlComment.createComment(
         req.body.comment,
         req.body.timestamp,
@@ -17,6 +26,9 @@ exports.new = (req, res, next) => {
 };
 
 exports.get = (req, res, next) => {
+
+    sqlInjection.sqlInjectionFilter(req.body.postId, res)
+
     sqlComment.getComments(req.body.postId)
         .then(comments => {
             res.status(200).json({ comments: comments })
@@ -27,6 +39,10 @@ exports.get = (req, res, next) => {
 };
 
 exports.deleteOne = (req, res, next) => {
+
+    sqlInjection.sqlInjectionFilter(req.body.commentId, res)
+    sqlInjection.sqlInjectionFilter(req.body.postId, res)
+
     sqlComment.deleteComment(req.body.commentId, req.body.postId)
         .then(response => {
             res.status(200).json({ message: "Commentaire supprimé avec succès !" })

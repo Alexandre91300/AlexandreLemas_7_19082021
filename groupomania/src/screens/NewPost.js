@@ -4,6 +4,8 @@ import { useHistory } from 'react-router-dom';
 import Header from '../components/Header'
 import { createPost } from '../api/Post';
 
+import { sqlInjectionFilter } from '../utils/SqlInjectionFilter';
+
 const NewPost = () => {
     const history = useHistory()
 
@@ -80,13 +82,16 @@ const NewPost = () => {
 
 
                     {preview !== "" ?
-                        <img style={{ width: 400, height: 400, objectFit: 'cover' }} src={preview} />
+                        <img className='newPost__form__image' src={preview} alt='Image de votre post' />
                         :
                         <div className='newPost__form__fakeImg' />
                     }
 
-                    <button className='newPost__form__submit' type='submit' >Poster</button>
-
+                    {sqlInjectionFilter(title) && sqlInjectionFilter(description) ?
+                        <button className='newPost__form__submit' type='submit'>Poster</button>
+                        :
+                        <button className='newPost__form__submit newPost__form__submit--disabled' type='submit' disabled>Poster</button>
+                    }
                 </form>
 
             </section>

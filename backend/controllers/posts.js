@@ -1,10 +1,15 @@
 // LOGIQUE DE GESTION DES REQUETES POST 
 
 const sqlPost = require('../sql/post');
+const sqlInjection = require('../utils/sqlInjectionFilter')
 const fs = require('fs');
 
 exports.new = (req, res, next) => {
     let request = JSON.parse(req.body.post);
+
+    sqlInjection.sqlInjectionFilter(request.username, res)
+    sqlInjection.sqlInjectionFilter(request.title, res)
+    sqlInjection.sqlInjectionFilter(request.description, res)
 
     let post = {
         username: request.username,
@@ -33,6 +38,9 @@ exports.get = (req, res, next) => {
 };
 
 exports.getByUid = (req, res, next) => {
+
+    sqlInjection.sqlInjectionFilter(req.body.uid, res)
+
     sqlPost.getPostsByUid(req.body.uid).then(posts => {
         res.status(200).json({ posts })
     }).catch(() => {
@@ -42,6 +50,10 @@ exports.getByUid = (req, res, next) => {
 };
 
 exports.update = (req, res, next) => {
+
+    sqlInjection.sqlInjectionFilter(req.body.title, res)
+    sqlInjection.sqlInjectionFilter(req.body.description, res)
+
     sqlPost.updatePostById(req.body.postId, req.body.title, req.body.description)
         .then(() => {
             res.status(200).json({ message: 'Modifié avec succès !' })
@@ -54,6 +66,9 @@ exports.update = (req, res, next) => {
 exports.delete = (req, res, next) => {
     const filename = req.body.imageUrl.split('/images/')[1];
 
+    sqlInjection.sqlInjectionFilter(req.body.postId, res)
+
+
     fs.unlink(`images/${filename}`, () => {
         sqlPost.deletePostById(req.body.postId).then(() => {
             res.status(200).json({ message: 'Supprimé avec succès !' })
@@ -65,6 +80,10 @@ exports.delete = (req, res, next) => {
 };
 
 exports.like = (req, res, next) => {
+
+    sqlInjection.sqlInjectionFilter(req.body.postId, res)
+    sqlInjection.sqlInjectionFilter(req.body.uid, res)
+
     sqlPost.like(req.body.postId, req.body.uid)
         .then((response) => {
             res.status(200).json({ message: response })

@@ -1,6 +1,6 @@
 // Les différents headers de l'app
 
-import React from 'react';
+import React, { useState } from 'react';
 import logo_white from '../assets/logo_white.svg';
 import user_white from '../assets/user_white.svg';
 import setting from '../assets/setting.png';
@@ -8,26 +8,27 @@ import { useHistory } from 'react-router-dom';
 
 
 const Header = ({ type }) => {
-
     let history = useHistory();
+
+    const [displayBurgerHeader, setDisplayBurgerHeader] = useState(false);
 
     switch (type) {
         case 'login':
             return (
                 <header className='header'>
-                    <img src={logo_white} className="header__img" alt='Logo Groupomania' />
+                    <img src={logo_white} className="header__img" alt='Logo de Groupomania' />
                     <button onClick={() => {
                         history.push('/signup')
-                    }} className='header__btn'>Inscription</button>
+                    }} className='header__btn header__btn--login'>Inscription</button>
                 </header>
             )
         case 'signup':
             return (
                 <header className='header'>
-                    <img src={logo_white} className="header__img" alt='Logo Groupomania' />
+                    <img src={logo_white} className="header__img" alt='Logo de Groupomania' />
                     <button onClick={() => {
                         history.push('/login')
-                    }} className='header__btn'>Connexion</button>
+                    }} className='header__btn header__btn--signup'>Connexion</button>
                 </header>
             )
 
@@ -35,9 +36,14 @@ const Header = ({ type }) => {
             return (
                 <header className='header'>
                     <a href='/'>
-                        <img src={logo_white} className="header__img" alt='Logo Groupomania' />
+                        <img src={logo_white} className="header__img" alt='Logo de Groupomania' />
                     </a>
-                    <div className='header__imgCtn'>
+                    <button className='header__burgerBtn' onClick={() => setDisplayBurgerHeader(!displayBurgerHeader)}>
+                        <p  >
+                            {!displayBurgerHeader ? 'III' : 'X'}
+                        </p>
+                    </button>
+                    <div className={"header__imgCtn " + (!displayBurgerHeader ? 'header__imgCtn--displayNone' : '')}>
 
                         <button onClick={() => {
                             localStorage.clear();
@@ -46,13 +52,22 @@ const Header = ({ type }) => {
                             className='header__btn header__btn--logout'
                             data-testid='disconnect-btn'
                         >Déconnexion</button>
-                        <img onClick={() => {
-                            history.push('/profil')
-                        }} src={user_white} className="header__img" alt='Icon utilisateur' />
+                        <button
+                            style={{ backgroundColor: 'transparent', border: 'none' }}
+                            onClick={() => {
+                                history.push('/profil')
+                            }} >
+                            <img src={user_white} className="header__imgCtn__img" alt='Icon utilisateur, bonhomme en blanc' />
+                        </button>
 
-                        <img onClick={() => {
-                            history.push('/setting')
-                        }} src={setting} className="header__img" alt='Icon utilisateur' />
+                        <button
+                            style={{ backgroundColor: 'transparent', border: 'none' }}
+                            onClick={() => {
+                                history.push('/setting')
+                            }}>
+                            <img src={setting} className="header__imgCtn__img" alt='Icon paramètres, roue crantée' />
+                        </button>
+
 
                     </div>
                 </header>

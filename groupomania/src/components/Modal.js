@@ -77,22 +77,22 @@ const Modal = ({ callBack, post }) => {
 
         <div className='modal'>
             <div className='modal__ctn'>
-                <p
+                <button
                     style={{ margin: 10, cursor: "pointer" }}
                     onClick={() => callBack()}
-                >X</p>
+                >X</button>
 
-                <div style={{ height: '80%', overflow: "auto" }}>
+                <div className='modal__ctn__commentCtn'>
                     {allComments ?
                         sortedComments.map((item, index) => {
                             return (
-                                <div key={index} className='modal__ctn__comment'>
+                                <div key={index} className='modal__ctn__commentCtn__comment'>
                                     <p>Par <strong>{item.username}</strong> il y a {timeConvertor(item.date)}</p>
-                                    <p className='modal__ctn__comment__text'>{item.comment}</p>
+                                    <p className='modal__ctn__commentCtn__comment__text'>{item.comment}</p>
                                     {item.uid == uid || uid == adminId ?
                                         <button
                                             onClick={() => { handleDeleteComment(item.id, post.id) }}
-                                            className='modal__ctn__comment__btn'
+                                            className='modal__ctn__commentCtn__comment__btn'
                                         >Supprimer</button>
                                         : null}
                                 </div>
