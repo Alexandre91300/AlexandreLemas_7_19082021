@@ -90,11 +90,18 @@
 
   &__burgerBtn {
     display: none;
+    background-color: transparent;
+    border: none;
 
     @include phone-only {
       display: block;
       z-index: 1;
       cursor: pointer;
+    }
+
+    & > img {
+      width: 20px;
+      height: 20px;
     }
   }
 }

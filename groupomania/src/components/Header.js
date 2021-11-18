@@ -5,6 +5,9 @@ import logo_white from '../assets/logo_white.svg';
 import user_white from '../assets/user_white.svg';
 import setting from '../assets/setting.png';
 import { useHistory } from 'react-router-dom';
+import closeWhite from '../assets/close-white.png'
+import burgerButton from '../assets/burgerButton.png'
+
 
 
 const Header = ({ type }) => {
@@ -39,9 +42,11 @@ const Header = ({ type }) => {
                         <img src={logo_white} className="header__img" alt='Logo de Groupomania' />
                     </a>
                     <button className='header__burgerBtn' onClick={() => setDisplayBurgerHeader(!displayBurgerHeader)}>
-                        <p  >
-                            {!displayBurgerHeader ? 'III' : 'X'}
-                        </p>
+                        {!displayBurgerHeader ?
+                            <img src={burgerButton} alt='Icon de navigation dépliante' />
+                            :
+                            <img src={closeWhite} alt='Icon en forme de croix' />
+                        }
                     </button>
                     <div className={"header__imgCtn " + (!displayBurgerHeader ? 'header__imgCtn--displayNone' : '')}>
 
