@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { timeConvertor } from "../utils/TimeConvertor";
 import { createComment, getCommentsByPostId, deleteComment } from "../api/Comment";
 import { ADMIN_ID } from "../constant/Admin";
+import close from '../assets/close.png'
 
 const Modal = ({ callBack, post }) => {
     const [comment, setComment] = useState('')
@@ -73,21 +74,25 @@ const Modal = ({ callBack, post }) => {
 
     }, [allComments])
 
+
+
     return (
 
         <div className='modal'>
             <div className='modal__ctn'>
                 <button
-                    style={{ margin: 10, cursor: "pointer" }}
+                    className='modal__ctn__back'
                     onClick={() => callBack()}
-                >X</button>
+                >
+                    <img src={close} alt='Icon en forme de croix' />
+                </button>
 
                 <div className='modal__ctn__commentCtn'>
                     {allComments ?
                         sortedComments.map((item, index) => {
                             return (
                                 <div key={index} className='modal__ctn__commentCtn__comment'>
-                                    <p>Par <strong>{item.username}</strong> il y a {timeConvertor(item.date)}</p>
+                                    <p className='modal__ctn__commentCtn__comment__header'>Par <strong>{item.username}</strong> il y a {timeConvertor(item.date)}</p>
                                     <p className='modal__ctn__commentCtn__comment__text'>{item.comment}</p>
                                     {item.uid == uid || uid == ADMIN_ID ?
                                         <button
@@ -99,7 +104,7 @@ const Modal = ({ callBack, post }) => {
                             )
                         })
                         :
-                        <p>Aucun commentaire</p>
+                        <p className='modal__ctn__commentCtn__message'>Soyez le premier à laisser un commentaire :)</p>
                     }
                 </div>
 
@@ -108,13 +113,14 @@ const Modal = ({ callBack, post }) => {
                     handleCreateComment()
                 }}>
                     <input
+                        className='modal__ctn__form__input'
                         placeholder='Laisser un commentaire...'
                         maxLength={280}
                         type='text'
                         value={comment}
                         onChange={e => setComment(e.target.value)}
                     />
-                    <button>Publier</button>
+                    <button className='modal__ctn__form__button'>Publier</button>
                 </form>
 
             </div>
