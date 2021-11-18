@@ -57,7 +57,7 @@ const Header = ({ type }) => {
                             className='header__btn header__btn--logout'
                         >Déconnexion</button>
                         <button
-                            style={{ backgroundColor: 'transparent', border: 'none' }}
+                            className='header__btn header__btn--logout'
                             onClick={() => {
                                 history.push('/profil')
                             }} >
@@ -65,7 +65,7 @@ const Header = ({ type }) => {
                         </button>
 
                         <button
-                            style={{ backgroundColor: 'transparent', border: 'none' }}
+                            className='header__btn header__btn--logout'
                             onClick={() => {
                                 history.push('/setting')
                             }}>

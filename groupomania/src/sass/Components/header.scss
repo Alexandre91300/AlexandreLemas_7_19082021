@@ -12,6 +12,10 @@
   &__img {
     width: 300px;
 
+    &:hover {
+      transform: scale(1.05);
+    }
+
     @include phone-only {
       max-width: 200px;
       width: 50vw;
