@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import ProtectedRoute from './auth/ProtectedRoute';
 import './sass/Main.scss';
 
@@ -32,7 +32,7 @@ function App() {
           {/* Routes LIBRES */}
           <Route path="/login" component={Login} />
           <Route path="/signup" component={SignUp} />
-          <Route path="/" component={() => { return (<h1>ERREUR 404</h1>) }} />
+          <Route path="/" component={() => <Redirect to='/' />} />
         </Switch>
       </Router>
     </>
