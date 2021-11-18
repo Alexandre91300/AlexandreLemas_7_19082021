@@ -1,7 +1,7 @@
 // Modal d'affichages des commentaires
 
 import React, { useEffect, useState } from "react";
-import { timeConvertor } from "../utils/timeConvertor";
+import { timeConvertor } from "../utils/TimeConvertor";
 import { createComment, getCommentsByPostId, deleteComment } from "../api/Comment";
 import { ADMIN_ID } from "../constant/Admin";
 

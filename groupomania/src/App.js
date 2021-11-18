@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import ProtectedRoute from './auth/ProtectedRoute';
-import './sass/main.scss';
+import './sass/Main.scss';
 
 import Login from './screens/Login';
 import SignUp from './screens/SignUp';

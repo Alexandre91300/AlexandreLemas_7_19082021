@@ -2,9 +2,9 @@
 
 const express = require('express');
 const router = express.Router();
-const postsCtrl = require('../controllers/posts');
-const auth = require('../middleware/auth');
-const multer = require('../middleware/multer-config');
+const postsCtrl = require('../controllers/Posts');
+const auth = require('../middleware/Auth');
+const multer = require('../middleware/MulterConfig');
 
 // Create
 router.post('/create', auth, multer, postsCtrl.new);

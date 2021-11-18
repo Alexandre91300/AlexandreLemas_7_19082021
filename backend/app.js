@@ -5,9 +5,9 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const app = express();
 
-const userRoutes = require('./routes/user');
-const postsRoutes = require('./routes/posts');
-const commentsRoutes = require('./routes/comments');
+const userRoutes = require('./routes/User');
+const postsRoutes = require('./routes/Posts');
+const commentsRoutes = require('./routes/Comments');
 
 require('dotenv').config();
 const helmet = require('helmet');
