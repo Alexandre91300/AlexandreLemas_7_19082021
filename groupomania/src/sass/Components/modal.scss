@@ -19,6 +19,21 @@
     justify-content: center;
     padding: 20px;
 
+    &__back {
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+
+      &:hover {
+        transform: scale(1.1);
+      }
+
+      & > img {
+        width: 15px;
+        height: 15px;
+      }
+    }
+
     &__commentCtn {
       overflow: auto;
       height: 80%;
@@ -28,6 +43,10 @@
       &__comment {
         margin: 10px;
         border-bottom: 1px solid $primary;
+
+        &__header {
+          font-size: 12px;
+        }
 
         &__text {
           margin: 5px 0;
@@ -47,6 +66,11 @@
           }
         }
       }
+
+      &__message {
+        text-align: center;
+        font-weight: bold;
+      }
     }
 
     &__form {
@@ -56,13 +80,26 @@
       justify-content: space-between;
       width: 80%;
       align-self: center;
-      & > input {
+
+      &__input {
         width: 100%;
         padding: 5px;
+        border: 1px solid $primary;
       }
 
-      & > button {
-        margin: 10px 0 0 0;
+      &__button {
+        margin-top: 10px;
+        padding: 10px;
+        background-color: $primary;
+        color: $secondary;
+        border: 1px solid $primary;
+        cursor: pointer;
+
+        &:hover {
+          transform: scale(1.1);
+          background-color: $secondary;
+          color: $primary;
+        }
       }
     }
   }

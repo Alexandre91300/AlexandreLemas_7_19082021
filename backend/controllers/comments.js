@@ -1,7 +1,7 @@
 // LOGIQUE DE GESTION DES REQUETES COMMENTAIRE 
 
-const sqlComment = require('../sql/comment');
-const sqlInjection = require('../utils/sqlInjectionFilter')
+const sqlComment = require('../sql/Comment');
+const sqlInjection = require('../utils/SqlInjectionFilter')
 
 
 exports.new = (req, res, next) => {

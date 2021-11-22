@@ -1,5 +1,6 @@
 import Axios from 'axios';
-import { ENDPOINT } from './ApiConst';
+import { ENDPOINT } from '../constant/ApiConst';
+
 
 export const createAccount = async (username, email, password) => {
     await Axios.post(`${ENDPOINT}/api/user/signup`,
@@ -44,7 +45,6 @@ export const userIsAuth = async () => {
                 authorization: uid + ' ' + token
             }
         }).then(res => {
-            console.log(res.data.isAuth);
             if (res.data.isAuth === true) {
                 return;
             } else {

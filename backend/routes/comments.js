@@ -2,7 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
-const commentsCtrl = require('../controllers/comments');
+const commentsCtrl = require('../controllers/Comments');
 const auth = require('../middleware/auth');
 
 

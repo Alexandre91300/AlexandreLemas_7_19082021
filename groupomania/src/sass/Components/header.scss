@@ -12,6 +12,10 @@
   &__img {
     width: 300px;
 
+    &:hover {
+      transform: scale(1.05);
+    }
+
     @include phone-only {
       max-width: 200px;
       width: 50vw;
@@ -90,11 +94,18 @@
 
   &__burgerBtn {
     display: none;
+    background-color: transparent;
+    border: none;
 
     @include phone-only {
       display: block;
       z-index: 1;
       cursor: pointer;
+    }
+
+    & > img {
+      width: 20px;
+      height: 20px;
     }
   }
 }

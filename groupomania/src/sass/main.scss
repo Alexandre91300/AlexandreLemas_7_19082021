@@ -1,18 +1,20 @@
-@import './Base/init.scss';
+// Init
+@import "./base/Init.scss";
 
-@import './Utils/variables.scss';
-@import './Utils//mixins.scss';
+// Utils
+@import "./utils/Variables.scss";
+@import "./utils/Mixins.scss";
 
 // Components
-@import './Components/header.scss';
-@import './Components/post.scss';
-@import './Components/modal.scss';
+@import "./components/Header.scss";
+@import "./components/Post.scss";
+@import "./components/Modal.scss";
+@import "./components/Loader.scss";
 
 // Screens
-@import './Pages//login.scss';
-@import './Pages/signup.scss';
-@import './Pages/accueil.scss';
-@import './Pages/newPost.scss';
-@import './Pages/profil.scss';
-@import './Pages/setting.scss';
-
+@import "./pages/Login.scss";
+@import "./pages/Signup.scss";
+@import "./pages/Home.scss";
+@import "./pages/NewPost.scss";
+@import "./pages/Profil.scss";
+@import "./pages/Setting.scss";

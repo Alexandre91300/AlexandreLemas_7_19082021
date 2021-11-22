@@ -5,8 +5,8 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const passwordValidator = require('password-validator');
 const CryptoJS = require("crypto-js");
-const sqlUser = require('../sql/user');
-const sqlInjection = require('../utils/sqlInjectionFilter')
+const sqlUser = require('../sql/User');
+const sqlInjection = require('../utils/SqlInjectionFilter')
 
 
 // Password Validator

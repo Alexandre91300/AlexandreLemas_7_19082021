@@ -1,10 +1,10 @@
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import ProtectedRoute from './auth/ProtectedRoute';
-import './sass/main.scss';
+import './sass/Main.scss';
 
 import Login from './screens/Login';
 import SignUp from './screens/SignUp';
-import Accueil from './screens/Accueil';
+import Home from './screens/Home';
 import NewPost from './screens/NewPost';
 import Profil from './screens/Profil';
 import ModifyPost from './screens/ModifyPost';
@@ -23,7 +23,7 @@ function App() {
         <Switch>
 
           {/* Routes PROTEGES */}
-          <ProtectedRoute path="/" exact component={Accueil} />
+          <ProtectedRoute path="/" exact component={Home} />
           <ProtectedRoute path="/newPost" exact component={NewPost} />
           <ProtectedRoute path="/modifyPost" exact component={ModifyPost} />
           <ProtectedRoute path="/profil" exact component={Profil} />
@@ -32,7 +32,7 @@ function App() {
           {/* Routes LIBRES */}
           <Route path="/login" component={Login} />
           <Route path="/signup" component={SignUp} />
-          <Route path="/" component={() => { return (<h1>ERREUR 404</h1>) }} />
+          <Route path="/" component={() => <Redirect to='/' />} />
         </Switch>
       </Router>
     </>

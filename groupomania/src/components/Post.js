@@ -3,11 +3,12 @@ import { useEffect, useState } from 'react';
 
 import Modal from './Modal';
 import { deletePost, toggleLikePost } from '../api/Post';
-import { timeConvertor } from '../utils/timeConvertor';
+import { timeConvertor } from '../utils/TimeConvertor';
 
 import like from '../assets/like.png';
 import likeBlack from '../assets/like-black.png';
 import comment from '../assets/comment.svg';
+import { ADMIN_ID } from '../constant/Admin';
 
 const Post = ({ post }) => {
     const history = useHistory();
@@ -19,7 +20,7 @@ const Post = ({ post }) => {
 
     const uid = localStorage.getItem('id');
     const postId = post.id;
-    const adminId = 31;
+
 
     useEffect(() => {
         if (post.likes.split(' ').find(e => e === uid)) {
@@ -89,7 +90,7 @@ const Post = ({ post }) => {
         <div className='post'>
             <h2 className='post__title'>{post.title}</h2>
             <p className='post__description'>{post.description}</p>
-            {uid == post.uid || uid == adminId ?
+            {uid == post.uid || uid == ADMIN_ID ?
                 <div>
                     <button className='post__deleteBtn' onClick={() => handleDeletePost()} >Supprimer</button>
                     <button className='post__modifyBtn' onClick={() => modifyPost()} >Modifier</button>
@@ -99,21 +100,21 @@ const Post = ({ post }) => {
             }
             <img className='post__image' src={post.image} alt='Image du post' />
             <p className='post__txt'>{post.username} <span className='post__txt--grey'>il y a {timeConvertor(post.date)}</span></p>
-            <div className='post__ctn'>
-                <button
-                    style={{ backgroundColor: 'transparent', border: 'none' }}
-                    onClick={() => handleToggleLikePost()}>
-                    {postLiked ?
-                        <img className='post__ctn__icon' src={likeBlack} alt='Icon coeur noir plein, post liké' />
-                        :
-                        <img className='post__ctn__icon' src={like} alt='Icon coeur noir vide, post non liké' />
-                    }
-                </button>
+            <button
+                className='post__ctn'
+                style={{ backgroundColor: 'transparent', border: 'none' }}
+                onClick={() => handleToggleLikePost()}>
+                {postLiked ?
+                    <img className='post__ctn__icon' src={likeBlack} alt='Icon coeur noir plein, post liké' />
+                    :
+                    <img className='post__ctn__icon' src={like} alt='Icon coeur noir vide, post non liké' />
+                }
                 <p className='post__ctn__txtLike'>{likeNumber} Like</p>
-            </div>
+            </button>
             <button
                 style={{ backgroundColor: 'transparent', border: 'none' }}
-                className='post__ctn' onClick={() => setDisplayModal(true)}>
+                className='post__ctn'
+                onClick={() => setDisplayModal(true)}>
                 <img className='post__ctn__icon' src={comment} alt='Icon commentaires, bulle avec du texte' />
                 <p className='post__ctn__txtComment'>{commentNumber} Commentaires</p>
             </button>

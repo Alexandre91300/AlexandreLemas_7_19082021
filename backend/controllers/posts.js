@@ -1,7 +1,7 @@
 // LOGIQUE DE GESTION DES REQUETES POST 
 
-const sqlPost = require('../sql/post');
-const sqlInjection = require('../utils/sqlInjectionFilter')
+const sqlPost = require('../sql/Post');
+const sqlInjection = require('../utils/SqlInjectionFilter')
 const fs = require('fs');
 
 exports.new = (req, res, next) => {

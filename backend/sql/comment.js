@@ -1,12 +1,13 @@
 // SQL > COMMENT
 
 const mysql = require('mysql');
+require('dotenv').config();
 
 const db = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: 'binksbinks91',
-    database: 'groupomania'
+    host: `${process.env.SqlHOST}`,
+    user: `${process.env.SqlUSER}`,
+    password: `${process.env.SqlPASSWORD}`,
+    database: `${process.env.SqlDATABASE}`
 });
 
 const createComment = async (comment, timestamp, username, postId, uid) => {

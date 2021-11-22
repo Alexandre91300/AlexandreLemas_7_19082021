@@ -2,12 +2,13 @@
 
 const fs = require('fs');
 const mysql = require('mysql');
+require('dotenv').config();
 
 const db = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: 'binksbinks91',
-    database: 'groupomania'
+    host: `${process.env.SqlHOST}`,
+    user: `${process.env.SqlUSER}`,
+    password: `${process.env.SqlPASSWORD}`,
+    database: `${process.env.SqlDATABASE}`
 });
 
 const createUser = async (email, username, password, res) => {
@@ -70,14 +71,10 @@ exports.getUserById = getUserById;
 const deleteDatas = async (uid) => {
     let myPromise = () => {
         return new Promise((resolve, reject) => {
-            console.log('Delete datas')
             db.query("SELECT * FROM posts WHERE uid = ?", [uid], (err, result) => {
                 if (result.length !== 0) {
                     result.map(item => {
                         let filename = item.image.split('/images/')[1]
-
-                        console.log('filename =>');
-                        console.log(filename);
 
                         try {
                             fs.unlink(`images/${filename}`, (e) => {
