@@ -45,7 +45,6 @@ export const userIsAuth = async () => {
                 authorization: uid + ' ' + token
             }
         }).then(res => {
-            console.log(res.data.isAuth);
             if (res.data.isAuth === true) {
                 return;
             } else {

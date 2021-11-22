@@ -16,7 +16,6 @@ module.exports = (req, res, next) => {
             next()
         }
     } catch (error) {
-        console.log('Accès interdit');
         res.status(401).json({ error: error | 'Unauthenticated request' });
     }
 };

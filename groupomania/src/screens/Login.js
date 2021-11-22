@@ -7,8 +7,8 @@ import { sqlInjectionFilter } from "../utils/SqlInjectionFilter";
 const Login = () => {
     const history = useHistory();
 
-    const [email, setEmail] = useState("account-1@test.com");
-    const [password, setPassword] = useState("Azerty123");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
     const [errorMessage, setErrorMessage] = useState("");
 

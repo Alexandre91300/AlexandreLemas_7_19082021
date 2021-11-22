@@ -71,14 +71,10 @@ exports.getUserById = getUserById;
 const deleteDatas = async (uid) => {
     let myPromise = () => {
         return new Promise((resolve, reject) => {
-            console.log('Delete datas')
             db.query("SELECT * FROM posts WHERE uid = ?", [uid], (err, result) => {
                 if (result.length !== 0) {
                     result.map(item => {
                         let filename = item.image.split('/images/')[1]
-
-                        console.log('filename =>');
-                        console.log(filename);
 
                         try {
                             fs.unlink(`images/${filename}`, (e) => {
