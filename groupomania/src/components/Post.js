@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 import Modal from './Modal';
 import { deletePost, toggleLikePost } from '../api/Post';
-import { timeConvertor } from '../utils/TimeConvertor';
+import { timeConvertor } from '../utils/timeConvertor';
 
 import like from '../assets/like.png';
 import likeBlack from '../assets/like-black.png';

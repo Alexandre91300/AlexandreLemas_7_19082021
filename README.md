@@ -71,7 +71,7 @@ Pour des raisons de sécurité, certaines données ne sont pas codés en dur. À
 
 Si vous souhaitez obtenir ce fichier, contactez-moi sur [Linkedin](https://www.linkedin.com/in/alexandre-lemas).
 
-Une fois ce fichier récupéré, placez le dans le dossier "backend" puis ouvrez le.
+Une fois ce fichier récupéré, placez le dans le dossier "backend" puis ouvrez le dans votre éditeur de code.
 
 Dans ce fichier, il y a les clés de chiffrement, et aussi les données de connexion à la base de données SQL.
 
@@ -90,6 +90,9 @@ Gardez votre terminal ouvert, et ouvrez en un deuxième à la racine du projet. 
 `cd groupomania`
 
 `npm start`
+
+Comme le port 3000 est déjà pris par l'API, le terminal devrait proposer de mettre le front sur le port 3001.
+Appuyez sur 'y' pour confirmer.
 
 ✨ Félicitations vous venez de terminer l'installation, et la configuration de ce projet. ✨
 

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import Header from '../components/Header';
 import { deleteUserAccount, deleteUserDatas } from '../api/User';
-import { generateCode } from '../utils/GenerateCode';
+import { generateCode } from '../utils/generateCode';
 
 const Setting = () => {
     const history = useHistory();
