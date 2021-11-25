@@ -162,7 +162,7 @@ Voici une énumération de ces 10 principaux risques, et comment Groupomania les
 
    Les routes de l'API sont sécurisées, les routes fermées sont accessibles seulement avec le TOKEN d'authentification. De plus, nous utilisons la dernière version d'EXPRESS.
 
-8. [Carence des systèmes de contrôle et de journalisation](https://owasp.org/www-project-top-ten/2017/A8_2017-Insecure_Deserialization)
+8. [Manque d'intégrité des données et du logiciel ](https://owasp.org/Top10/fr/A08_2021-Software_and_Data_Integrity_Failures/)
 
    Packages connus et mis à jour régulièrement utilisé.
 
