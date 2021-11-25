@@ -4,7 +4,7 @@
 
 Groupomania est un projet d'étude visant à apprendre à créer un réseau social complet et sécurisé. Créé avec le framework React pour le front, EXPRESS pour l'API, et SQL pour la base de données. Ce réseau social est rapide, simple et efficace.
 
-Je m'appelle [Alexandre LEMAS](https://www.linkedin.com/in/alexandre-lemas), étudiant chez Openclassrooms, et voici mon projet N°6.
+Je m'appelle [Alexandre LEMAS](https://www.linkedin.com/in/alexandre-lemas), étudiant chez Openclassrooms, et voici mon projet N°7.
 
 👇 Je vous invite à tester mon projet en suivant les instructions ci-dessous. 👇
 
